@@ -3,16 +3,15 @@
 #include <stdint.h>
 
 // Configuration Registers
-#define MFRC522_CRCResultReg1_ADDRESS       0x21
-#define MFRC522_CRCResultReg2_ADDRESS       0x22
+#define MFRC522_CRCResultRegMSB_ADDRESS     0x21
+#define MFRC522_CRCResultRegLSB_ADDRESS     0x22
 #define MFRC522_ModWidthReg_ADDRESS         0x24
-#define MFRC522_TxASKReloadReg_ADDRESS      0x25
 #define MFRC522_RFCfgReg_ADDRESS            0x26
 #define MFRC522_GsNReg_ADDRESS              0x27
-#define MFRC522_CWGsCfgReg_ADDRESS          0x28
-#define MFRC522_ModGsCfgReg_ADDRESS         0x2A
-#define MFRC522_TModeReg_ADDRESS            0x2B
-#define MFRC522_TPrescalerReg_ADDRESS       0x2C
+#define MFRC522_CWGsPReg_ADDRESS            0x28
+#define MFRC522_ModGsCfgReg_ADDRESS         0x29
+#define MFRC522_TModeReg_ADDRESS            0x2A
+#define MFRC522_TPrescalerReg_ADDRESS       0x2B
 #define MFRC522_TReloadRegH_ADDRESS         0x2C
 #define MFRC522_TReloadRegL_ADDRESS         0x2D
 #define MFRC522_TCounterValueRegH_ADDRESS   0x2E
@@ -66,6 +65,14 @@ typedef union {
 
 typedef union {
     struct {
+        uint8_t ModGsP : 6;
+        uint8_t reserved : 2;
+    } fields;
+    uint8_t regByte;
+} MFRC522_ModGsPReg;
+
+typedef union {
+    struct {
         uint8_t TPrescaler_Hi : 4;
         uint8_t TAutoRestart : 1;
         uint8_t TGated : 2;
@@ -95,4 +102,34 @@ typedef union {
     uint8_t regByte;
 } MFRC522_TReloadRegL;
 
+typedef union {
+    struct {
+        uint8_t TCounterVal_Hi : 8;
+    } fields;
+    uint8_t regByte;
+} MFRC522_TCounterValRegH;
+
+typedef union {
+    struct {
+        uint8_t TCounterVal_Lo : 8;
+    } fields;
+    uint8_t regByte;
+} MFRC522_TCounterValRegL;
+
+typedef struct {
+    MFRC522_CRCResultRegMSB crcResultRegMSB;
+    MFRC522_CRCResultRegLSB crcResultRegLSB;
+    MFRC522_ModWidthReg modWidthReg;
+    MFRC522_RFCfgReg rfCfgReg;
+    MFRC522_GsNReg gsNReg;
+    MFRC522_CWGsPReg cwGsPReg;
+    MFRC522_ModGsPReg modGsPReg;
+    MFRC522_TModeReg tModeReg;
+    MFRC522_TPrescalerReg tPrescalerReg;
+    MFRC522_TReloadRegH tReloadRegH;
+    MFRC522_TReloadRegL tReloadRegL;
+    MFRC522_TCounterValRegH tCounterValRegH;
+    MFRC522_TCounterValRegL tCounterValRegL;
+} MFRC522_ConfigRegisters;
+ 
 #endif

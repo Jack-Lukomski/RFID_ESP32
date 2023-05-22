@@ -172,4 +172,21 @@ typedef union {
 } MFRC522_CollReg;
 
 
+typedef struct {
+    MFRC522_CmdReg cmdReg;
+    MFRC522_ComIEnReg comIEnReg;
+    MFRC522_DivIEnReg divIEnReg;
+    MFRC522_ComIrqReg comIrqReg;
+    MFRC522_DivIrqReg divIrqReg;
+    MFRC522_ErrorReg errorReg;
+    MFRC522_Status1Reg status1Reg;
+    MFRC522_Status2Reg status2Reg;
+    MFRC522_FIFODataReg fifoDataReg;
+    MFRC522_FIFOLevelReg fifoLevelReg;
+    MFRC522_WaterLevelReg waterLevelReg;
+    MFRC522_ControlReg controlReg;
+    MFRC522_BitFramingReg bitFramingReg;
+    MFRC522_CollReg collReg;
+} MFRC522_StatusRegs;
+
 #endif

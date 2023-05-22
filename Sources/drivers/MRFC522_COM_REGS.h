@@ -135,4 +135,19 @@ typedef union {
     uint8_t regByte;
 } MFRC522_SerialSpeedReg;
 
+typedef struct {
+    MRFC552_ModeReg modeReg;
+    MRFC552_TxModeReg txModeReg;
+    MRFC552_RxModeReg rxModeReg;
+    MRFC552_TxControlReg txControlReg;
+    MFRC522_TxASKReg txASKReg;
+    MFRC522_TxSelReg txSelReg;
+    MFRC522_RxSelReg rxSelReg;
+    MFRC522_RxThresholdReg rxThresholdReg;
+    MFRC522_DemodReg demodReg;
+    MFRC522_MfTxReg mfTxReg;
+    MFRC522_MfRxReg mfRxReg;
+    MFRC522_SerialSpeedReg serialSpeedReg;
+} MRFC552_CommunicationRegs;
+
 #endif
