@@ -3,6 +3,9 @@
 #include <freertos/task.h>
 #include <driver/spi_master.h>
 #include <driver/gpio.h>
+#include "../drivers/MFRC522.h"
+#include <time.h>
+#include <string.h>
 
 #define SPI_BUS       HSPI_HOST    // SPI bus to use
 #define SPI_CLOCK     10000000      // SPI clock frequency (10 MHz)
@@ -10,11 +13,24 @@
 #define PIN_MOSI      18           // GPIO pin for MOSI (Master Out Slave In)
 #define PIN_CLK       5           // GPIO pin for clock signal
 #define PIN_CS        4           // GPIO pin for chip select (CS)
+#define PIN_RST 22   // GPIO pin for reset (RST)
 
 spi_device_handle_t spiHandle;
 
 void app_main()
 {
+    gpio_config_t io_conf = {
+        .pin_bit_mask = (1ULL<<PIN_RST),
+        .mode = GPIO_MODE_OUTPUT,
+        .pull_up_en = 0,
+        .pull_down_en = 0,
+        .intr_type = GPIO_INTR_DISABLE,
+    };
+    gpio_config(&io_conf);
+
+    // Set the RST pin high to enable the normal operation of the MFRC522
+    gpio_set_level(PIN_RST, 1);
+
     spi_bus_config_t busConfig = {
         .mosi_io_num = PIN_MOSI,
         .miso_io_num = PIN_MISO,
@@ -44,31 +60,24 @@ void app_main()
     spi_bus_initialize(SPI_BUS, &busConfig, 1);
     spi_bus_add_device(SPI_BUS, &devConfig, &spiHandle);
 
-    // Send command
-    uint8_t txData[64] = {0};  // Transmit data buffer
-    uint8_t rxData[64] = {0};  // Receive data buffer
-
-
-    spi_transaction_t trans = {
-        .tx_buffer = txData,
-        .rx_buffer = rxData,
-        .length = 8 * 7,  // 8 bits per byte, 7 bytes total
-        // Set other transaction parameters (if needed)
-    };
-
-    // Command to perform the self-test (0x1F)
-
-
-    esp_err_t err = spi_device_transmit(spiHandle, &trans);
-    
-    if (err != ESP_OK) {
-        printf("SPI transmit error\n");
-        return;
+    esp_err_t result = MFRC522_Init(&spiHandle);
+    if (result == ESP_OK) {
+        // MFRC522 initialization successful
+        printf("MFRC522 initialized successfully\n");
+    } else {
+        // Handle the MFRC522 initialization error
+        printf("MFRC522 initialization failed\n");
     }
-    // Check the response for the self-test result
-    uint8_t selfTestResult = rxData[1];  // The self-test result is at index 1
 
-    printf("%x\n", selfTestResult);
-    spi_bus_remove_device(spiHandle);
-    spi_bus_free(SPI_BUS);
+    while(1)
+    {
+        if (!MFRC522_IsNewCardPresent(&spiHandle))
+        {
+            printf("True\n");
+        }
+        else
+        {
+            printf("false\n");
+        }
+    }
 }

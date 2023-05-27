@@ -1,5 +1,5 @@
-#ifndef MFRC522_H
-#define MFRC522_H
+#ifndef MFRC522_STATUS_REGS_H
+#define MFRC522_STATUS_REGS_H
 #include <stdint.h>
 
 #define MFRC522_CMDReg_ADDRESS          0x01

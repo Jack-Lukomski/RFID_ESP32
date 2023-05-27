@@ -1,0 +1,37 @@
+[1/9] Performing build step for 'bootloader'
+[1/1] cmd.exe /C "cd /D C:\Users\jtluk\GitHub\RFID_ESP32\Sources\build\bootloader\esp-idf\esptool_py && C:\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 C:/Users/jtluk/GitHub/RFID_ESP32/Sources/build/bootloader/bootloader.bin"
+Bootloader binary size 0x6700 bytes. 0x900 bytes (8%) free.
+[2/7] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/__/drivers/MFRC522.c.obj
+C:/Users/jtluk/GitHub/RFID_ESP32/Sources/drivers/MFRC522.c: In function 'MFRC522_SendCmd':
+C:/Users/jtluk/GitHub/RFID_ESP32/Sources/drivers/MFRC522.c:14:34: warning: passing argument 1 of 'spi_device_transmit' from incompatible pointer type [-Wincompatible-pointer-types]
+   14 |     retVal = spi_device_transmit(spiHandle, &currTrans);
+      |                                  ^~~~~~~~~
+      |                                  |
+      |                                  struct spi_device_t **
+In file included from C:/Users/jtluk/GitHub/RFID_ESP32/Sources/drivers/MFRC522.h:7,
+                 from C:/Users/jtluk/GitHub/RFID_ESP32/Sources/drivers/MFRC522.c:1:
+C:/Espressif/frameworks/esp-idf-v5.0.2/components/driver/include/driver/spi_master.h:248:51: note: expected 'spi_device_handle_t' {aka 'struct spi_device_t *'} but argument is of type 'struct spi_device_t **'
+  248 | esp_err_t spi_device_transmit(spi_device_handle_t handle, spi_transaction_t *trans_desc);
+      |                               ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C:/Users/jtluk/GitHub/RFID_ESP32/Sources/drivers/MFRC522.c: In function 'MFRC522_ReadRegister':
+C:/Users/jtluk/GitHub/RFID_ESP32/Sources/drivers/MFRC522.c:32:34: warning: passing argument 1 of 'spi_device_transmit' from incompatible pointer type [-Wincompatible-pointer-types]
+   32 |     retVal = spi_device_transmit(spiHandle, &currTrans);
+      |                                  ^~~~~~~~~
+      |                                  |
+      |                                  struct spi_device_t **
+In file included from C:/Users/jtluk/GitHub/RFID_ESP32/Sources/drivers/MFRC522.h:7,
+                 from C:/Users/jtluk/GitHub/RFID_ESP32/Sources/drivers/MFRC522.c:1:
+C:/Espressif/frameworks/esp-idf-v5.0.2/components/driver/include/driver/spi_master.h:248:51: note: expected 'spi_device_handle_t' {aka 'struct spi_device_t *'} but argument is of type 'struct spi_device_t **'
+  248 | esp_err_t spi_device_transmit(spi_device_handle_t handle, spi_transaction_t *trans_desc);
+      |                               ~~~~~~~~~~~~~~~~~~~~^~~~~~
+[3/7] Linking C static library esp-idf\main\libmain.a
+[4/7] Generating ld/sections.ld
+[5/7] Linking CXX executable esp_32_test.elf
+[6/7] Generating binary image from built executable
+esptool.py v4.5.1
+Creating esp32 image...
+Merged 2 ELF sections
+Successfully created esp32 image.
+Generated C:/Users/jtluk/GitHub/RFID_ESP32/Sources/build/esp_32_test.bin
+[7/7] cmd.exe /C "cd /D C:\Users\jtluk\GitHub\RFID_ESP32\Sources\build\esp-idf\esptool_py && C:\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 partition --type app C:/Users/jtluk/GitHub/RFID_ESP32/Sources/build/partition_table/partition-table.bin C:/Users/jtluk/GitHub/RFID_ESP32/Sources/build/esp_32_test.bin"
+esp_32_test.bin binary size 0x31cd0 bytes. Smallest app partition is 0x100000 bytes. 0xce330 bytes (81%) free.
