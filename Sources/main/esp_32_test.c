@@ -13,7 +13,7 @@
 #define PIN_MOSI      18           // GPIO pin for MOSI (Master Out Slave In)
 #define PIN_CLK       5           // GPIO pin for clock signal
 #define PIN_CS        4           // GPIO pin for chip select (CS)
-#define PIN_RST 22   // GPIO pin for reset (RST)
+#define PIN_RST       22   // GPIO pin for reset (RST)
 
 spi_device_handle_t spiHandle;
 
@@ -60,24 +60,18 @@ void app_main()
     spi_bus_initialize(SPI_BUS, &busConfig, 1);
     spi_bus_add_device(SPI_BUS, &devConfig, &spiHandle);
 
-    esp_err_t result = MFRC522_Init(&spiHandle);
+    esp_err_t result = MRFC552_SelfTest(&spiHandle);
     if (result == ESP_OK) {
         // MFRC522 initialization successful
-        printf("MFRC522 initialized successfully\n");
+        printf("MFRC522 tested successfully\n");
     } else {
         // Handle the MFRC522 initialization error
-        printf("MFRC522 initialization failed\n");
+        printf("MFRC522 test failed\n");
     }
 
     while(1)
     {
-        if (!MFRC522_IsNewCardPresent(&spiHandle))
-        {
-            printf("True\n");
-        }
-        else
-        {
-            printf("false\n");
-        }
+        //CardPresent(&spiHandle);
+        vTaskDelay(500/portTICK_PERIOD_MS);
     }
 }

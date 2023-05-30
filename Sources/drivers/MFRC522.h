@@ -13,7 +13,9 @@
 
 esp_err_t MFRC522_SendCmd (spi_device_handle_t * spiHandle, uint8_t registerAddress, uint8_t cmd);
 esp_err_t MFRC522_ReadRegister(spi_device_handle_t * spiHandle, uint8_t registerAddress, uint8_t *data);
-bool MFRC522_IsNewCardPresent(spi_device_handle_t *spiHandle);
+esp_err_t MFRC522_WriteRegister (spi_device_handle_t * spiHandle, uint8_t registerAddress, uint8_t value);
+bool CardPresent(spi_device_handle_t *spiHandle);
 esp_err_t MFRC522_Init(spi_device_handle_t * spiHandle);
+esp_err_t MRFC552_SelfTest(spi_device_handle_t * spiHandle);
 
 #endif
