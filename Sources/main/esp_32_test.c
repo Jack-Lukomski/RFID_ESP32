@@ -59,10 +59,24 @@ void app_main()
 
     spi_bus_initialize(SPI_BUS, &busConfig, 1);
     spi_bus_add_device(SPI_BUS, &devConfig, &spiHandle);
-
+    MFRC522_Init(&spiHandle);
+    uint8_t data;
+    for (uint8_t i = 0; i < 64; i++)
+    {
+        MFRC522_WriteRegister(&spiHandle, MFRC522_REG_FIFO_DATA, i);
+    }
+    for (uint8_t i = 0; i < 64; i++)
+    {
+        MFRC522_ReadRegister(&spiHandle, MFRC522_REG_FIFO_DATA, &data);
+        printf("%x\n", data);
+    }
+    for (uint8_t i = 0; i < 64; i++)
+    {
+        MFRC522_ReadRegister(&spiHandle, MFRC522_REG_FIFO_DATA, &data);
+        printf("%x\n", data);
+    }
     while(1)
     {
-        MFRC522_Init(&spiHandle);
         vTaskDelay(1000/portTICK_PERIOD_MS);
     }
 }

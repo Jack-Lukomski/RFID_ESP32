@@ -2,6 +2,7 @@
 #define _MFRC522_H_
 
 #include "driver/spi_master.h"
+#include "esp_timer.h"
 
 #define MFRC522_REG_RESERVED00           0x00 << 1
 #define MFRC522_REG_COMMAND              0x01 << 1
