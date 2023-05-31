@@ -8,7 +8,7 @@
 #include <string.h>
 
 #define SPI_BUS       HSPI_HOST    // SPI bus to use
-#define SPI_CLOCK     10000000      // SPI clock frequency (10 MHz)
+#define SPI_CLOCK     100000      // SPI clock frequency (10 MHz)
 #define PIN_MISO      19           // GPIO pin for MISO (Master In Slave Out)
 #define PIN_MOSI      18           // GPIO pin for MOSI (Master Out Slave In)
 #define PIN_CLK       5           // GPIO pin for clock signal
@@ -60,18 +60,9 @@ void app_main()
     spi_bus_initialize(SPI_BUS, &busConfig, 1);
     spi_bus_add_device(SPI_BUS, &devConfig, &spiHandle);
 
-    esp_err_t result = MRFC552_SelfTest(&spiHandle);
-    if (result == ESP_OK) {
-        // MFRC522 initialization successful
-        printf("MFRC522 tested successfully\n");
-    } else {
-        // Handle the MFRC522 initialization error
-        printf("MFRC522 test failed\n");
-    }
-
     while(1)
     {
-        //CardPresent(&spiHandle);
-        vTaskDelay(500/portTICK_PERIOD_MS);
+        MFRC522_Init(&spiHandle);
+        vTaskDelay(1000/portTICK_PERIOD_MS);
     }
 }
