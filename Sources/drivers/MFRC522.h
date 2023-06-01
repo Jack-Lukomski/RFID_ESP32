@@ -1,9 +1,17 @@
+/**
+ * @file MFRC522.h
+ */
+
 #ifndef _MFRC522_H_
 #define _MFRC522_H_
 
 #include "driver/spi_master.h"
 #include "esp_timer.h"
 
+/**
+ * @defgroup MFRC522_Register_Addresses MFRC522 Register Addresses
+ * @{
+ */
 #define MFRC522_REG_RESERVED00           0x00 << 1
 #define MFRC522_REG_COMMAND              0x01 << 1
 #define MFRC522_REG_COMIEN               0x02 << 1
@@ -74,7 +82,12 @@
 #define MFRC522_REG_RESERVED32           0x3D << 1
 #define MFRC522_REG_RESERVED33           0x3E << 1
 #define MFRC522_REG_RESERVED34           0x3F << 1
+/** @} */
 
+/**
+ * @defgroup MFRC522_Commands MFRC522 Commands
+ * @{
+ */
 // Commands sent to the PICC.
 #define PICC_CMD_REQA         0x26
 #define PICC_CMD_WUPA         0x52
@@ -105,21 +118,107 @@
 #define PCD_CMD_TRANSCEIVE          0x0C  // Transmits data from FIFO buffer to antenna and automatically activates the receiver after transmission
 #define PCD_CMD_MF_AUTHENT          0x0E  // Performs the MIFARE standard authentication as a reader
 #define PCD_CMD_SOFT_RESET          0x0F  // Resets the MFRC522
+/** @} */
 
+/**
+ * @brief Writes a value to the specified register in the MFRC522.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @param registerAddress The address of the register to write.
+ * @param value The value to write to the register.
+ * @return ESP_OK if successful, otherwise an error code.
+ */
+esp_err_t MFRC522_WriteRegister(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t value);
 
-esp_err_t MFRC522_WriteRegister (spi_device_handle_t * spiHandle, uint8_t registerAddress, uint8_t value);
-esp_err_t MFRC522_ReadRegister (spi_device_handle_t * spiHandle, uint8_t registerAddress, uint8_t * data);
-esp_err_t MFRC522_ReadRegisterArr (spi_device_handle_t * spiHandle, uint8_t registerAddress, uint8_t * dataArr, uint8_t dataSize);
-esp_err_t MFRC522_WriteRegisterArr (spi_device_handle_t * spiHandle, uint8_t registerAddress, uint8_t * dataArr, uint8_t dataSize);
-esp_err_t MFRC522_Init (spi_device_handle_t * spiHandle);
-esp_err_t MFRC522_ClrRegBitMask (spi_device_handle_t * spiHandle, uint8_t registerAdress, uint8_t mask);
+/**
+ * @brief Reads the value from the specified register in the MFRC522.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @param registerAddress The address of the register to read.
+ * @param data Pointer to store the read value.
+ * @return ESP_OK if successful, otherwise an error code.
+ */
+esp_err_t MFRC522_ReadRegister(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t *data);
 
-bool MFRC522_IsCardPresent (spi_device_handle_t * spiHandle);
+/**
+ * @brief Reads multiple consecutive registers in the MFRC522.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @param registerAddress The address of the first register to read.
+ * @param dataArr Pointer to the array to store the read values.
+ * @param dataSize The number of registers to read.
+ * @return ESP_OK if successful, otherwise an error code.
+ */
+esp_err_t MFRC522_ReadRegisterArr(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t *dataArr, uint8_t dataSize);
 
-esp_err_t MFRC522_AntennaOn (spi_device_handle_t * spiHandle);
-esp_err_t MFRC522_SelfTest (spi_device_handle_t * spiHandle);
-esp_err_t MFRC522_Reset (spi_device_handle_t * spiHandle);
-esp_err_t MFRC522_SendPICCcmdTranscieve (spi_device_handle_t * spiHandle, uint8_t piccCmd);
+/**
+ * @brief Writes multiple consecutive registers in the MFRC522.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @param registerAddress The address of the first register to write.
+ * @param dataArr Pointer to the array of values to write.
+ * @param dataSize The number of registers to write.
+ * @return ESP_OK if successful, otherwise an error code.
+ */
+esp_err_t MFRC522_WriteRegisterArr(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t *dataArr, uint8_t dataSize);
 
+/**
+ * @brief Initializes the MFRC522 RFID module.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @return ESP_OK if successful, otherwise an error code.
+ */
+esp_err_t MFRC522_Init(spi_device_handle_t *spiHandle);
+
+/**
+ * @brief Clears the specified bits in the register of the MFRC522.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @param registerAdress The address of the register to modify.
+ * @param mask The bitmask of the bits to clear.
+ * @return ESP_OK if successful, otherwise an error code.
+ */
+esp_err_t MFRC522_ClrRegBitMask(spi_device_handle_t *spiHandle, uint8_t registerAdress, uint8_t mask);
+
+/**
+ * @brief Checks if a card is present.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @return True if a card is present, false otherwise.
+ */
+bool MFRC522_IsCardPresent(spi_device_handle_t *spiHandle);
+
+/**
+ * @brief Turns on the antenna of the MFRC522.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @return ESP_OK if successful, otherwise an error code.
+ */
+esp_err_t MFRC522_AntennaOn(spi_device_handle_t *spiHandle);
+
+/**
+ * @brief Performs a self-test of the MFRC522.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @return ESP_OK if successful, otherwise an error code.
+ */
+esp_err_t MFRC522_SelfTest(spi_device_handle_t *spiHandle);
+
+/**
+ * @brief Resets the MFRC522.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @return ESP_OK if successful, otherwise an error code.
+ */
+esp_err_t MFRC522_Reset(spi_device_handle_t *spiHandle);
+
+/**
+ * @brief Sends a PICC command and receives the response from the MFRC522.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @param piccCmd The PICC command to send.
+ * @return ESP_OK if successful, otherwise an error code.
+ */
+esp_err_t MFRC522_SendPICCcmdTranscieve(spi_device_handle_t *spiHandle, uint8_t piccCmd);
 
 #endif // _MFRC522_H_
