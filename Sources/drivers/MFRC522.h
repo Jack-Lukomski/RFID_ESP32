@@ -76,15 +76,23 @@
 #define MFRC522_REG_RESERVED34           0x3F << 1
 
 // Commands sent to the PICC.
-#define PICC_CMD_REQA               0x26  // Request command A
-#define PICC_CMD_WUPA               0x52  // Wake-UP command A
-#define PICC_CMD_CT                 0x88  // Cascade Tag
-#define PICC_CMD_SEL_CL1            0x93  // Select Card Level 1
-#define PICC_CMD_SEL_CL2            0x95  // Select Card Level 2
-#define PICC_CMD_SEL_CL3            0x97  // Select Card Level 3
-#define PICC_CMD_HLTA               0x50  // Halt command A
-#define PICC_CMD_AUTH_KEY_A         0x60  // Authentication Key A
-#define PICC_CMD_AUTH_KEY_B         0x61  // Authentication Key B
+#define PICC_CMD_REQA         0x26
+#define PICC_CMD_WUPA         0x52
+#define PICC_CMD_CT           0x88
+#define PICC_CMD_SEL_CL1      0x93
+#define PICC_CMD_SEL_CL2      0x95
+#define PICC_CMD_SEL_CL3      0x97
+#define PICC_CMD_HLTA         0x50
+#define PICC_CMD_RATS         0xE0
+#define PICC_CMD_MF_AUTH_KEY_A 0x60
+#define PICC_CMD_MF_AUTH_KEY_B 0x61
+#define PICC_CMD_MF_READ      0x30
+#define PICC_CMD_MF_WRITE     0xA0
+#define PICC_CMD_MF_DECREMENT 0xC0
+#define PICC_CMD_MF_INCREMENT 0xC1
+#define PICC_CMD_MF_RESTORE   0xC2
+#define PICC_CMD_MF_TRANSFER  0xB0
+#define PICC_CMD_UL_WRITE     0xA2
 
 // MFRC522's commands for the PCD.
 #define PCD_CMD_IDLE                0x00  // NO action; cancels current command execution
@@ -99,9 +107,19 @@
 #define PCD_CMD_SOFT_RESET          0x0F  // Resets the MFRC522
 
 
-esp_err_t MFRC522_WriteRegister(spi_device_handle_t * spiHandle, uint8_t registerAddress, uint8_t value);
-esp_err_t MFRC522_ReadRegister(spi_device_handle_t * spiHandle, uint8_t registerAddress, uint8_t * data);
-esp_err_t MFRC522_Init(spi_device_handle_t * spiHandle);
-void MFRC522_AntennaOn(spi_device_handle_t * spiHandle);
+esp_err_t MFRC522_WriteRegister (spi_device_handle_t * spiHandle, uint8_t registerAddress, uint8_t value);
+esp_err_t MFRC522_ReadRegister (spi_device_handle_t * spiHandle, uint8_t registerAddress, uint8_t * data);
+esp_err_t MFRC522_ReadRegisterArr (spi_device_handle_t * spiHandle, uint8_t registerAddress, uint8_t * dataArr, uint8_t dataSize);
+esp_err_t MFRC522_WriteRegisterArr (spi_device_handle_t * spiHandle, uint8_t registerAddress, uint8_t * dataArr, uint8_t dataSize);
+esp_err_t MFRC522_Init (spi_device_handle_t * spiHandle);
+esp_err_t MFRC522_ClrRegBitMask (spi_device_handle_t * spiHandle, uint8_t registerAdress, uint8_t mask);
+
+bool MFRC522_IsCardPresent (spi_device_handle_t * spiHandle);
+
+esp_err_t MFRC522_AntennaOn (spi_device_handle_t * spiHandle);
+esp_err_t MFRC522_SelfTest (spi_device_handle_t * spiHandle);
+esp_err_t MFRC522_Reset (spi_device_handle_t * spiHandle);
+esp_err_t MFRC522_SendPICCcmdTranscieve (spi_device_handle_t * spiHandle, uint8_t piccCmd);
+
 
 #endif // _MFRC522_H_
