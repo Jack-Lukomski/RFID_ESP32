@@ -1,0 +1,27 @@
+\indexentry{MFRC522 Register Addresses@{MFRC522 Register Addresses}|hyperpage}{5}
+\indexentry{MFRC522 Commands@{MFRC522 Commands}|hyperpage}{6}
+\indexentry{Sources/bluetooth\_contr/BLE\_Controller.h@{Sources/bluetooth\_contr/BLE\_Controller.h}|hyperpage}{9}
+\indexentry{Sources/drivers/MFRC522.h@{Sources/drivers/MFRC522.h}|hyperpage}{9}
+\indexentry{MFRC522.h@{MFRC522.h}!MFRC522\_AntennaOn@{MFRC522\_AntennaOn}|hyperpage}{12}
+\indexentry{MFRC522\_AntennaOn@{MFRC522\_AntennaOn}!MFRC522.h@{MFRC522.h}|hyperpage}{12}
+\indexentry{MFRC522.h@{MFRC522.h}!MFRC522\_ClrRegBitMask@{MFRC522\_ClrRegBitMask}|hyperpage}{12}
+\indexentry{MFRC522\_ClrRegBitMask@{MFRC522\_ClrRegBitMask}!MFRC522.h@{MFRC522.h}|hyperpage}{12}
+\indexentry{MFRC522.h@{MFRC522.h}!MFRC522\_Init@{MFRC522\_Init}|hyperpage}{13}
+\indexentry{MFRC522\_Init@{MFRC522\_Init}!MFRC522.h@{MFRC522.h}|hyperpage}{13}
+\indexentry{MFRC522.h@{MFRC522.h}!MFRC522\_IsCardPresent@{MFRC522\_IsCardPresent}|hyperpage}{13}
+\indexentry{MFRC522\_IsCardPresent@{MFRC522\_IsCardPresent}!MFRC522.h@{MFRC522.h}|hyperpage}{13}
+\indexentry{MFRC522.h@{MFRC522.h}!MFRC522\_ReadRegister@{MFRC522\_ReadRegister}|hyperpage}{13}
+\indexentry{MFRC522\_ReadRegister@{MFRC522\_ReadRegister}!MFRC522.h@{MFRC522.h}|hyperpage}{13}
+\indexentry{MFRC522.h@{MFRC522.h}!MFRC522\_ReadRegisterArr@{MFRC522\_ReadRegisterArr}|hyperpage}{14}
+\indexentry{MFRC522\_ReadRegisterArr@{MFRC522\_ReadRegisterArr}!MFRC522.h@{MFRC522.h}|hyperpage}{14}
+\indexentry{MFRC522.h@{MFRC522.h}!MFRC522\_Reset@{MFRC522\_Reset}|hyperpage}{14}
+\indexentry{MFRC522\_Reset@{MFRC522\_Reset}!MFRC522.h@{MFRC522.h}|hyperpage}{14}
+\indexentry{MFRC522.h@{MFRC522.h}!MFRC522\_SelfTest@{MFRC522\_SelfTest}|hyperpage}{14}
+\indexentry{MFRC522\_SelfTest@{MFRC522\_SelfTest}!MFRC522.h@{MFRC522.h}|hyperpage}{14}
+\indexentry{MFRC522.h@{MFRC522.h}!MFRC522\_SendPICCcmdTranscieve@{MFRC522\_SendPICCcmdTranscieve}|hyperpage}{15}
+\indexentry{MFRC522\_SendPICCcmdTranscieve@{MFRC522\_SendPICCcmdTranscieve}!MFRC522.h@{MFRC522.h}|hyperpage}{15}
+\indexentry{MFRC522.h@{MFRC522.h}!MFRC522\_WriteRegister@{MFRC522\_WriteRegister}|hyperpage}{15}
+\indexentry{MFRC522\_WriteRegister@{MFRC522\_WriteRegister}!MFRC522.h@{MFRC522.h}|hyperpage}{15}
+\indexentry{MFRC522.h@{MFRC522.h}!MFRC522\_WriteRegisterArr@{MFRC522\_WriteRegisterArr}|hyperpage}{15}
+\indexentry{MFRC522\_WriteRegisterArr@{MFRC522\_WriteRegisterArr}!MFRC522.h@{MFRC522.h}|hyperpage}{15}
+\indexentry{Sources/drivers/MFRC522.h@{Sources/drivers/MFRC522.h}|hyperpage}{16}

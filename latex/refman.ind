@@ -1,0 +1,45 @@
+\begin{theindex}
+
+  \item {MFRC522 Commands}, \hyperpage{6}
+  \item {MFRC522 Register Addresses}, \hyperpage{5}
+  \item {MFRC522.h}
+    \subitem {MFRC522\_AntennaOn}, \hyperpage{12}
+    \subitem {MFRC522\_ClrRegBitMask}, \hyperpage{12}
+    \subitem {MFRC522\_Init}, \hyperpage{13}
+    \subitem {MFRC522\_IsCardPresent}, \hyperpage{13}
+    \subitem {MFRC522\_ReadRegister}, \hyperpage{13}
+    \subitem {MFRC522\_ReadRegisterArr}, \hyperpage{14}
+    \subitem {MFRC522\_Reset}, \hyperpage{14}
+    \subitem {MFRC522\_SelfTest}, \hyperpage{14}
+    \subitem {MFRC522\_SendPICCcmdTranscieve}, \hyperpage{15}
+    \subitem {MFRC522\_WriteRegister}, \hyperpage{15}
+    \subitem {MFRC522\_WriteRegisterArr}, \hyperpage{15}
+  \item {MFRC522\_AntennaOn}
+    \subitem {MFRC522.h}, \hyperpage{12}
+  \item {MFRC522\_ClrRegBitMask}
+    \subitem {MFRC522.h}, \hyperpage{12}
+  \item {MFRC522\_Init}
+    \subitem {MFRC522.h}, \hyperpage{13}
+  \item {MFRC522\_IsCardPresent}
+    \subitem {MFRC522.h}, \hyperpage{13}
+  \item {MFRC522\_ReadRegister}
+    \subitem {MFRC522.h}, \hyperpage{13}
+  \item {MFRC522\_ReadRegisterArr}
+    \subitem {MFRC522.h}, \hyperpage{14}
+  \item {MFRC522\_Reset}
+    \subitem {MFRC522.h}, \hyperpage{14}
+  \item {MFRC522\_SelfTest}
+    \subitem {MFRC522.h}, \hyperpage{14}
+  \item {MFRC522\_SendPICCcmdTranscieve}
+    \subitem {MFRC522.h}, \hyperpage{15}
+  \item {MFRC522\_WriteRegister}
+    \subitem {MFRC522.h}, \hyperpage{15}
+  \item {MFRC522\_WriteRegisterArr}
+    \subitem {MFRC522.h}, \hyperpage{15}
+
+  \indexspace
+
+  \item {Sources/bluetooth\_contr/BLE\_Controller.h}, \hyperpage{9}
+  \item {Sources/drivers/MFRC522.h}, \hyperpage{9}, \hyperpage{16}
+
+\end{theindex}
