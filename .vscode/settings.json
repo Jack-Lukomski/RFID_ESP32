@@ -1,8 +1,0 @@
-{
-    "files.associations": {
-        "mfrc522_config_regs.h": "c",
-        "mfrc522_cmd_status_regs.h": "c",
-        "stdint.h": "c",
-        "freertos.h": "c"
-    }
-}
