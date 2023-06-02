@@ -7,6 +7,8 @@
 
 #include "driver/spi_master.h"
 #include "esp_timer.h"
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 
 /**
  * @defgroup MFRC522_Register_Addresses MFRC522 Register Addresses

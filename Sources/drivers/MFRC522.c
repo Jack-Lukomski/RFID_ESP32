@@ -3,6 +3,7 @@
 esp_err_t MFRC522_Init(spi_device_handle_t * spiHandle)
 {
     esp_err_t retVal;
+    retVal = MFRC522_Reset(spiHandle);
     retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_TX_MODE, 0x00);
     retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_RX_MODE, 0x00);
     retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_MOD_WIDTH, 0x26);
@@ -40,7 +41,7 @@ esp_err_t MFRC522_ReadRegister(spi_device_handle_t * spiHandle, uint8_t register
     uint8_t rxData[2];
 
     spi_transaction_t currTrans = {
-        .length = 8,
+        .length = 16,
         .tx_buffer = txData,
         .rx_buffer = rxData,
         .flags = 0,
@@ -50,7 +51,7 @@ esp_err_t MFRC522_ReadRegister(spi_device_handle_t * spiHandle, uint8_t register
 
     if (retVal == ESP_OK)
     {
-        *data = rxData[0];
+        *data = rxData[1];
     }
 
     return retVal;
@@ -145,7 +146,7 @@ esp_err_t MFRC522_SelfTest (spi_device_handle_t * spiHandle)
     retVal = MFRC522_ReadRegisterArr(spiHandle, MFRC522_REG_FIFO_DATA, data, 65);
 
     // print resulting bytes
-    for (uint8_t i = 0; i < 65; i++)
+    for (uint8_t i = 0; i < 64; i++)
     {
         printf("%x\n", data[i]);
     }
@@ -173,14 +174,24 @@ esp_err_t MFRC522_SendPICCcmdTranscieve (spi_device_handle_t * spiHandle, uint8_
     retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_COMIRQ, 0x7F); // clear interupt requests
     retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_FIFO_LEVEL, 0x80); // flush fifo buffer
     retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_FIFO_DATA, piccCmd); // write the cmd to the fifo buffer
-    retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_BIT_FRAMING, 0x07); // 7 bits will be sent
+    retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_BIT_FRAMING, 0x07); //test // 7 bits will be sent
     retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_COMMAND, PCD_CMD_TRANSCEIVE); // transmit the data in the fifo buffer
-    // uint8_t TxIRq_bit = 0;
-    // while (TxIRq_bit != 1)
+    retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_BIT_FRAMING, 0x87);
+
+
+    // uint8_t TxIRq_bit = 0; // Waiting for data to be sent
+    // while (TxIRq_bit != 0x40)
     // {
     //     retVal = MFRC522_ReadRegister(spiHandle, MFRC522_REG_COMIRQ, &TxIRq_bit);
-    //     printf("%x\n", TxIRq_bit);
     //     TxIRq_bit = (TxIRq_bit & 0x40);
+    // }
+
+    // uint8_t RxIRq_bit = 0; // Waiting for response to be received
+    // while (RxIRq_bit != 0x20)
+    // {
+    //     retVal = MFRC522_ReadRegister(spiHandle, MFRC522_REG_COMIRQ, &RxIRq_bit);
+    //     printf("%x\n", RxIRq_bit);
+    //     RxIRq_bit = (RxIRq_bit & 0x20);
     // }
 
     uint8_t responce[64];
