@@ -1,2 +1,5 @@
-    idf_component_register(SRCS "esp_32_test.c" "../drivers/MFRC522.c"
-                        INCLUDE_DIRS "." "../drivers")
+    # idf_component_register(SRCS "esp_32_test.cpp"
+    #                     INCLUDE_DIRS ".")
+    idf_component_register(SRCS "esp_32_test.cpp" "../drivers/MFRC522.cpp"
+INCLUDE_DIRS "." "../drivers")
+
