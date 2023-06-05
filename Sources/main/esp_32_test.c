@@ -8,7 +8,7 @@
 #include <string.h>
 
 #define SPI_BUS       HSPI_HOST    // SPI bus to use
-#define SPI_CLOCK     100000      // SPI clock frequency (10 MHz)
+#define SPI_CLOCK     (APB_CLK_FREQ/20)      // SPI clock frequency (4 MHz)
 #define PIN_MISO      19           // GPIO pin for MISO (Master In Slave Out)
 #define PIN_MOSI      18           // GPIO pin for MOSI (Master Out Slave In)
 #define PIN_CLK       5           // GPIO pin for clock signal
@@ -19,18 +19,6 @@ spi_device_handle_t spiHandle;
 
 void app_main()
 {
-    gpio_config_t io_conf = {
-        .pin_bit_mask = (1ULL<<PIN_RST),
-        .mode = GPIO_MODE_OUTPUT,
-        .pull_up_en = 0,
-        .pull_down_en = 0,
-        .intr_type = GPIO_INTR_DISABLE,
-    };
-    gpio_config(&io_conf);
-
-    // Set the RST pin high to enable the normal operation of the MFRC522
-    gpio_set_level(PIN_RST, 1);
-
     spi_bus_config_t busConfig = {
         .mosi_io_num = PIN_MOSI,
         .miso_io_num = PIN_MISO,
@@ -60,11 +48,13 @@ void app_main()
     spi_bus_initialize(SPI_BUS, &busConfig, 1);
     spi_bus_add_device(SPI_BUS, &devConfig, &spiHandle);
 
-    //MFRC522_SelfTest(&spiHandle);
-    MFRC522_Init(&spiHandle);
-    MFRC522_SendPICCcmdTranscieve(&spiHandle, 0x26);
+    MFRC522_SelfTest(&spiHandle, PIN_RST);
+    //MFRC522_Init(&spiHandle, PIN_RST);
+    vTaskDelay(10/portTICK_PERIOD_MS);
+    //MFRC522_SendPICCcmdTranscieve(&spiHandle, 0x26);
     while(1)
     {
+        MFRC522_SendPICCcmdTranscieve(&spiHandle, 0x26);
         vTaskDelay(1000/portTICK_PERIOD_MS);
     }
 }

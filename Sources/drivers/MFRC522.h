@@ -9,6 +9,7 @@
 #include "esp_timer.h"
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
+#include <driver/gpio.h>
 
 /**
  * @defgroup MFRC522_Register_Addresses MFRC522 Register Addresses
@@ -170,7 +171,7 @@ esp_err_t MFRC522_WriteRegisterArr(spi_device_handle_t *spiHandle, uint8_t regis
  * @param spiHandle Pointer to the SPI device handle.
  * @return ESP_OK if successful, otherwise an error code.
  */
-esp_err_t MFRC522_Init(spi_device_handle_t *spiHandle);
+esp_err_t MFRC522_Init(spi_device_handle_t *spiHandle, uint8_t rstPin);
 
 /**
  * @brief Clears the specified bits in the register of the MFRC522.
@@ -204,7 +205,7 @@ esp_err_t MFRC522_AntennaOn(spi_device_handle_t *spiHandle);
  * @param spiHandle Pointer to the SPI device handle.
  * @return ESP_OK if successful, otherwise an error code.
  */
-esp_err_t MFRC522_SelfTest(spi_device_handle_t *spiHandle);
+esp_err_t MFRC522_SelfTest(spi_device_handle_t *spiHandle, uint8_t rstPin);
 
 /**
  * @brief Resets the MFRC522.
@@ -222,5 +223,7 @@ esp_err_t MFRC522_Reset(spi_device_handle_t *spiHandle);
  * @return ESP_OK if successful, otherwise an error code.
  */
 esp_err_t MFRC522_SendPICCcmdTranscieve(spi_device_handle_t *spiHandle, uint8_t piccCmd);
+
+esp_err_t MFRC522_SetRegBitMask(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t mask);
 
 #endif // _MFRC522_H_
