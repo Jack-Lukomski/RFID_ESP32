@@ -23,6 +23,7 @@ esp_err_t MFRC522_Init(spi_device_handle_t * spiHandle, uint8_t rstPin)
         .pull_down_en = 0,
         .intr_type = GPIO_INTR_DISABLE,
         };
+
         gpio_config(&io_conf);
         gpio_set_level(rstPin, 0);
         vTaskDelay(10/portTICK_PERIOD_MS);
@@ -36,9 +37,9 @@ esp_err_t MFRC522_Init(spi_device_handle_t * spiHandle, uint8_t rstPin)
     retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_MOD_WIDTH, 0x26);
     retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_T_MODE, 0x80);
     retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_T_PRESCALER, 0xA9);
-    retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_T_RELOAD_H, 0xFF);
-    retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_T_RELOAD_L, 0xFF);
-    retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_TX_AUTO, 0x00);
+    retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_T_RELOAD_H, 0x03);
+    retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_T_RELOAD_L, 0xE8);
+    retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_TX_AUTO, 0x40);
     retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_MODE, 0x3D);
     MFRC522_AntennaOn(spiHandle);
 
@@ -199,21 +200,29 @@ esp_err_t MFRC522_Reset (spi_device_handle_t * spiHandle)
 {
     esp_err_t retVal;
 
-    retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_COMMAND, 0xFF);
+    retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_COMMAND, 0x0F);
+
+    uint8_t count = 0;
+    uint8_t readCmdReg;
+	do 
+    {
+		// Wait for the PowerDown bit in CommandReg to be cleared (max 3x50ms)
+		vTaskDelay(50/portTICK_PERIOD_MS);
+        retVal = MFRC522_ReadRegister(spiHandle, MFRC522_REG_COMMAND, &readCmdReg);
+	} while ((readCmdReg & (1 << 4)) && (++count) < 3);
 
     return retVal;
 }
 
-esp_err_t MFRC522_SendPICCcmdTranscieve (spi_device_handle_t * spiHandle, uint8_t piccCmd)
+esp_err_t MFRC522_SendPICCcmdTranscieve (spi_device_handle_t * spiHandle, uint8_t piccCmd, uint8_t waitIrq, uint8_t * cmdBuf, uint8_t bufSize)
 {
     esp_err_t retVal;
-    uint8_t waitIrq = 0x30; // RxIRQ, IdleIRQ
     
-    MFRC522_WriteRegister(spiHandle, MFRC522_REG_TX_MODE, 0x00);
-    MFRC522_WriteRegister(spiHandle, MFRC522_REG_RX_MODE, 0x00); 
-    MFRC522_WriteRegister(spiHandle, MFRC522_REG_MOD_WIDTH, 0x26);
+    retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_TX_MODE, 0x00);
+    retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_RX_MODE, 0x00); 
+    retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_MOD_WIDTH, 0x26);
 
-    MFRC522_ClrRegBitMask(spiHandle, MFRC522_REG_COLL, 0x80);
+    retVal = MFRC522_ClrRegBitMask(spiHandle, MFRC522_REG_COLL, 0x80);
 
     retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_COMMAND, PCD_CMD_IDLE); // stop cmds running
     retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_COMIRQ, 0x7F); // clear interupt requests
@@ -230,27 +239,61 @@ esp_err_t MFRC522_SendPICCcmdTranscieve (spi_device_handle_t * spiHandle, uint8_
 
         if (waitIrq & irqReg)
         {
-            printf("sucess: ");
-            printf("%x\n", irqReg);
+            // sucess
             break;
         }
         if (irqReg & 0x01)
         {
-            printf("Error: ");
-            printf("%x\n", irqReg);
+            // fail (timeout)
             break;
         }
-        // printf("%x\n", irqReg);
     }
-
-    uint8_t responce[2];
-    retVal = MFRC522_ReadRegisterArr(spiHandle, MFRC522_REG_FIFO_DATA, responce, 2);
-    printf("FIFO reg\n");
-    for (uint8_t i = 0; i < 2; i++)
-    {
-        printf("%x\n", responce[i]);
-    }
-    printf("\n\n\n\n\n\n");
 
     return retVal;
+}
+
+bool MFRC522_IsCardPresent(spi_device_handle_t *spiHandle)
+{
+    bool retVal;
+    esp_err_t espErr;
+    uint8_t result;
+
+    espErr = MFRC522_SendPICCcmdTranscieve(spiHandle, PICC_CMD_REQA, 0x30);
+    espErr = MFRC522_ReadRegister(spiHandle, MFRC522_REG_COMIRQ, &result);
+
+    if (result & 0x30)
+    {
+        retVal = true;
+    }
+    else
+    {
+        retVal = false;
+    }
+
+    return retVal;
+}
+
+UniqueIdentifier_t * MFRC522_ReadUID(spi_device_handle_t *spiHandle, uidSize_t uidSize)
+{
+    UniqueIdentifier_t * newUidRead = (newUidRead*) malloc(sizeof(UniqueIdentifier_t));
+    esp_err_t espErr;
+
+    newUidRead->uidSize = uidSize;
+
+    switch (uidSize)
+    {
+    case singleSizeUID_t:
+        newUidRead->uidData.singleSizeUidData = {0x00};
+        break;
+    case singleSizeUID_t:
+        newUidRead->uidData.doubleSizeUidData = {0x00};
+        break;
+    case singleSizeUID_t:
+        newUidRead->uidData.trippleSizeUidData = {0x00};
+        break;
+    default:
+        break;
+    }    
+
+    espErr = MFRC522_SendPICCcmdTranscieve(spiHandle, )
 }

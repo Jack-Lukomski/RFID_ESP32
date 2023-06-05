@@ -10,6 +10,28 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <driver/gpio.h>
+#include <stdlib.h>
+
+// Number of bytes in the UID. 4, 7 or 10.
+typedef uint8_t singleSizeUID_t[4];
+typedef uint8_t doubleSizeUID_t[7];
+typedef uint8_t trippleSizeUID_t[10];
+
+typedef enum {
+    fourBytesSingle = 4,
+    sevenBytesDouble = 7,
+    tenBytesTripple = 10,
+} uidSize_t;
+
+typedef struct {
+    uidSize_t uidSize;
+    union {
+        singleSizeUID_t singleSizeUidData;
+        doubleSizeUID_t doubleSizeUidData;
+        trippleSizeUID_t trippleSizeUidData;
+    } uidData;
+    uint8_t sakByte; // The SAK (Select acknowledge) byte returned from the PICC after successful selection.
+} UniqueIdentifier_t;
 
 /**
  * @defgroup MFRC522_Register_Addresses MFRC522 Register Addresses
@@ -222,8 +244,12 @@ esp_err_t MFRC522_Reset(spi_device_handle_t *spiHandle);
  * @param piccCmd The PICC command to send.
  * @return ESP_OK if successful, otherwise an error code.
  */
-esp_err_t MFRC522_SendPICCcmdTranscieve(spi_device_handle_t *spiHandle, uint8_t piccCmd);
+esp_err_t MFRC522_SendPICCcmdTranscieve(spi_device_handle_t *spiHandle, uint8_t piccCmd, uint8_t waitIrq, uint8_t * cmdBuf, uint8_t bufSize);
 
 esp_err_t MFRC522_SetRegBitMask(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t mask);
+
+bool MFRC522_IsCardPresent(spi_device_handle_t *spiHandle);
+
+UniqueIdentifier_t * MFRC522_ReadUID(spi_device_handle_t *spiHandle, uidSize_t uidSize);
 
 #endif // _MFRC522_H_
