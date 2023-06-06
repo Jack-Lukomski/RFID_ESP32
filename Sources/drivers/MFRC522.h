@@ -37,6 +37,7 @@ typedef struct {
         trippleSizeUID_t trippleSizeUidData;
     } uidData;
     uint8_t sakByte; // The SAK (Select acknowledge) byte returned from the PICC after successful selection.
+    uint8_t bccByte;
 } UniqueIdentifier_t;
 
 // structure for MIFARE 1k rfid tag
@@ -48,6 +49,7 @@ typedef struct {
 
 #define NUM_SECTORE_MIFARE_1K 16
 #define NUM_BLOCKS_PER_SECTOR 4
+#define MIFARE_KEY_SIZE 6
 
 /**
  * @defgroup MFRC522_Register_Addresses MFRC522 Register Addresses
@@ -273,8 +275,12 @@ UniqueIdentifier_t * MFRC522_ReadUID(spi_device_handle_t *spiHandle, uidSize_t u
 
 Mifare1kKey_t * MFRC522_GetKeyData(spi_device_handle_t *spiHandle, UniqueIdentifier_t * UID);
 
+static esp_err_t MFRC522_SetSakByte(spi_device_handle_t *spiHandle, UniqueIdentifier_t * UID);
+
 esp_err_t MFRC522_ReadKeyBlock(spi_device_handle_t *spiHandle, uint8_t blockAddress, uint8_t * buf, uint8_t bufSize);
 
-static bool UID_BlockCheckChar(uint8_t * bufData, uint8_t bufSize);
+static bool UID_BlockCheckChar(uint8_t * bufData, uint8_t bufSize, UniqueIdentifier_t * UID);
+
+esp_err_t MFRC522_Authenticate(spi_device_handle_t *spiHandle, uint8_t cmd, uint8_t blockAddress, uint8_t * key, UniqueIdentifier_t * UID);
 
 #endif // _MFRC522_H_

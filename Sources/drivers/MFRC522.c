@@ -298,7 +298,7 @@ UniqueIdentifier_t * MFRC522_ReadUID(spi_device_handle_t *spiHandle, uidSize_t u
     uint8_t * fifoData = (uint8_t*) malloc(sizeof(uint8_t) * fifoDataCount);
     espErr = MFRC522_ReadRegisterArr(spiHandle, MFRC522_REG_FIFO_DATA, fifoData, fifoDataCount);
 
-    if (UID_BlockCheckChar(fifoData, fifoDataCount))
+    if (UID_BlockCheckChar(fifoData, fifoDataCount, newUidRead))
     {
         switch (uidSize)
         {
@@ -314,6 +314,8 @@ UniqueIdentifier_t * MFRC522_ReadUID(spi_device_handle_t *spiHandle, uidSize_t u
         default:
             break;
         }
+
+        // espErr = MFRC522_SetSakByte(spiHandle, newUidRead);
     }
     else
     {
@@ -328,7 +330,7 @@ UniqueIdentifier_t * MFRC522_ReadUID(spi_device_handle_t *spiHandle, uidSize_t u
     return newUidRead;
 }
 
-static bool UID_BlockCheckChar (uint8_t * bufData, uint8_t bufSize)
+static bool UID_BlockCheckChar (uint8_t * bufData, uint8_t bufSize, UniqueIdentifier_t * UID)
 {
     bool retVal;
     uint8_t xorResult = 0;
@@ -336,7 +338,10 @@ static bool UID_BlockCheckChar (uint8_t * bufData, uint8_t bufSize)
     for (uint8_t currByte = 0; currByte < bufSize-1; currByte++)
     {
         xorResult = xorResult ^ bufData[currByte];
+        printf("%x\n", bufData[currByte]);
     }
+    printf("bcc = %x\n", bufData[bufSize-1]);
+    UID->bccByte = bufData[bufSize-1];
 
     if (xorResult == bufData[bufSize-1])
     {
@@ -350,7 +355,27 @@ static bool UID_BlockCheckChar (uint8_t * bufData, uint8_t bufSize)
     return retVal;
 }
 
-Mifare1kKey_t * MFRC522_GetKeyData(spi_device_handle_t *spiHandle, UniqueIdentifier_t * UID)
+// static esp_err_t MFRC522_SetSakByte(spi_device_handle_t *spiHandle, UniqueIdentifier_t * UID)
+// {
+//     esp_err_t retVal;
+//     uint8_t recieveBuf[3];
+//     uint8_t sakCmdBuf[7] = {PICC_CMD_SEL_CL1, 0x70, UID->uidData.singleSizeUidData[0], 
+//               UID->uidData.singleSizeUidData[1], UID->uidData.singleSizeUidData[2], 
+//               UID->uidData.singleSizeUidData[3], UID->bccByte};
+    
+//     retVal = MFRC522_SendPICCcmdTranscieve(spiHandle, 0x30, sakCmdBuf, sizeof(sakCmdBuf), eightBit);
+//     retVal = MFRC522_ReadRegisterArr(spiHandle, MFRC522_REG_FIFO_DATA, recieveBuf, sizeof(recieveBuf));
+
+//     UID->sakByte = recieveBuf[0];
+
+//     printf("%x\n", recieveBuf[0]);
+//     printf("%x\n", recieveBuf[1]);
+//     printf("%x\n", recieveBuf[2]);
+
+//     return retVal;
+// }
+
+Mifare1kKey_t * MFRC522_GetKeyData(spi_device_handle_t * spiHandle, UniqueIdentifier_t * UID)
 {
     Mifare1kKey_t * key = (Mifare1kKey_t*) malloc(sizeof(Mifare1kKey_t));
 
@@ -365,7 +390,9 @@ Mifare1kKey_t * MFRC522_GetKeyData(spi_device_handle_t *spiHandle, UniqueIdentif
             uint8_t currBlockData[16];
             uint8_t currBlockAddr = (currSector == 0) ? currBlock : ((currSector - 1) * 4) + 4 + currBlock;
 
+            MFRC522_Authenticate(spiHandle, PICC_CMD_MF_AUTH_KEY_A, currBlockAddr, key->blockKey, UID);
             MFRC522_ReadKeyBlock(spiHandle, currBlockAddr, currBlockData, sizeof(currBlockData));
+
             printf("Block %d\n", currBlock);
             printf("Curr block data:\n");
             for (uint8_t i = 0; i < 16; i++)
@@ -399,4 +426,38 @@ esp_err_t MFRC522_ReadKeyBlock(spi_device_handle_t *spiHandle, uint8_t blockAddr
     retVal = MFRC522_ReadRegisterArr(spiHandle, MFRC522_REG_FIFO_DATA, buf, fifoDataCount);
 
     return retVal;
+}
+
+esp_err_t MFRC522_Authenticate(spi_device_handle_t *spiHandle, uint8_t cmd, uint8_t blockAddress, uint8_t * key, UniqueIdentifier_t * UID)
+{
+    esp_err_t espErr;
+    uint8_t status;
+    uint8_t waitIrq = 0x10;
+    uint8_t sendBuf[12];
+
+    sendBuf[0] = cmd;
+    sendBuf[1] = blockAddress;
+
+    for (uint8_t i = 0; i < MIFARE_KEY_SIZE; i++)
+    {
+        sendBuf[i + 2] = key[i]; 
+    }
+
+    // Adding four uid bytes to buf
+    for (uint8_t i = 0; i < 4; i++)
+    {
+        sendBuf[i + 8] = UID->uidData.singleSizeUidData[i];
+    }
+
+    espErr = MFRC522_SendPICCcmdTranscieve(spiHandle, waitIrq, sendBuf, sizeof(sendBuf), eightBit);
+    espErr = MFRC522_ReadRegister(spiHandle, MFRC522_REG_STATUS2, &status);
+
+    if (!(status & 0x08))
+    {
+        printf("%x\n", status);
+        printf("fail\n");
+        espErr = ESP_FAIL;
+    }
+
+    return espErr;
 }
