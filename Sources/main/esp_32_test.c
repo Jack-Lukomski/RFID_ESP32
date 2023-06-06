@@ -48,15 +48,18 @@ void app_main()
     spi_bus_initialize(SPI_BUS, &busConfig, 1);
     spi_bus_add_device(SPI_BUS, &devConfig, &spiHandle);
 
-    //MFRC522_SelfTest(&spiHandle, PIN_RST);
+    UniqueIdentifier_t * UID;
+    
     MFRC522_Init(&spiHandle, PIN_RST);
     vTaskDelay(10/portTICK_PERIOD_MS);
-    // MFRC522_SendPICCcmdTranscieve(&spiHandle, 0x26);
     while(1)
     {
         if (MFRC522_IsCardPresent(&spiHandle))
         {
+            //vTaskDelay(100/portTICK_PERIOD_MS);
             printf("Card present\n");
+            UID = MFRC522_ReadUID(&spiHandle, fourBytesSingle);
+            MFRC522_GetKeyData(&spiHandle, UID);
         }
         vTaskDelay(100/portTICK_PERIOD_MS);
     }

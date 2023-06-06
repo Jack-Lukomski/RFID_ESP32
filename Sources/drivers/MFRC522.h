@@ -11,11 +11,17 @@
 #include <freertos/task.h>
 #include <driver/gpio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // Number of bytes in the UID. 4, 7 or 10.
 typedef uint8_t singleSizeUID_t[4];
 typedef uint8_t doubleSizeUID_t[7];
 typedef uint8_t trippleSizeUID_t[10];
+
+typedef enum {
+    sevenBit = 0x07,
+    eightBit = 0x08,
+} bitFraming_t;
 
 typedef enum {
     fourBytesSingle = 4,
@@ -32,6 +38,16 @@ typedef struct {
     } uidData;
     uint8_t sakByte; // The SAK (Select acknowledge) byte returned from the PICC after successful selection.
 } UniqueIdentifier_t;
+
+// structure for MIFARE 1k rfid tag
+typedef struct {
+    UniqueIdentifier_t uid; // 7 byte uid, the default
+    uint8_t blockKey[6];
+    uint8_t keyData[16][16]; // 16 sectors with 4 blocks, each of 16 bytes
+} Mifare1kKey_t;
+
+#define NUM_SECTORE_MIFARE_1K 16
+#define NUM_BLOCKS_PER_SECTOR 4
 
 /**
  * @defgroup MFRC522_Register_Addresses MFRC522 Register Addresses
@@ -114,23 +130,26 @@ typedef struct {
  * @{
  */
 // Commands sent to the PICC.
-#define PICC_CMD_REQA         0x26
-#define PICC_CMD_WUPA         0x52
-#define PICC_CMD_CT           0x88
-#define PICC_CMD_SEL_CL1      0x93
-#define PICC_CMD_SEL_CL2      0x95
-#define PICC_CMD_SEL_CL3      0x97
-#define PICC_CMD_HLTA         0x50
-#define PICC_CMD_RATS         0xE0
-#define PICC_CMD_MF_AUTH_KEY_A 0x60
-#define PICC_CMD_MF_AUTH_KEY_B 0x61
-#define PICC_CMD_MF_READ      0x30
-#define PICC_CMD_MF_WRITE     0xA0
-#define PICC_CMD_MF_DECREMENT 0xC0
-#define PICC_CMD_MF_INCREMENT 0xC1
-#define PICC_CMD_MF_RESTORE   0xC2
-#define PICC_CMD_MF_TRANSFER  0xB0
-#define PICC_CMD_UL_WRITE     0xA2
+typedef enum {
+    PICC_CMD_REQA         = 0x26,
+    PICC_CMD_WUPA         = 0x52,
+    PICC_CMD_CT           = 0x88,
+    PICC_CMD_SEL_CL1      = 0x93,
+    PICC_CMD_SEL_CL2      = 0x95,
+    PICC_CMD_SEL_CL3      = 0x97,
+    PICC_CMD_HLTA         = 0x50,
+    PICC_CMD_RATS         = 0xE0,
+    PICC_CMD_MF_AUTH_KEY_A = 0x60,
+    PICC_CMD_MF_AUTH_KEY_B = 0x61,
+    PICC_CMD_MF_READ      = 0x30,
+    PICC_CMD_MF_WRITE     = 0xA0,
+    PICC_CMD_MF_DECREMENT = 0xC0,
+    PICC_CMD_MF_INCREMENT = 0xC1,
+    PICC_CMD_MF_RESTORE   = 0xC2,
+    PICC_CMD_MF_TRANSFER  = 0xB0,
+    PICC_CMD_UL_WRITE     = 0xA2
+} piccCmds_t;
+
 
 // MFRC522's commands for the PCD.
 #define PCD_CMD_IDLE                0x00  // NO action; cancels current command execution
@@ -244,12 +263,18 @@ esp_err_t MFRC522_Reset(spi_device_handle_t *spiHandle);
  * @param piccCmd The PICC command to send.
  * @return ESP_OK if successful, otherwise an error code.
  */
-esp_err_t MFRC522_SendPICCcmdTranscieve(spi_device_handle_t *spiHandle, uint8_t piccCmd, uint8_t waitIrq, uint8_t * cmdBuf, uint8_t bufSize);
+esp_err_t MFRC522_SendPICCcmdTranscieve(spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t * cmdBuf, uint8_t bufSize, bitFraming_t bitFrame);
 
 esp_err_t MFRC522_SetRegBitMask(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t mask);
 
 bool MFRC522_IsCardPresent(spi_device_handle_t *spiHandle);
 
 UniqueIdentifier_t * MFRC522_ReadUID(spi_device_handle_t *spiHandle, uidSize_t uidSize);
+
+Mifare1kKey_t * MFRC522_GetKeyData(spi_device_handle_t *spiHandle, UniqueIdentifier_t * UID);
+
+esp_err_t MFRC522_ReadKeyBlock(spi_device_handle_t *spiHandle, uint8_t blockAddress, uint8_t * buf, uint8_t bufSize);
+
+static bool UID_BlockCheckChar(uint8_t * bufData, uint8_t bufSize);
 
 #endif // _MFRC522_H_
