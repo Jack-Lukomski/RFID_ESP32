@@ -271,6 +271,8 @@ esp_err_t MFRC522_SetRegBitMask(spi_device_handle_t *spiHandle, uint8_t register
 
 bool MFRC522_IsCardPresent(spi_device_handle_t *spiHandle);
 
+esp_err_t MFRC522_CalculateCRC(spi_device_handle_t *spiHandle, uint8_t * buf, uint8_t bufLen, uint8_t resultBuf[2]);
+
 UniqueIdentifier_t * MFRC522_ReadUID(spi_device_handle_t *spiHandle, uidSize_t uidSize);
 
 Mifare1kKey_t * MFRC522_GetKeyData(spi_device_handle_t *spiHandle, UniqueIdentifier_t * UID);
@@ -282,5 +284,9 @@ esp_err_t MFRC522_ReadKeyBlock(spi_device_handle_t *spiHandle, uint8_t blockAddr
 static bool UID_BlockCheckChar(uint8_t * bufData, uint8_t bufSize, UniqueIdentifier_t * UID);
 
 esp_err_t MFRC522_Authenticate(spi_device_handle_t *spiHandle, uint8_t cmd, uint8_t blockAddress, uint8_t * key, UniqueIdentifier_t * UID);
+
+void MFRC522_PrintUID(UniqueIdentifier_t * UID);
+
+void MFRC522_GetAndPrintFifoBuf(spi_device_handle_t *spiHandle, uint8_t * fifoBuf, bool print);
 
 #endif // _MFRC522_H_

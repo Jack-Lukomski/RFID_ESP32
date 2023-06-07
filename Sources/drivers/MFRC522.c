@@ -281,6 +281,33 @@ bool MFRC522_IsCardPresent(spi_device_handle_t *spiHandle)
     return retVal;
 }
 
+esp_err_t MFRC522_CalculateCRC(spi_device_handle_t *spiHandle, uint8_t * buf, uint8_t bufLen, uint8_t resultBuf[2])
+{
+    esp_err_t retVal;
+    uint8_t n;
+
+    retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_COMMAND, PCD_CMD_IDLE);
+    retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_DIVIRQ, 0x04); // clr the CRCIRq flag
+    retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_FIFO_LEVEL, 0x80); 
+    retVal = MFRC522_WriteRegisterArr(spiHandle, MFRC522_REG_FIFO_DATA, buf, bufLen);
+    retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_COMMAND, PCD_CMD_CALC_CRC);
+    
+    while(1)
+    {
+        retVal = MFRC522_ReadRegister(spiHandle, MFRC522_REG_DIVIRQ, &n);
+
+        if (n & 0x04)
+        {
+            retVal = MFRC522_WriteRegister(spiHandle, MFRC522_REG_COMMAND, PCD_CMD_IDLE);
+            retVal = MFRC522_ReadRegister(spiHandle, MFRC522_REG_CRC_RESULT_L, &resultBuf[0])
+            retVal = MFRC522_ReadRegister(spiHandle, MFRC522_REG_CRC_RESULT_M, &resultBuf[1]);
+            break; 
+        }
+    }
+
+    return retVal;
+}
+
 UniqueIdentifier_t * MFRC522_ReadUID(spi_device_handle_t *spiHandle, uidSize_t uidSize)
 {
     UniqueIdentifier_t * newUidRead = (UniqueIdentifier_t*) malloc(sizeof(UniqueIdentifier_t));
@@ -314,7 +341,7 @@ UniqueIdentifier_t * MFRC522_ReadUID(spi_device_handle_t *spiHandle, uidSize_t u
         default:
             break;
         }
-
+        MFRC522_PrintUID(newUidRead);
         // espErr = MFRC522_SetSakByte(spiHandle, newUidRead);
     }
     else
@@ -338,9 +365,8 @@ static bool UID_BlockCheckChar (uint8_t * bufData, uint8_t bufSize, UniqueIdenti
     for (uint8_t currByte = 0; currByte < bufSize-1; currByte++)
     {
         xorResult = xorResult ^ bufData[currByte];
-        printf("%x\n", bufData[currByte]);
     }
-    printf("bcc = %x\n", bufData[bufSize-1]);
+
     UID->bccByte = bufData[bufSize-1];
 
     if (xorResult == bufData[bufSize-1])
@@ -432,7 +458,7 @@ esp_err_t MFRC522_Authenticate(spi_device_handle_t *spiHandle, uint8_t cmd, uint
 {
     esp_err_t espErr;
     uint8_t status;
-    uint8_t waitIrq = 0x10;
+    uint8_t waitIrq = 0x30;
     uint8_t sendBuf[12];
 
     sendBuf[0] = cmd;
@@ -444,20 +470,47 @@ esp_err_t MFRC522_Authenticate(spi_device_handle_t *spiHandle, uint8_t cmd, uint
     }
 
     // Adding four uid bytes to buf
-    for (uint8_t i = 0; i < 4; i++)
-    {
-        sendBuf[i + 8] = UID->uidData.singleSizeUidData[i];
-    }
+    // for (uint8_t i = 0; i < 4; i++)
+    // {
+    //     sendBuf[i + 8] = UID->uidData.singleSizeUidData[i];
+    // }
 
-    espErr = MFRC522_SendPICCcmdTranscieve(spiHandle, waitIrq, sendBuf, sizeof(sendBuf), eightBit);
-    espErr = MFRC522_ReadRegister(spiHandle, MFRC522_REG_STATUS2, &status);
+    sendBuf[8] = UID->uidData.singleSizeUidData[3];
+    sendBuf[9] = UID->uidData.singleSizeUidData[2];
+    sendBuf[10] = UID->uidData.singleSizeUidData[1];
+    sendBuf[11] = UID->uidData.singleSizeUidData[0];
 
-    if (!(status & 0x08))
-    {
-        printf("%x\n", status);
-        printf("fail\n");
-        espErr = ESP_FAIL;
-    }
+    // espErr = MFRC522_SendPICCcmdTranscieve(spiHandle, waitIrq, sendBuf, sizeof(sendBuf), eightBit);
+    // espErr = MFRC522_ReadRegister(spiHandle, MFRC522_REG_STATUS2, &status);
 
     return espErr;
+}
+
+void MFRC522_PrintUID(UniqueIdentifier_t * UID)
+{
+    printf("<--- Tag's UID --->\n");
+    for (uint8_t i = 0; i < 4; i++)
+    {
+        printf("Byte %d: %x\n", i, UID->uidData.singleSizeUidData[i]);
+    }
+    printf("BCC Byte: %x\n", UID->bccByte);
+}
+
+void MFRC522_GetAndPrintFifoBuf(spi_device_handle_t *spiHandle, uint8_t * fifoBuf, bool print)
+{
+    uint8_t fifoSize;
+
+    MFRC522_ReadRegister(spiHandle, MFRC522_REG_FIFO_LEVEL, &fifoSize);
+    fifoBuf = (uint8_t *) malloc(sizeof(uint8_t) * fifoSize);
+    MFRC522_ReadRegisterArr(spiHandle, MFRC522_REG_FIFO_DATA, fifoBuf, fifoSize);
+
+    if (print == true)
+    {
+        printf("<--- FIFO Buf Contents --->\n");
+        printf("Size: %x\n", fifoSize);
+        for (uint8_t i = 0; i < fifoSize; i++)
+        {
+            printf("FIFO %d: %x\n", i, fifoBuf[i]);
+        }
+    }
 }
