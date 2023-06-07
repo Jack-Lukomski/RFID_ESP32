@@ -50,18 +50,18 @@ void app_main()
 
     UniqueIdentifier_t * UID;
     
-    MFRC522_Init(&spiHandle, PIN_RST);
+    xMFRC522_Init(&spiHandle, PIN_RST);
     vTaskDelay(10/portTICK_PERIOD_MS);
 
     uint8_t testKey[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
     while(1)
     {
-        if (MFRC522_IsCardPresent(&spiHandle))
+        if (xMFRC522_IsCardPresent(&spiHandle))
         {
             //vTaskDelay(100/portTICK_PERIOD_MS);
             printf("Card present\n");
-            UID = MFRC522_ReadUID(&spiHandle, fourBytesSingle);
-            MFRC522_Authenticate(&spiHandle, PICC_CMD_MF_AUTH_KEY_A, 1, testKey, UID);
+            UID = xMifare_ReadUID(&spiHandle, fourBytesSingle);
+            xMifare_ReadKeyBlock(&spiHandle, 1, UID);
             //MFRC522_GetKeyData(&spiHandle, UID);
         }
         vTaskDelay(100/portTICK_PERIOD_MS);

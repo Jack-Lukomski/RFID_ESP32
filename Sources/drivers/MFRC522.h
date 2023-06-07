@@ -174,7 +174,7 @@ typedef enum {
  * @param value The value to write to the register.
  * @return ESP_OK if successful, otherwise an error code.
  */
-esp_err_t MFRC522_WriteRegister(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t value);
+esp_err_t xMFRC522_WriteRegister(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t value);
 
 /**
  * @brief Reads the value from the specified register in the MFRC522.
@@ -184,7 +184,7 @@ esp_err_t MFRC522_WriteRegister(spi_device_handle_t *spiHandle, uint8_t register
  * @param data Pointer to store the read value.
  * @return ESP_OK if successful, otherwise an error code.
  */
-esp_err_t MFRC522_ReadRegister(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t *data);
+esp_err_t xMFRC522_ReadRegister(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t *data);
 
 /**
  * @brief Reads multiple consecutive registers in the MFRC522.
@@ -195,7 +195,7 @@ esp_err_t MFRC522_ReadRegister(spi_device_handle_t *spiHandle, uint8_t registerA
  * @param dataSize The number of registers to read.
  * @return ESP_OK if successful, otherwise an error code.
  */
-esp_err_t MFRC522_ReadRegisterArr(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t *dataArr, uint8_t dataSize);
+esp_err_t xMFRC522_ReadRegisterArr(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t *dataArr, uint8_t dataSize);
 
 /**
  * @brief Writes multiple consecutive registers in the MFRC522.
@@ -206,7 +206,7 @@ esp_err_t MFRC522_ReadRegisterArr(spi_device_handle_t *spiHandle, uint8_t regist
  * @param dataSize The number of registers to write.
  * @return ESP_OK if successful, otherwise an error code.
  */
-esp_err_t MFRC522_WriteRegisterArr(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t *dataArr, uint8_t dataSize);
+esp_err_t xMFRC522_WriteRegisterArr(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t *dataArr, uint8_t dataSize);
 
 /**
  * @brief Initializes the MFRC522 RFID module.
@@ -214,7 +214,7 @@ esp_err_t MFRC522_WriteRegisterArr(spi_device_handle_t *spiHandle, uint8_t regis
  * @param spiHandle Pointer to the SPI device handle.
  * @return ESP_OK if successful, otherwise an error code.
  */
-esp_err_t MFRC522_Init(spi_device_handle_t *spiHandle, uint8_t rstPin);
+esp_err_t xMFRC522_Init(spi_device_handle_t *spiHandle, uint8_t rstPin);
 
 /**
  * @brief Clears the specified bits in the register of the MFRC522.
@@ -224,7 +224,7 @@ esp_err_t MFRC522_Init(spi_device_handle_t *spiHandle, uint8_t rstPin);
  * @param mask The bitmask of the bits to clear.
  * @return ESP_OK if successful, otherwise an error code.
  */
-esp_err_t MFRC522_ClrRegBitMask(spi_device_handle_t *spiHandle, uint8_t registerAdress, uint8_t mask);
+esp_err_t xMFRC522_ClrRegBitMask(spi_device_handle_t *spiHandle, uint8_t registerAdress, uint8_t mask);
 
 /**
  * @brief Checks if a card is present.
@@ -232,7 +232,7 @@ esp_err_t MFRC522_ClrRegBitMask(spi_device_handle_t *spiHandle, uint8_t register
  * @param spiHandle Pointer to the SPI device handle.
  * @return True if a card is present, false otherwise.
  */
-bool MFRC522_IsCardPresent(spi_device_handle_t *spiHandle);
+bool xMFRC522_IsCardPresent(spi_device_handle_t *spiHandle);
 
 /**
  * @brief Turns on the antenna of the MFRC522.
@@ -240,7 +240,7 @@ bool MFRC522_IsCardPresent(spi_device_handle_t *spiHandle);
  * @param spiHandle Pointer to the SPI device handle.
  * @return ESP_OK if successful, otherwise an error code.
  */
-esp_err_t MFRC522_AntennaOn(spi_device_handle_t *spiHandle);
+esp_err_t xMFRC522_AntennaOn(spi_device_handle_t *spiHandle);
 
 /**
  * @brief Performs a self-test of the MFRC522.
@@ -248,7 +248,7 @@ esp_err_t MFRC522_AntennaOn(spi_device_handle_t *spiHandle);
  * @param spiHandle Pointer to the SPI device handle.
  * @return ESP_OK if successful, otherwise an error code.
  */
-esp_err_t MFRC522_SelfTest(spi_device_handle_t *spiHandle, uint8_t rstPin);
+esp_err_t xMFRC522_SelfTest(spi_device_handle_t *spiHandle, uint8_t rstPin);
 
 /**
  * @brief Resets the MFRC522.
@@ -256,7 +256,7 @@ esp_err_t MFRC522_SelfTest(spi_device_handle_t *spiHandle, uint8_t rstPin);
  * @param spiHandle Pointer to the SPI device handle.
  * @return ESP_OK if successful, otherwise an error code.
  */
-esp_err_t MFRC522_Reset(spi_device_handle_t *spiHandle);
+esp_err_t xMFRC522_Reset(spi_device_handle_t *spiHandle);
 
 /**
  * @brief Sends a PICC command and receives the response from the MFRC522.
@@ -265,28 +265,26 @@ esp_err_t MFRC522_Reset(spi_device_handle_t *spiHandle);
  * @param piccCmd The PICC command to send.
  * @return ESP_OK if successful, otherwise an error code.
  */
-esp_err_t MFRC522_SendPICCcmdTranscieve(spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t * cmdBuf, uint8_t bufSize, bitFraming_t bitFrame);
+esp_err_t xMFRC522_Transcieve(spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t * cmdBuf, uint8_t bufSize, bitFraming_t bitFrame);
 
-esp_err_t MFRC522_SetRegBitMask(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t mask);
+esp_err_t xMFRC522_SetRegBitMask(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t mask);
 
-bool MFRC522_IsCardPresent(spi_device_handle_t *spiHandle);
+esp_err_t xMFRC522_CalculateCRC(spi_device_handle_t *spiHandle, uint8_t * buf, uint8_t bufLen, uint8_t resultBuf[2]);
 
-esp_err_t MFRC522_CalculateCRC(spi_device_handle_t *spiHandle, uint8_t * buf, uint8_t bufLen, uint8_t resultBuf[2]);
+UniqueIdentifier_t * xMifare_ReadUID(spi_device_handle_t *spiHandle, uidSize_t uidSize);
 
-UniqueIdentifier_t * MFRC522_ReadUID(spi_device_handle_t *spiHandle, uidSize_t uidSize);
+Mifare1kKey_t * xMifare_GetKeyData(spi_device_handle_t *spiHandle, UniqueIdentifier_t * UID);
 
-Mifare1kKey_t * MFRC522_GetKeyData(spi_device_handle_t *spiHandle, UniqueIdentifier_t * UID);
+static esp_err_t xMifare_SetSakByte(spi_device_handle_t *spiHandle, UniqueIdentifier_t * UID);
 
-static esp_err_t MFRC522_SetSakByte(spi_device_handle_t *spiHandle, UniqueIdentifier_t * UID);
+esp_err_t xMifare_ReadKeyBlock(spi_device_handle_t *spiHandle, uint8_t blockAddress, UniqueIdentifier_t * UID);
 
-esp_err_t MFRC522_ReadKeyBlock(spi_device_handle_t *spiHandle, uint8_t blockAddress, uint8_t * buf, uint8_t bufSize);
+static bool xPrv_Mifare_BlockCheckChar(uint8_t * bufData, uint8_t bufSize, UniqueIdentifier_t * UID);
 
-static bool UID_BlockCheckChar(uint8_t * bufData, uint8_t bufSize, UniqueIdentifier_t * UID);
+esp_err_t xMifare_Authenticate(spi_device_handle_t *spiHandle, uint8_t cmd, uint8_t blockAddress, uint8_t * key, UniqueIdentifier_t * UID);
 
-esp_err_t MFRC522_Authenticate(spi_device_handle_t *spiHandle, uint8_t cmd, uint8_t blockAddress, uint8_t * key, UniqueIdentifier_t * UID);
+void vMifare_PrintUID(UniqueIdentifier_t * UID);
 
-void MFRC522_PrintUID(UniqueIdentifier_t * UID);
-
-void MFRC522_GetAndPrintFifoBuf(spi_device_handle_t *spiHandle, uint8_t * fifoBuf, bool print);
+void vMFRC522_GetAndPrintFifoBuf(spi_device_handle_t *spiHandle, uint8_t * fifoBuf, bool print);
 
 #endif // _MFRC522_H_
