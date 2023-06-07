@@ -49,6 +49,7 @@ void app_main()
     spi_bus_add_device(SPI_BUS, &devConfig, &spiHandle);
 
     UniqueIdentifier_t * UID;
+    Mifare1kKey_t * key;
     
     xMFRC522_Init(&spiHandle, PIN_RST);
     vTaskDelay(10/portTICK_PERIOD_MS);
@@ -61,8 +62,8 @@ void app_main()
             //vTaskDelay(100/portTICK_PERIOD_MS);
             printf("Card present\n");
             UID = xMifare_ReadUID(&spiHandle, fourBytesSingle);
-            xMifare_ReadKeyBlock(&spiHandle, 1, UID);
-            //MFRC522_GetKeyData(&spiHandle, UID);
+            key = xMifare_GetKeyData(&spiHandle, UID);
+            vMifare_PrintKey(key);
         }
         vTaskDelay(100/portTICK_PERIOD_MS);
     }

@@ -216,7 +216,17 @@ esp_err_t xMFRC522_Reset (spi_device_handle_t * spiHandle)
     return retVal;
 }
 
-esp_err_t xMFRC522_Transcieve (spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t * cmdBuf, uint8_t bufSize, bitFraming_t bitFrame)
+esp_err_t xMFRC522_Transcieve(spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t * cmdBuf, uint8_t bufSize, bitFraming_t bitFrame)
+{
+    return xMFRC522_CommWithMifare(PCD_CMD_TRANSCEIVE, spiHandle, waitIrq, cmdBuf, bufSize, bitFrame);
+}
+
+esp_err_t xMFRC522_MF_Authent(spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t * cmdBuf, uint8_t bufSize, bitFraming_t bitFrame)
+{
+    return xMFRC522_CommWithMifare(PCD_CMD_MF_AUTHENT, spiHandle, waitIrq, cmdBuf, bufSize, bitFrame);
+}
+
+esp_err_t xMFRC522_CommWithMifare(uint8_t cmd, spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t * cmdBuf, uint8_t bufSize, bitFraming_t bitFrame)
 {
     esp_err_t retVal;
     
@@ -236,8 +246,11 @@ esp_err_t xMFRC522_Transcieve (spi_device_handle_t *spiHandle, uint8_t waitIrq, 
     }
 
     retVal = xMFRC522_WriteRegister(spiHandle, MFRC522_REG_BIT_FRAMING, bitFrame); //test // 7 bits will be sent
-    retVal = xMFRC522_WriteRegister(spiHandle, MFRC522_REG_COMMAND, PCD_CMD_TRANSCEIVE); // transmit the data in the fifo buffer
-    retVal = xMFRC522_SetRegBitMask(spiHandle, MFRC522_REG_BIT_FRAMING, 0x80);
+    retVal = xMFRC522_WriteRegister(spiHandle, MFRC522_REG_COMMAND, cmd); // transmit the data in the fifo buffer
+    if (cmd == PCD_CMD_TRANSCEIVE)
+    {
+        retVal = xMFRC522_SetRegBitMask(spiHandle, MFRC522_REG_BIT_FRAMING, 0x80); // start transmission
+    }
 
     while(1)
     {
@@ -247,13 +260,11 @@ esp_err_t xMFRC522_Transcieve (spi_device_handle_t *spiHandle, uint8_t waitIrq, 
         if (waitIrq & irqReg)
         {
             // sucess
-            printf("<-- Trancieve Sucess -->\n");
             break;
         }
         if (irqReg & 0x01)
         {
             // fail (timeout)
-            printf("<-- Trancieve Fail (Timeout) -->\n");
             break;
         }
     }
@@ -428,7 +439,7 @@ esp_err_t xMifare_Authenticate(spi_device_handle_t *spiHandle, uint8_t cmd, uint
         sendBuf[i + 8] = UID->uidData.singleSizeUidData[i];
     }
 
-    espErr = xMFRC522_Transcieve(spiHandle, waitIrq, sendBuf, sizeof(sendBuf), eightBit);
+    espErr = xMFRC522_MF_Authent(spiHandle, waitIrq, sendBuf, sizeof(sendBuf), eightBit);
 
     return espErr;
 }
@@ -444,11 +455,29 @@ esp_err_t xMifare_ReadKeyBlock(spi_device_handle_t *spiHandle, uint8_t blockAddr
 
     retVal = xMifare_Authenticate(spiHandle, PICC_CMD_MF_AUTH_KEY_A, blockAddress, MIFARE_DEFAULT_BLOCK_KEY, UID);
     retVal = xMFRC522_Transcieve(spiHandle, 0x30, sendBuf, sizeof(sendBuf), eightBit);
-    
-    uint8_t * bf = NULL;
-    vMFRC522_GetAndPrintFifoBuf(spiHandle, bf, true);
 
     return retVal;
+}
+
+Mifare1kKey_t * xMifare_GetKeyData(spi_device_handle_t *spiHandle, UniqueIdentifier_t * UID)
+{
+    esp_err_t retVal;
+    Mifare1kKey_t * newKey = (Mifare1kKey_t*) malloc(sizeof(Mifare1kKey_t));
+
+    newKey->uid = *UID;
+
+    for (uint8_t currSector = 0; currSector < NUM_SECTORE_MIFARE_1K; currSector++)
+    {
+        for (uint8_t currBlock = 0; currBlock < NUM_BLOCKS_PER_SECTOR; currBlock++)
+        {
+            uint8_t blockAddress = currSector * NUM_BLOCKS_PER_SECTOR + currBlock;
+  
+            retVal = xMifare_ReadKeyBlock(spiHandle, blockAddress, UID);
+            retVal = xMFRC522_ReadRegisterArr(spiHandle, MFRC522_REG_FIFO_DATA, &newKey->keyData[currSector][currBlock*16], 16);
+        }
+    }
+
+    return newKey;
 }
 
 void vMifare_PrintUID(UniqueIdentifier_t * UID)
@@ -472,10 +501,28 @@ void vMFRC522_GetAndPrintFifoBuf(spi_device_handle_t *spiHandle, uint8_t * fifoB
     if (print == true)
     {
         printf("<--- FIFO Buf Contents --->\n");
-        printf("Size: %x\n", fifoSize);
+        printf("Size: %d\n", fifoSize);
         for (uint8_t i = 0; i < fifoSize; i++)
         {
             printf("FIFO %d: %x\n", i, fifoBuf[i]);
         }
+    }
+}
+
+void vMifare_PrintKey(Mifare1kKey_t * key)
+{
+    printf("Sector   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15\n");
+    for (uint8_t currSector = 0; currSector < 16; currSector++)
+    {
+        printf("   %d\t", currSector);
+        for (uint8_t currBlocks = 0; currBlocks < 64; currBlocks++)
+        {
+            if (currBlocks % 16 == 0)
+            {
+                printf("\n\t");
+            }
+            printf(" %02x ", key->keyData[currSector][currBlocks]);
+        }
+        printf("\n");
     }
 }

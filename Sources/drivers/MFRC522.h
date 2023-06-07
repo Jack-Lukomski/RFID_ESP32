@@ -44,7 +44,7 @@ typedef struct {
 typedef struct {
     UniqueIdentifier_t uid; // 7 byte uid, the default
     uint8_t blockKey[6];
-    uint8_t keyData[16][16]; // 16 sectors with 4 blocks, each of 16 bytes
+    uint8_t keyData[16][64]; // for 1k card (1024 bytes)
 } Mifare1kKey_t;
 
 #define NUM_SECTORE_MIFARE_1K 16
@@ -267,6 +267,10 @@ esp_err_t xMFRC522_Reset(spi_device_handle_t *spiHandle);
  */
 esp_err_t xMFRC522_Transcieve(spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t * cmdBuf, uint8_t bufSize, bitFraming_t bitFrame);
 
+esp_err_t xMFRC522_MF_Authent(spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t * cmdBuf, uint8_t bufSize, bitFraming_t bitFrame);
+
+esp_err_t xMFRC522_CommWithMifare(uint8_t cmd, spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t * cmdBuf, uint8_t bufSize, bitFraming_t bitFrame);
+
 esp_err_t xMFRC522_SetRegBitMask(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t mask);
 
 esp_err_t xMFRC522_CalculateCRC(spi_device_handle_t *spiHandle, uint8_t * buf, uint8_t bufLen, uint8_t resultBuf[2]);
@@ -286,5 +290,7 @@ esp_err_t xMifare_Authenticate(spi_device_handle_t *spiHandle, uint8_t cmd, uint
 void vMifare_PrintUID(UniqueIdentifier_t * UID);
 
 void vMFRC522_GetAndPrintFifoBuf(spi_device_handle_t *spiHandle, uint8_t * fifoBuf, bool print);
+
+void vMifare_PrintKey(Mifare1kKey_t * key);
 
 #endif // _MFRC522_H_
