@@ -480,6 +480,57 @@ Mifare1kKey_t * xMifare_GetKeyData(spi_device_handle_t *spiHandle, UniqueIdentif
     return newKey;
 }
 
+esp_err_t xMifare_WriteKeyBlock(spi_device_handle_t *spiHandle, uint8_t blockAddress, UniqueIdentifier_t * UID, uint8_t data[16])
+{
+    esp_err_t retVal;
+    uint8_t sendBuf[4];
+    uint8_t sendData[18];
+    uint8_t ack;
+
+    if ((blockAddress%3) == 0 || blockAddress < 4)
+    {
+        return ESP_FAIL;
+    }
+
+    retVal = xMifare_Authenticate(spiHandle, PICC_CMD_MF_AUTH_KEY_A, blockAddress, MIFARE_DEFAULT_BLOCK_KEY, UID);
+
+    sendBuf[0] = PICC_CMD_MF_WRITE;
+    sendBuf[1] = blockAddress;
+    retVal = xMFRC522_CalculateCRC(spiHandle, sendBuf, 2, &sendBuf[2]);
+    retVal = xMFRC522_Transcieve(spiHandle, 0x30, sendBuf, 4, 0);
+
+    retVal = xMFRC522_ReadRegister(spiHandle, MFRC522_REG_FIFO_DATA, &ack);
+
+    if (ack != MFRC522_MIFARE_ACK)
+    {
+        printf("nack 1\n");
+        return ESP_FAIL;
+    }
+
+    memcpy(sendData, data, 16);
+    retVal = xMFRC522_CalculateCRC(spiHandle, sendData, 18, &sendData[16]);
+
+    for (uint8_t i = 0; i < 18; i++)
+    {
+        printf("%x\n", sendData[i]);
+    }
+
+    retVal = xMFRC522_Transcieve(spiHandle, 0x30, sendData, 18, eightBit);
+    retVal = xMFRC522_ReadRegister(spiHandle, MFRC522_REG_FIFO_DATA, &ack);
+
+    if (ack != MFRC522_MIFARE_ACK)
+    {
+        printf("nack 2\n");
+    }
+
+    return retVal;
+}
+
+esp_err_t xMifare_WriteKey(spi_device_handle_t *spiHandle, Mifare1kKey_t * key)
+{
+    return ESP_OK;
+}
+
 void vMifare_PrintUID(UniqueIdentifier_t * UID)
 {
     printf("<--- Tag's UID --->\n");

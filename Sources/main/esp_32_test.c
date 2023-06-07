@@ -53,8 +53,7 @@ void app_main()
     
     xMFRC522_Init(&spiHandle, PIN_RST);
     vTaskDelay(10/portTICK_PERIOD_MS);
-
-    uint8_t testKey[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+    uint8_t arr[16] = {0x69, 0x69, 0x69, 0x69, 0x69, 0x69, 0x69, 0x69, 0x69, 0x69, 0x69, 0x69, 0x69, 0x69, 0x69, 0x69};
     while(1)
     {
         if (xMFRC522_IsCardPresent(&spiHandle))
@@ -62,8 +61,9 @@ void app_main()
             //vTaskDelay(100/portTICK_PERIOD_MS);
             printf("Card present\n");
             UID = xMifare_ReadUID(&spiHandle, fourBytesSingle);
-            key = xMifare_GetKeyData(&spiHandle, UID);
-            vMifare_PrintKey(key);
+            xMifare_WriteKeyBlock(&spiHandle, 4, UID, arr);
+            //key = xMifare_GetKeyData(&spiHandle, UID);
+            //vMifare_PrintKey(key);
         }
         vTaskDelay(100/portTICK_PERIOD_MS);
     }

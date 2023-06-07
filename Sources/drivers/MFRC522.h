@@ -149,7 +149,8 @@ typedef enum {
     PICC_CMD_MF_INCREMENT = 0xC1,
     PICC_CMD_MF_RESTORE   = 0xC2,
     PICC_CMD_MF_TRANSFER  = 0xB0,
-    PICC_CMD_UL_WRITE     = 0xA2
+    PICC_CMD_UL_WRITE     = 0xA2,
+    MFRC522_MIFARE_ACK    = 0x0A,
 } piccCmds_t;
 
 
@@ -278,6 +279,10 @@ esp_err_t xMFRC522_CalculateCRC(spi_device_handle_t *spiHandle, uint8_t * buf, u
 UniqueIdentifier_t * xMifare_ReadUID(spi_device_handle_t *spiHandle, uidSize_t uidSize);
 
 Mifare1kKey_t * xMifare_GetKeyData(spi_device_handle_t *spiHandle, UniqueIdentifier_t * UID);
+
+esp_err_t xMifare_WriteKey(spi_device_handle_t *spiHandle, Mifare1kKey_t * key);
+
+esp_err_t xMifare_WriteKeyBlock(spi_device_handle_t *spiHandle, uint8_t blockAddress, UniqueIdentifier_t * UID, uint8_t data[16]);
 
 static esp_err_t xMifare_SetSakByte(spi_device_handle_t *spiHandle, UniqueIdentifier_t * UID);
 
