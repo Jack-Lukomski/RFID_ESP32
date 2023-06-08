@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.7"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: MFRC522 Commands</title>
+<title>RFID_ESP32: MFRC522 Commands</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,8 +21,9 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">My Project
+   <div id="projectname">RFID_ESP32
    </div>
+   <div id="projectbrief">ESP32 project utlizing the RFID-RC522 and BLE</div>
   </td>
  </tr>
  </tbody>
@@ -70,64 +71,14 @@ $(function() {
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a>  </div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle"><div class="title">MFRC522 Commands</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ga33131d8120f47e65afb27acd5a6f6ad8"><td class="memItemLeft" align="right" valign="top"><a id="ga33131d8120f47e65afb27acd5a6f6ad8" name="ga33131d8120f47e65afb27acd5a6f6ad8"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_REQA</b>&#160;&#160;&#160;0x26</td></tr>
-<tr class="separator:ga33131d8120f47e65afb27acd5a6f6ad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga66cc1aaaa46b7ba72ccb0995539de108"><td class="memItemLeft" align="right" valign="top"><a id="ga66cc1aaaa46b7ba72ccb0995539de108" name="ga66cc1aaaa46b7ba72ccb0995539de108"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_WUPA</b>&#160;&#160;&#160;0x52</td></tr>
-<tr class="separator:ga66cc1aaaa46b7ba72ccb0995539de108"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4e064642df88e24661ebf12c6c083ad9"><td class="memItemLeft" align="right" valign="top"><a id="ga4e064642df88e24661ebf12c6c083ad9" name="ga4e064642df88e24661ebf12c6c083ad9"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_CT</b>&#160;&#160;&#160;0x88</td></tr>
-<tr class="separator:ga4e064642df88e24661ebf12c6c083ad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad5d76935b87ae299680a24ebbeee512e"><td class="memItemLeft" align="right" valign="top"><a id="gad5d76935b87ae299680a24ebbeee512e" name="gad5d76935b87ae299680a24ebbeee512e"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_SEL_CL1</b>&#160;&#160;&#160;0x93</td></tr>
-<tr class="separator:gad5d76935b87ae299680a24ebbeee512e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3827568410f425aba209798d84aa983d"><td class="memItemLeft" align="right" valign="top"><a id="ga3827568410f425aba209798d84aa983d" name="ga3827568410f425aba209798d84aa983d"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_SEL_CL2</b>&#160;&#160;&#160;0x95</td></tr>
-<tr class="separator:ga3827568410f425aba209798d84aa983d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gadf904bc71f065830eb8279449d84958a"><td class="memItemLeft" align="right" valign="top"><a id="gadf904bc71f065830eb8279449d84958a" name="gadf904bc71f065830eb8279449d84958a"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_SEL_CL3</b>&#160;&#160;&#160;0x97</td></tr>
-<tr class="separator:gadf904bc71f065830eb8279449d84958a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga843abf2289900a5b77f04b06b5c017dd"><td class="memItemLeft" align="right" valign="top"><a id="ga843abf2289900a5b77f04b06b5c017dd" name="ga843abf2289900a5b77f04b06b5c017dd"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_HLTA</b>&#160;&#160;&#160;0x50</td></tr>
-<tr class="separator:ga843abf2289900a5b77f04b06b5c017dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabbc63470e66f8eca28b2268e45e07642"><td class="memItemLeft" align="right" valign="top"><a id="gabbc63470e66f8eca28b2268e45e07642" name="gabbc63470e66f8eca28b2268e45e07642"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_RATS</b>&#160;&#160;&#160;0xE0</td></tr>
-<tr class="separator:gabbc63470e66f8eca28b2268e45e07642"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae6d4b8a80da08cbff1f37f60995edb4b"><td class="memItemLeft" align="right" valign="top"><a id="gae6d4b8a80da08cbff1f37f60995edb4b" name="gae6d4b8a80da08cbff1f37f60995edb4b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_MF_AUTH_KEY_A</b>&#160;&#160;&#160;0x60</td></tr>
-<tr class="separator:gae6d4b8a80da08cbff1f37f60995edb4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3d96af090106c9bcf4045c7b8fdc7244"><td class="memItemLeft" align="right" valign="top"><a id="ga3d96af090106c9bcf4045c7b8fdc7244" name="ga3d96af090106c9bcf4045c7b8fdc7244"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_MF_AUTH_KEY_B</b>&#160;&#160;&#160;0x61</td></tr>
-<tr class="separator:ga3d96af090106c9bcf4045c7b8fdc7244"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga334904c6aeda36cd941b629e864de12a"><td class="memItemLeft" align="right" valign="top"><a id="ga334904c6aeda36cd941b629e864de12a" name="ga334904c6aeda36cd941b629e864de12a"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_MF_READ</b>&#160;&#160;&#160;0x30</td></tr>
-<tr class="separator:ga334904c6aeda36cd941b629e864de12a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0dd22588a8054afa74099dc1d04a0510"><td class="memItemLeft" align="right" valign="top"><a id="ga0dd22588a8054afa74099dc1d04a0510" name="ga0dd22588a8054afa74099dc1d04a0510"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_MF_WRITE</b>&#160;&#160;&#160;0xA0</td></tr>
-<tr class="separator:ga0dd22588a8054afa74099dc1d04a0510"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga08f5b202c738547d944d99ce9bb6e58f"><td class="memItemLeft" align="right" valign="top"><a id="ga08f5b202c738547d944d99ce9bb6e58f" name="ga08f5b202c738547d944d99ce9bb6e58f"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_MF_DECREMENT</b>&#160;&#160;&#160;0xC0</td></tr>
-<tr class="separator:ga08f5b202c738547d944d99ce9bb6e58f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0d38b266b50f530f6dad8a380cc6e664"><td class="memItemLeft" align="right" valign="top"><a id="ga0d38b266b50f530f6dad8a380cc6e664" name="ga0d38b266b50f530f6dad8a380cc6e664"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_MF_INCREMENT</b>&#160;&#160;&#160;0xC1</td></tr>
-<tr class="separator:ga0d38b266b50f530f6dad8a380cc6e664"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae70289cbae5787575ab3453563e4f3b7"><td class="memItemLeft" align="right" valign="top"><a id="gae70289cbae5787575ab3453563e4f3b7" name="gae70289cbae5787575ab3453563e4f3b7"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_MF_RESTORE</b>&#160;&#160;&#160;0xC2</td></tr>
-<tr class="separator:gae70289cbae5787575ab3453563e4f3b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8ef1ea291772d0e50b3f216b2dedec0b"><td class="memItemLeft" align="right" valign="top"><a id="ga8ef1ea291772d0e50b3f216b2dedec0b" name="ga8ef1ea291772d0e50b3f216b2dedec0b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_MF_TRANSFER</b>&#160;&#160;&#160;0xB0</td></tr>
-<tr class="separator:ga8ef1ea291772d0e50b3f216b2dedec0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa21b67a605da01ae12c025353b93b2f8"><td class="memItemLeft" align="right" valign="top"><a id="gaa21b67a605da01ae12c025353b93b2f8" name="gaa21b67a605da01ae12c025353b93b2f8"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_UL_WRITE</b>&#160;&#160;&#160;0xA2</td></tr>
-<tr class="separator:gaa21b67a605da01ae12c025353b93b2f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga245406a99e5fd21f643601c7bca7c392"><td class="memItemLeft" align="right" valign="top"><a id="ga245406a99e5fd21f643601c7bca7c392" name="ga245406a99e5fd21f643601c7bca7c392"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PCD_CMD_IDLE</b>&#160;&#160;&#160;0x00</td></tr>
 <tr class="separator:ga245406a99e5fd21f643601c7bca7c392"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,6 +109,35 @@ Macros</h2></td></tr>
 <tr class="memitem:ga468be9c442562bea15d066573464833e"><td class="memItemLeft" align="right" valign="top"><a id="ga468be9c442562bea15d066573464833e" name="ga468be9c442562bea15d066573464833e"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PCD_CMD_SOFT_RESET</b>&#160;&#160;&#160;0x0F</td></tr>
 <tr class="separator:ga468be9c442562bea15d066573464833e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:ga1cab13728c20a91e3f1c44cddea9cb74"><td class="memItemLeft" align="right" valign="top"><a id="ga1cab13728c20a91e3f1c44cddea9cb74" name="ga1cab13728c20a91e3f1c44cddea9cb74"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>piccCmds_t</b> { <br />
+&#160;&#160;<b>PICC_CMD_REQA</b> = 0x26
+, <b>PICC_CMD_WUPA</b> = 0x52
+, <b>PICC_CMD_CT</b> = 0x88
+, <b>PICC_CMD_SEL_CL1</b> = 0x93
+, <br />
+&#160;&#160;<b>PICC_CMD_SEL_CL2</b> = 0x95
+, <b>PICC_CMD_SEL_CL3</b> = 0x97
+, <b>PICC_CMD_HLTA</b> = 0x50
+, <b>PICC_CMD_RATS</b> = 0xE0
+, <br />
+&#160;&#160;<b>PICC_CMD_MF_AUTH_KEY_A</b> = 0x60
+, <b>PICC_CMD_MF_AUTH_KEY_B</b> = 0x61
+, <b>PICC_CMD_MF_READ</b> = 0x30
+, <b>PICC_CMD_MF_WRITE</b> = 0xA0
+, <br />
+&#160;&#160;<b>PICC_CMD_MF_DECREMENT</b> = 0xC0
+, <b>PICC_CMD_MF_INCREMENT</b> = 0xC1
+, <b>PICC_CMD_MF_RESTORE</b> = 0xC2
+, <b>PICC_CMD_MF_TRANSFER</b> = 0xB0
+, <br />
+&#160;&#160;<b>PICC_CMD_UL_WRITE</b> = 0xA2
+, <b>MFRC522_MIFARE_ACK</b> = 0x0A
+<br />
+ }</td></tr>
+<tr class="separator:ga1cab13728c20a91e3f1c44cddea9cb74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 </div><!-- contents -->

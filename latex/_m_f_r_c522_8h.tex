@@ -2,8 +2,27 @@
 \hypertarget{_m_f_r_c522_8h}{}\label{_m_f_r_c522_8h}\index{Sources/drivers/MFRC522.h@{Sources/drivers/MFRC522.h}}
 {\ttfamily \#include \"{}driver/spi\+\_\+master.\+h\"{}}\newline
 {\ttfamily \#include \"{}esp\+\_\+timer.\+h\"{}}\newline
+{\ttfamily \#include $<$freertos/\+Free\+RTOS.\+h$>$}\newline
+{\ttfamily \#include $<$freertos/task.\+h$>$}\newline
+{\ttfamily \#include $<$driver/gpio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{struct_mifare1k_key__t}{Mifare1k\+Key\+\_\+t}}
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_m_f_r_c522_8h_a99dd47850820e27018f33fbb27a78003}{NUM\+\_\+\+SECTORE\+\_\+\+MIFARE\+\_\+1K}}~16
+\item 
+\#define \mbox{\hyperlink{_m_f_r_c522_8h_ab7c5755f748bae4fca459151d60562f3}{NUM\+\_\+\+BLOCKS\+\_\+\+PER\+\_\+\+SECTOR}}~4
+\item 
+\#define \mbox{\hyperlink{_m_f_r_c522_8h_a55e13ad605c77bf3bca4b778d631f960}{MIFARE\+\_\+\+KEY\+\_\+\+SIZE}}~6
 \item 
 \#define {\bfseries MFRC522\+\_\+\+REG\+\_\+\+RESERVED00}~0x00 $<$$<$ 1
 \item 
@@ -133,40 +152,6 @@
 \item 
 \#define {\bfseries MFRC522\+\_\+\+REG\+\_\+\+RESERVED34}~0x3F $<$$<$ 1
 \item 
-\#define {\bfseries PICC\+\_\+\+CMD\+\_\+\+REQA}~0x26
-\item 
-\#define {\bfseries PICC\+\_\+\+CMD\+\_\+\+WUPA}~0x52
-\item 
-\#define {\bfseries PICC\+\_\+\+CMD\+\_\+\+CT}~0x88
-\item 
-\#define {\bfseries PICC\+\_\+\+CMD\+\_\+\+SEL\+\_\+\+CL1}~0x93
-\item 
-\#define {\bfseries PICC\+\_\+\+CMD\+\_\+\+SEL\+\_\+\+CL2}~0x95
-\item 
-\#define {\bfseries PICC\+\_\+\+CMD\+\_\+\+SEL\+\_\+\+CL3}~0x97
-\item 
-\#define {\bfseries PICC\+\_\+\+CMD\+\_\+\+HLTA}~0x50
-\item 
-\#define {\bfseries PICC\+\_\+\+CMD\+\_\+\+RATS}~0x\+E0
-\item 
-\#define {\bfseries PICC\+\_\+\+CMD\+\_\+\+MF\+\_\+\+AUTH\+\_\+\+KEY\+\_\+A}~0x60
-\item 
-\#define {\bfseries PICC\+\_\+\+CMD\+\_\+\+MF\+\_\+\+AUTH\+\_\+\+KEY\+\_\+B}~0x61
-\item 
-\#define {\bfseries PICC\+\_\+\+CMD\+\_\+\+MF\+\_\+\+READ}~0x30
-\item 
-\#define {\bfseries PICC\+\_\+\+CMD\+\_\+\+MF\+\_\+\+WRITE}~0x\+A0
-\item 
-\#define {\bfseries PICC\+\_\+\+CMD\+\_\+\+MF\+\_\+\+DECREMENT}~0x\+C0
-\item 
-\#define {\bfseries PICC\+\_\+\+CMD\+\_\+\+MF\+\_\+\+INCREMENT}~0x\+C1
-\item 
-\#define {\bfseries PICC\+\_\+\+CMD\+\_\+\+MF\+\_\+\+RESTORE}~0x\+C2
-\item 
-\#define {\bfseries PICC\+\_\+\+CMD\+\_\+\+MF\+\_\+\+TRANSFER}~0x\+B0
-\item 
-\#define {\bfseries PICC\+\_\+\+CMD\+\_\+\+UL\+\_\+\+WRITE}~0x\+A2
-\item 
 \#define {\bfseries PCD\+\_\+\+CMD\+\_\+\+IDLE}~0x00
 \item 
 \#define {\bfseries PCD\+\_\+\+CMD\+\_\+\+MEM}~0x01
@@ -187,39 +172,232 @@
 \item 
 \#define {\bfseries PCD\+\_\+\+CMD\+\_\+\+SOFT\+\_\+\+RESET}~0x0F
 \end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{_m_f_r_c522_8h_ac68981dc3e297ee159fe8d0a34030abe}\label{_m_f_r_c522_8h_ac68981dc3e297ee159fe8d0a34030abe} 
+typedef uint8\+\_\+t {\bfseries single\+Size\+UID\+\_\+t}\mbox{[}4\mbox{]}
+\begin{DoxyCompactList}\small\item\em Typedef for single size UID. It consists of 4 bytes. \end{DoxyCompactList}\item 
+\Hypertarget{_m_f_r_c522_8h_a152e4554336e458e8ac7b71c64bc33d7}\label{_m_f_r_c522_8h_a152e4554336e458e8ac7b71c64bc33d7} 
+typedef uint8\+\_\+t {\bfseries double\+Size\+UID\+\_\+t}\mbox{[}7\mbox{]}
+\begin{DoxyCompactList}\small\item\em Typedef for double size UID. It consists of 7 bytes. \end{DoxyCompactList}\item 
+\Hypertarget{_m_f_r_c522_8h_a6925d3d8d338b485c9de602cd9e0e8f2}\label{_m_f_r_c522_8h_a6925d3d8d338b485c9de602cd9e0e8f2} 
+typedef uint8\+\_\+t {\bfseries tripple\+Size\+UID\+\_\+t}\mbox{[}10\mbox{]}
+\begin{DoxyCompactList}\small\item\em Typedef for triple size UID. It consists of 10 bytes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560}{bit\+Framing\+\_\+t}} \{ \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560a56aa0a0cc66c9afde89077c36eb5f6ee}{seven\+Bit}} = 0x07
+, \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560a53b7424de67234dce8863e3630dafe5c}{eight\+Bit}} = 0x08
+ \}
+\begin{DoxyCompactList}\small\item\em Enum typedef for bit framing. It can either be seven\+Bit or eight\+Bit. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06c}{uid\+Size\+\_\+t}} \{ \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06cabe74bc6234f219aaebddfc3a60bf519d}{four\+Bytes\+Single}} = 4
+, \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06ca4ec0de1b1967020341dfb3b152b0d1b9}{seven\+Bytes\+Double}} = 7
+, \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06ca265b1d88a5359b5fccffaa0d94fd83c8}{ten\+Bytes\+Tripple}} = 10
+ \}
+\begin{DoxyCompactList}\small\item\em Enum typedef for UID size. It can be either four\+Bytes\+Single, seven\+Bytes\+Double or ten\+Bytes\+Tripple. \end{DoxyCompactList}\item 
+\Hypertarget{group___m_f_r_c522___commands_ga1cab13728c20a91e3f1c44cddea9cb74}\label{group___m_f_r_c522___commands_ga1cab13728c20a91e3f1c44cddea9cb74} 
+enum {\bfseries picc\+Cmds\+\_\+t} \{ \newline
+{\bfseries PICC\+\_\+\+CMD\+\_\+\+REQA} = 0x26
+, {\bfseries PICC\+\_\+\+CMD\+\_\+\+WUPA} = 0x52
+, {\bfseries PICC\+\_\+\+CMD\+\_\+\+CT} = 0x88
+, {\bfseries PICC\+\_\+\+CMD\+\_\+\+SEL\+\_\+\+CL1} = 0x93
+, \newline
+{\bfseries PICC\+\_\+\+CMD\+\_\+\+SEL\+\_\+\+CL2} = 0x95
+, {\bfseries PICC\+\_\+\+CMD\+\_\+\+SEL\+\_\+\+CL3} = 0x97
+, {\bfseries PICC\+\_\+\+CMD\+\_\+\+HLTA} = 0x50
+, {\bfseries PICC\+\_\+\+CMD\+\_\+\+RATS} = 0x\+E0
+, \newline
+{\bfseries PICC\+\_\+\+CMD\+\_\+\+MF\+\_\+\+AUTH\+\_\+\+KEY\+\_\+A} = 0x60
+, {\bfseries PICC\+\_\+\+CMD\+\_\+\+MF\+\_\+\+AUTH\+\_\+\+KEY\+\_\+B} = 0x61
+, {\bfseries PICC\+\_\+\+CMD\+\_\+\+MF\+\_\+\+READ} = 0x30
+, {\bfseries PICC\+\_\+\+CMD\+\_\+\+MF\+\_\+\+WRITE} = 0x\+A0
+, \newline
+{\bfseries PICC\+\_\+\+CMD\+\_\+\+MF\+\_\+\+DECREMENT} = 0x\+C0
+, {\bfseries PICC\+\_\+\+CMD\+\_\+\+MF\+\_\+\+INCREMENT} = 0x\+C1
+, {\bfseries PICC\+\_\+\+CMD\+\_\+\+MF\+\_\+\+RESTORE} = 0x\+C2
+, {\bfseries PICC\+\_\+\+CMD\+\_\+\+MF\+\_\+\+TRANSFER} = 0x\+B0
+, \newline
+{\bfseries PICC\+\_\+\+CMD\+\_\+\+UL\+\_\+\+WRITE} = 0x\+A2
+, {\bfseries MFRC522\+\_\+\+MIFARE\+\_\+\+ACK} = 0x0A
+ \}
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_a713991009cd897c22595fd80d9372f29}{MFRC522\+\_\+\+Write\+Register}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t register\+Address, uint8\+\_\+t value)
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_a0f72b50e5ab2ae30af014a1d438fbb0b}{x\+MFRC522\+\_\+\+Write\+Register}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t register\+Address, uint8\+\_\+t value)
 \begin{DoxyCompactList}\small\item\em Writes a value to the specified register in the MFRC522. \end{DoxyCompactList}\item 
-esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_a60838eb7eee973df66e89a97ebe62d55}{MFRC522\+\_\+\+Read\+Register}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t register\+Address, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data)
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_ad0ee2f8148fd691cbfa80fd0ccce6ec2}{x\+MFRC522\+\_\+\+Read\+Register}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t register\+Address, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data)
 \begin{DoxyCompactList}\small\item\em Reads the value from the specified register in the MFRC522. \end{DoxyCompactList}\item 
-esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_a668f7f3d07b0b374016879ecc7ebbb4c}{MFRC522\+\_\+\+Read\+Register\+Arr}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t register\+Address, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data\+Arr, uint8\+\_\+t data\+Size)
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_ada322c0a78a7db5add268ba10857d865}{x\+MFRC522\+\_\+\+Read\+Register\+Arr}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t register\+Address, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data\+Arr, uint8\+\_\+t data\+Size)
 \begin{DoxyCompactList}\small\item\em Reads multiple consecutive registers in the MFRC522. \end{DoxyCompactList}\item 
-esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_a31682d6d5756381e867ea22611793b37}{MFRC522\+\_\+\+Write\+Register\+Arr}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t register\+Address, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data\+Arr, uint8\+\_\+t data\+Size)
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_a556f72b2e4db6b332ec4569f7b2f1503}{x\+MFRC522\+\_\+\+Write\+Register\+Arr}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t register\+Address, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data\+Arr, uint8\+\_\+t data\+Size)
 \begin{DoxyCompactList}\small\item\em Writes multiple consecutive registers in the MFRC522. \end{DoxyCompactList}\item 
-esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_ad6e8b6a97eed708d132a0d49525ebfa7}{MFRC522\+\_\+\+Init}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle)
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_a7f6caabfd73340b5ad7013056d469dd3}{x\+MFRC522\+\_\+\+Init}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t rst\+Pin)
 \begin{DoxyCompactList}\small\item\em Initializes the MFRC522 RFID module. \end{DoxyCompactList}\item 
-esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_a972c67fb8698e663d9833aa24f6dc90c}{MFRC522\+\_\+\+Clr\+Reg\+Bit\+Mask}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t register\+Adress, uint8\+\_\+t mask)
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_a50c2ad051bcbca4dec0567c022196757}{x\+MFRC522\+\_\+\+Clr\+Reg\+Bit\+Mask}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t register\+Adress, uint8\+\_\+t mask)
 \begin{DoxyCompactList}\small\item\em Clears the specified bits in the register of the MFRC522. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{_m_f_r_c522_8h_a1ebffe456fa4d128592e1bfa857221a0}{MFRC522\+\_\+\+Is\+Card\+Present}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle)
+bool \mbox{\hyperlink{_m_f_r_c522_8h_ab8c385cbfba9791d16c3589b908831d0}{x\+MFRC522\+\_\+\+Is\+Card\+Present}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle)
 \begin{DoxyCompactList}\small\item\em Checks if a card is present. \end{DoxyCompactList}\item 
-esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_aeef649c6616151d6da7973216e4ad177}{MFRC522\+\_\+\+Antenna\+On}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle)
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_a066a27d242a1c8feab852db7c6d54a13}{x\+MFRC522\+\_\+\+Antenna\+On}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle)
 \begin{DoxyCompactList}\small\item\em Turns on the antenna of the MFRC522. \end{DoxyCompactList}\item 
-esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_a3d87747382c3a7e6406b9a40e91fceb2}{MFRC522\+\_\+\+Self\+Test}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle)
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_af5515e1586c44dcceb8652946c981700}{x\+MFRC522\+\_\+\+Self\+Test}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t rst\+Pin)
 \begin{DoxyCompactList}\small\item\em Performs a self-\/test of the MFRC522. \end{DoxyCompactList}\item 
-esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_a1d727d8b59c84c599506d30ef802f887}{MFRC522\+\_\+\+Reset}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle)
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_af1bf925b054065684808151269513159}{x\+MFRC522\+\_\+\+Reset}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle)
 \begin{DoxyCompactList}\small\item\em Resets the MFRC522. \end{DoxyCompactList}\item 
-esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_aba7cbb37cc8c4b4e5a4b1dd4bc036f5f}{MFRC522\+\_\+\+Send\+PICCcmd\+Transcieve}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t picc\+Cmd)
-\begin{DoxyCompactList}\small\item\em Sends a PICC command and receives the response from the MFRC522. \end{DoxyCompactList}\end{DoxyCompactItemize}
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_a529a111777380f059592691df6c49644}{x\+MFRC522\+\_\+\+Transcieve}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t wait\+Irq, uint8\+\_\+t \texorpdfstring{$\ast$}{*}cmd\+Buf, uint8\+\_\+t buf\+Size, \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560}{bit\+Framing\+\_\+t}} bit\+Frame)
+\begin{DoxyCompactList}\small\item\em Transmits data to the MFRC522 and receives the response. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_a490d16b98486755e504d855538a9a0e5}{x\+MFRC522\+\_\+\+MF\+\_\+\+Authent}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t wait\+Irq, uint8\+\_\+t \texorpdfstring{$\ast$}{*}cmd\+Buf, uint8\+\_\+t buf\+Size, \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560}{bit\+Framing\+\_\+t}} bit\+Frame)
+\begin{DoxyCompactList}\small\item\em Performs MIFARE authentication with the MFRC522. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_a50adb68c2f5299083cf59df68a7dea04}{x\+MFRC522\+\_\+\+Comm\+With\+Mifare}} (uint8\+\_\+t cmd, spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t wait\+Irq, uint8\+\_\+t \texorpdfstring{$\ast$}{*}cmd\+Buf, uint8\+\_\+t buf\+Size, \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560}{bit\+Framing\+\_\+t}} bit\+Frame)
+\begin{DoxyCompactList}\small\item\em Performs communication with a MIFARE card using the MFRC522. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_ae8dd102fbbc49bfd1c9b1d6effe28033}{x\+MFRC522\+\_\+\+Set\+Reg\+Bit\+Mask}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t register\+Address, uint8\+\_\+t mask)
+\begin{DoxyCompactList}\small\item\em Sets the specified bits in the register of the MFRC522. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_aad5b8ec13396bd7ea04f221db63366bf}{x\+MFRC522\+\_\+\+Calculate\+CRC}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t \texorpdfstring{$\ast$}{*}buf, uint8\+\_\+t buf\+Len, uint8\+\_\+t result\+Buf\mbox{[}2\mbox{]})
+\begin{DoxyCompactList}\small\item\em Calculates the CRC value for the given buffer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_m_f_r_c522_8h_a850ffb1764cc8591acdbc36c32f68b3e}{x\+Mifare\+\_\+\+Read\+UID}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06c}{uid\+Size\+\_\+t}} uid\+Size)
+\begin{DoxyCompactList}\small\item\em Reads the UID from the MFRC522 for the specified UID size. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_mifare1k_key__t}{Mifare1k\+Key\+\_\+t}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_m_f_r_c522_8h_a0b782a5f8339740f14b7c080e493a0bb}{x\+Mifare\+\_\+\+Get\+Key\+Data}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, \mbox{\hyperlink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t}} \texorpdfstring{$\ast$}{*}UID)
+\begin{DoxyCompactList}\small\item\em Retrieves the key data for the specified UID from the MFRC522. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_ae235f1a8480f6e4fca6cfa3b66ed23a0}{x\+Mifare\+\_\+\+Write\+Key}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, \mbox{\hyperlink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t}} \texorpdfstring{$\ast$}{*}UID, uint8\+\_\+t data\mbox{[}45\mbox{]}\mbox{[}16\mbox{]})
+\begin{DoxyCompactList}\small\item\em Writes the provided key data to the specified UID in the MFRC522. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_aa677f2f607c42a532de49c88a2d2a49e}{x\+Mifare\+\_\+\+Write\+Key\+Block}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t block\+Address, \mbox{\hyperlink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t}} \texorpdfstring{$\ast$}{*}UID, uint8\+\_\+t data\mbox{[}16\mbox{]})
+\begin{DoxyCompactList}\small\item\em Writes the provided data to the specified block address for the specified UID in the MFRC522. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_a9430f19f32afe5e64c39739494a2a144}{x\+Mifare\+\_\+\+Read\+Key\+Block}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t block\+Address, \mbox{\hyperlink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t}} \texorpdfstring{$\ast$}{*}UID)
+\begin{DoxyCompactList}\small\item\em Reads the key block at the specified block address for the specified UID in the MFRC522. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{_m_f_r_c522_8h_ad098952e0ccb91cce2f202993ea2eb8d}{x\+Mifare\+\_\+\+Authenticate}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t cmd, uint8\+\_\+t block\+Address, uint8\+\_\+t \texorpdfstring{$\ast$}{*}key, \mbox{\hyperlink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t}} \texorpdfstring{$\ast$}{*}UID)
+\begin{DoxyCompactList}\small\item\em Performs MIFARE authentication for the specified block address and key with the MFRC522. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_m_f_r_c522_8h_a4fa4af8664e6eede404515597a982326}{v\+Mifare\+\_\+\+Print\+UID}} (\mbox{\hyperlink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t}} \texorpdfstring{$\ast$}{*}UID)
+\begin{DoxyCompactList}\small\item\em Prints the UID information to the console. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_m_f_r_c522_8h_a592ea722f06940b31d2ea40586c7b2f4}{v\+MFRC522\+\_\+\+Get\+And\+Print\+Fifo\+Buf}} (spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}spi\+Handle, uint8\+\_\+t \texorpdfstring{$\ast$}{*}fifo\+Buf, bool print)
+\begin{DoxyCompactList}\small\item\em Retrieves and prints the FIFO buffer data from the MFRC522. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_m_f_r_c522_8h_a0a3be30bcad132603737cdb0374346d7}{v\+Mifare\+\_\+\+Print\+Key}} (\mbox{\hyperlink{struct_mifare1k_key__t}{Mifare1k\+Key\+\_\+t}} \texorpdfstring{$\ast$}{*}key)
+\begin{DoxyCompactList}\small\item\em Prints the key data to the console. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_m_f_r_c522_8h_a55e13ad605c77bf3bca4b778d631f960}\label{_m_f_r_c522_8h_a55e13ad605c77bf3bca4b778d631f960} 
+\index{MFRC522.h@{MFRC522.h}!MIFARE\_KEY\_SIZE@{MIFARE\_KEY\_SIZE}}
+\index{MIFARE\_KEY\_SIZE@{MIFARE\_KEY\_SIZE}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{MIFARE\_KEY\_SIZE}{MIFARE\_KEY\_SIZE}}
+{\footnotesize\ttfamily \#define MIFARE\+\_\+\+KEY\+\_\+\+SIZE~6}
+
+Size of MIFARE key. \Hypertarget{_m_f_r_c522_8h_ab7c5755f748bae4fca459151d60562f3}\label{_m_f_r_c522_8h_ab7c5755f748bae4fca459151d60562f3} 
+\index{MFRC522.h@{MFRC522.h}!NUM\_BLOCKS\_PER\_SECTOR@{NUM\_BLOCKS\_PER\_SECTOR}}
+\index{NUM\_BLOCKS\_PER\_SECTOR@{NUM\_BLOCKS\_PER\_SECTOR}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{NUM\_BLOCKS\_PER\_SECTOR}{NUM\_BLOCKS\_PER\_SECTOR}}
+{\footnotesize\ttfamily \#define NUM\+\_\+\+BLOCKS\+\_\+\+PER\+\_\+\+SECTOR~4}
+
+Number of blocks per sector. \Hypertarget{_m_f_r_c522_8h_a99dd47850820e27018f33fbb27a78003}\label{_m_f_r_c522_8h_a99dd47850820e27018f33fbb27a78003} 
+\index{MFRC522.h@{MFRC522.h}!NUM\_SECTORE\_MIFARE\_1K@{NUM\_SECTORE\_MIFARE\_1K}}
+\index{NUM\_SECTORE\_MIFARE\_1K@{NUM\_SECTORE\_MIFARE\_1K}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{NUM\_SECTORE\_MIFARE\_1K}{NUM\_SECTORE\_MIFARE\_1K}}
+{\footnotesize\ttfamily \#define NUM\+\_\+\+SECTORE\+\_\+\+MIFARE\+\_\+1K~16}
+
+Number of sectors in MIFARE 1k. 
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560}\label{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560} 
+\index{MFRC522.h@{MFRC522.h}!bitFraming\_t@{bitFraming\_t}}
+\index{bitFraming\_t@{bitFraming\_t}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{bitFraming\_t}{bitFraming\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560}{bit\+Framing\+\_\+t}}}
+
+
+
+Enum typedef for bit framing. It can either be seven\+Bit or eight\+Bit. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{sevenBit@{sevenBit}!MFRC522.h@{MFRC522.h}}\index{MFRC522.h@{MFRC522.h}!sevenBit@{sevenBit}}}\Hypertarget{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560a56aa0a0cc66c9afde89077c36eb5f6ee}\label{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560a56aa0a0cc66c9afde89077c36eb5f6ee} 
+seven\+Bit&7 bit framing \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eightBit@{eightBit}!MFRC522.h@{MFRC522.h}}\index{MFRC522.h@{MFRC522.h}!eightBit@{eightBit}}}\Hypertarget{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560a53b7424de67234dce8863e3630dafe5c}\label{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560a53b7424de67234dce8863e3630dafe5c} 
+eight\+Bit&8 bit framing \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06c}\label{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06c} 
+\index{MFRC522.h@{MFRC522.h}!uidSize\_t@{uidSize\_t}}
+\index{uidSize\_t@{uidSize\_t}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{uidSize\_t}{uidSize\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06c}{uid\+Size\+\_\+t}}}
+
+
+
+Enum typedef for UID size. It can be either four\+Bytes\+Single, seven\+Bytes\+Double or ten\+Bytes\+Tripple. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{fourBytesSingle@{fourBytesSingle}!MFRC522.h@{MFRC522.h}}\index{MFRC522.h@{MFRC522.h}!fourBytesSingle@{fourBytesSingle}}}\Hypertarget{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06cabe74bc6234f219aaebddfc3a60bf519d}\label{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06cabe74bc6234f219aaebddfc3a60bf519d} 
+four\+Bytes\+Single&UID of 4 bytes \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{sevenBytesDouble@{sevenBytesDouble}!MFRC522.h@{MFRC522.h}}\index{MFRC522.h@{MFRC522.h}!sevenBytesDouble@{sevenBytesDouble}}}\Hypertarget{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06ca4ec0de1b1967020341dfb3b152b0d1b9}\label{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06ca4ec0de1b1967020341dfb3b152b0d1b9} 
+seven\+Bytes\+Double&UID of 7 bytes \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{tenBytesTripple@{tenBytesTripple}!MFRC522.h@{MFRC522.h}}\index{MFRC522.h@{MFRC522.h}!tenBytesTripple@{tenBytesTripple}}}\Hypertarget{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06ca265b1d88a5359b5fccffaa0d94fd83c8}\label{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06ca265b1d88a5359b5fccffaa0d94fd83c8} 
+ten\+Bytes\+Tripple&UID of 10 bytes \\
+\hline
+
+\end{DoxyEnumFields}
 
 
 \doxysubsection{Function Documentation}
-\Hypertarget{_m_f_r_c522_8h_aeef649c6616151d6da7973216e4ad177}\label{_m_f_r_c522_8h_aeef649c6616151d6da7973216e4ad177} 
-\index{MFRC522.h@{MFRC522.h}!MFRC522\_AntennaOn@{MFRC522\_AntennaOn}}
-\index{MFRC522\_AntennaOn@{MFRC522\_AntennaOn}!MFRC522.h@{MFRC522.h}}
-\doxysubsubsection{\texorpdfstring{MFRC522\_AntennaOn()}{MFRC522\_AntennaOn()}}
-{\footnotesize\ttfamily esp\+\_\+err\+\_\+t MFRC522\+\_\+\+Antenna\+On (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle }\end{DoxyParamCaption})}
+\Hypertarget{_m_f_r_c522_8h_a592ea722f06940b31d2ea40586c7b2f4}\label{_m_f_r_c522_8h_a592ea722f06940b31d2ea40586c7b2f4} 
+\index{MFRC522.h@{MFRC522.h}!vMFRC522\_GetAndPrintFifoBuf@{vMFRC522\_GetAndPrintFifoBuf}}
+\index{vMFRC522\_GetAndPrintFifoBuf@{vMFRC522\_GetAndPrintFifoBuf}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{vMFRC522\_GetAndPrintFifoBuf()}{vMFRC522\_GetAndPrintFifoBuf()}}
+{\footnotesize\ttfamily void v\+MFRC522\+\_\+\+Get\+And\+Print\+Fifo\+Buf (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{fifo\+Buf,  }\item[{bool}]{print }\end{DoxyParamCaption})}
+
+
+
+Retrieves and prints the FIFO buffer data from the MFRC522. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em spi\+Handle} & Pointer to the SPI device handle. \\
+\hline
+{\em fifo\+Buf} & Pointer to the buffer to store the FIFO data. \\
+\hline
+{\em print} & Flag indicating whether to print the FIFO data or not. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{_m_f_r_c522_8h_a0a3be30bcad132603737cdb0374346d7}\label{_m_f_r_c522_8h_a0a3be30bcad132603737cdb0374346d7} 
+\index{MFRC522.h@{MFRC522.h}!vMifare\_PrintKey@{vMifare\_PrintKey}}
+\index{vMifare\_PrintKey@{vMifare\_PrintKey}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{vMifare\_PrintKey()}{vMifare\_PrintKey()}}
+{\footnotesize\ttfamily void v\+Mifare\+\_\+\+Print\+Key (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_mifare1k_key__t}{Mifare1k\+Key\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{key }\end{DoxyParamCaption})}
+
+
+
+Prints the key data to the console. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & Pointer to the \doxylink{struct_mifare1k_key__t}{Mifare1k\+Key\+\_\+t} structure containing the key data. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{_m_f_r_c522_8h_a4fa4af8664e6eede404515597a982326}\label{_m_f_r_c522_8h_a4fa4af8664e6eede404515597a982326} 
+\index{MFRC522.h@{MFRC522.h}!vMifare\_PrintUID@{vMifare\_PrintUID}}
+\index{vMifare\_PrintUID@{vMifare\_PrintUID}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{vMifare\_PrintUID()}{vMifare\_PrintUID()}}
+{\footnotesize\ttfamily void v\+Mifare\+\_\+\+Print\+UID (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{UID }\end{DoxyParamCaption})}
+
+
+
+Prints the UID information to the console. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em UID} & Pointer to the \doxylink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t} structure containing the UID. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{_m_f_r_c522_8h_a066a27d242a1c8feab852db7c6d54a13}\label{_m_f_r_c522_8h_a066a27d242a1c8feab852db7c6d54a13} 
+\index{MFRC522.h@{MFRC522.h}!xMFRC522\_AntennaOn@{xMFRC522\_AntennaOn}}
+\index{xMFRC522\_AntennaOn@{xMFRC522\_AntennaOn}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMFRC522\_AntennaOn()}{xMFRC522\_AntennaOn()}}
+{\footnotesize\ttfamily esp\+\_\+err\+\_\+t x\+MFRC522\+\_\+\+Antenna\+On (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle }\end{DoxyParamCaption})}
 
 
 
@@ -233,11 +411,35 @@ Turns on the antenna of the MFRC522.
 \begin{DoxyReturn}{Returns}
 ESP\+\_\+\+OK if successful, otherwise an error code. 
 \end{DoxyReturn}
-\Hypertarget{_m_f_r_c522_8h_a972c67fb8698e663d9833aa24f6dc90c}\label{_m_f_r_c522_8h_a972c67fb8698e663d9833aa24f6dc90c} 
-\index{MFRC522.h@{MFRC522.h}!MFRC522\_ClrRegBitMask@{MFRC522\_ClrRegBitMask}}
-\index{MFRC522\_ClrRegBitMask@{MFRC522\_ClrRegBitMask}!MFRC522.h@{MFRC522.h}}
-\doxysubsubsection{\texorpdfstring{MFRC522\_ClrRegBitMask()}{MFRC522\_ClrRegBitMask()}}
-{\footnotesize\ttfamily esp\+\_\+err\+\_\+t MFRC522\+\_\+\+Clr\+Reg\+Bit\+Mask (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{register\+Adress,  }\item[{uint8\+\_\+t}]{mask }\end{DoxyParamCaption})}
+\Hypertarget{_m_f_r_c522_8h_aad5b8ec13396bd7ea04f221db63366bf}\label{_m_f_r_c522_8h_aad5b8ec13396bd7ea04f221db63366bf} 
+\index{MFRC522.h@{MFRC522.h}!xMFRC522\_CalculateCRC@{xMFRC522\_CalculateCRC}}
+\index{xMFRC522\_CalculateCRC@{xMFRC522\_CalculateCRC}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMFRC522\_CalculateCRC()}{xMFRC522\_CalculateCRC()}}
+{\footnotesize\ttfamily esp\+\_\+err\+\_\+t x\+MFRC522\+\_\+\+Calculate\+CRC (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buf,  }\item[{uint8\+\_\+t}]{buf\+Len,  }\item[{uint8\+\_\+t}]{result\+Buf\mbox{[}2\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Calculates the CRC value for the given buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em spi\+Handle} & Pointer to the SPI device handle. \\
+\hline
+{\em buf} & Pointer to the buffer for which the CRC is to be calculated. \\
+\hline
+{\em buf\+Len} & Length of the buffer. \\
+\hline
+{\em result\+Buf} & Pointer to the buffer to store the calculated CRC value (2 bytes). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if successful, otherwise an error code. 
+\end{DoxyReturn}
+\Hypertarget{_m_f_r_c522_8h_a50c2ad051bcbca4dec0567c022196757}\label{_m_f_r_c522_8h_a50c2ad051bcbca4dec0567c022196757} 
+\index{MFRC522.h@{MFRC522.h}!xMFRC522\_ClrRegBitMask@{xMFRC522\_ClrRegBitMask}}
+\index{xMFRC522\_ClrRegBitMask@{xMFRC522\_ClrRegBitMask}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMFRC522\_ClrRegBitMask()}{xMFRC522\_ClrRegBitMask()}}
+{\footnotesize\ttfamily esp\+\_\+err\+\_\+t x\+MFRC522\+\_\+\+Clr\+Reg\+Bit\+Mask (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{register\+Adress,  }\item[{uint8\+\_\+t}]{mask }\end{DoxyParamCaption})}
 
 
 
@@ -255,11 +457,39 @@ Clears the specified bits in the register of the MFRC522.
 \begin{DoxyReturn}{Returns}
 ESP\+\_\+\+OK if successful, otherwise an error code. 
 \end{DoxyReturn}
-\Hypertarget{_m_f_r_c522_8h_ad6e8b6a97eed708d132a0d49525ebfa7}\label{_m_f_r_c522_8h_ad6e8b6a97eed708d132a0d49525ebfa7} 
-\index{MFRC522.h@{MFRC522.h}!MFRC522\_Init@{MFRC522\_Init}}
-\index{MFRC522\_Init@{MFRC522\_Init}!MFRC522.h@{MFRC522.h}}
-\doxysubsubsection{\texorpdfstring{MFRC522\_Init()}{MFRC522\_Init()}}
-{\footnotesize\ttfamily esp\+\_\+err\+\_\+t MFRC522\+\_\+\+Init (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle }\end{DoxyParamCaption})}
+\Hypertarget{_m_f_r_c522_8h_a50adb68c2f5299083cf59df68a7dea04}\label{_m_f_r_c522_8h_a50adb68c2f5299083cf59df68a7dea04} 
+\index{MFRC522.h@{MFRC522.h}!xMFRC522\_CommWithMifare@{xMFRC522\_CommWithMifare}}
+\index{xMFRC522\_CommWithMifare@{xMFRC522\_CommWithMifare}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMFRC522\_CommWithMifare()}{xMFRC522\_CommWithMifare()}}
+{\footnotesize\ttfamily esp\+\_\+err\+\_\+t x\+MFRC522\+\_\+\+Comm\+With\+Mifare (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{cmd,  }\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{wait\+Irq,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{cmd\+Buf,  }\item[{uint8\+\_\+t}]{buf\+Size,  }\item[{\mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560}{bit\+Framing\+\_\+t}}}]{bit\+Frame }\end{DoxyParamCaption})}
+
+
+
+Performs communication with a MIFARE card using the MFRC522. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cmd} & Command to be sent to the MIFARE card. \\
+\hline
+{\em spi\+Handle} & Pointer to the SPI device handle. \\
+\hline
+{\em wait\+Irq} & Wait for the command to complete (1) or not (0). \\
+\hline
+{\em cmd\+Buf} & Pointer to the command buffer to be transmitted. \\
+\hline
+{\em buf\+Size} & Size of the command buffer. \\
+\hline
+{\em bit\+Frame} & The bit framing type. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if successful, otherwise an error code. 
+\end{DoxyReturn}
+\Hypertarget{_m_f_r_c522_8h_a7f6caabfd73340b5ad7013056d469dd3}\label{_m_f_r_c522_8h_a7f6caabfd73340b5ad7013056d469dd3} 
+\index{MFRC522.h@{MFRC522.h}!xMFRC522\_Init@{xMFRC522\_Init}}
+\index{xMFRC522\_Init@{xMFRC522\_Init}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMFRC522\_Init()}{xMFRC522\_Init()}}
+{\footnotesize\ttfamily esp\+\_\+err\+\_\+t x\+MFRC522\+\_\+\+Init (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{rst\+Pin }\end{DoxyParamCaption})}
 
 
 
@@ -273,11 +503,11 @@ Initializes the MFRC522 RFID module.
 \begin{DoxyReturn}{Returns}
 ESP\+\_\+\+OK if successful, otherwise an error code. 
 \end{DoxyReturn}
-\Hypertarget{_m_f_r_c522_8h_a1ebffe456fa4d128592e1bfa857221a0}\label{_m_f_r_c522_8h_a1ebffe456fa4d128592e1bfa857221a0} 
-\index{MFRC522.h@{MFRC522.h}!MFRC522\_IsCardPresent@{MFRC522\_IsCardPresent}}
-\index{MFRC522\_IsCardPresent@{MFRC522\_IsCardPresent}!MFRC522.h@{MFRC522.h}}
-\doxysubsubsection{\texorpdfstring{MFRC522\_IsCardPresent()}{MFRC522\_IsCardPresent()}}
-{\footnotesize\ttfamily bool MFRC522\+\_\+\+Is\+Card\+Present (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle }\end{DoxyParamCaption})}
+\Hypertarget{_m_f_r_c522_8h_ab8c385cbfba9791d16c3589b908831d0}\label{_m_f_r_c522_8h_ab8c385cbfba9791d16c3589b908831d0} 
+\index{MFRC522.h@{MFRC522.h}!xMFRC522\_IsCardPresent@{xMFRC522\_IsCardPresent}}
+\index{xMFRC522\_IsCardPresent@{xMFRC522\_IsCardPresent}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMFRC522\_IsCardPresent()}{xMFRC522\_IsCardPresent()}}
+{\footnotesize\ttfamily bool x\+MFRC522\+\_\+\+Is\+Card\+Present (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle }\end{DoxyParamCaption})}
 
 
 
@@ -291,11 +521,37 @@ Checks if a card is present.
 \begin{DoxyReturn}{Returns}
 True if a card is present, false otherwise. 
 \end{DoxyReturn}
-\Hypertarget{_m_f_r_c522_8h_a60838eb7eee973df66e89a97ebe62d55}\label{_m_f_r_c522_8h_a60838eb7eee973df66e89a97ebe62d55} 
-\index{MFRC522.h@{MFRC522.h}!MFRC522\_ReadRegister@{MFRC522\_ReadRegister}}
-\index{MFRC522\_ReadRegister@{MFRC522\_ReadRegister}!MFRC522.h@{MFRC522.h}}
-\doxysubsubsection{\texorpdfstring{MFRC522\_ReadRegister()}{MFRC522\_ReadRegister()}}
-{\footnotesize\ttfamily esp\+\_\+err\+\_\+t MFRC522\+\_\+\+Read\+Register (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{register\+Address,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data }\end{DoxyParamCaption})}
+\Hypertarget{_m_f_r_c522_8h_a490d16b98486755e504d855538a9a0e5}\label{_m_f_r_c522_8h_a490d16b98486755e504d855538a9a0e5} 
+\index{MFRC522.h@{MFRC522.h}!xMFRC522\_MF\_Authent@{xMFRC522\_MF\_Authent}}
+\index{xMFRC522\_MF\_Authent@{xMFRC522\_MF\_Authent}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMFRC522\_MF\_Authent()}{xMFRC522\_MF\_Authent()}}
+{\footnotesize\ttfamily esp\+\_\+err\+\_\+t x\+MFRC522\+\_\+\+MF\+\_\+\+Authent (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{wait\+Irq,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{cmd\+Buf,  }\item[{uint8\+\_\+t}]{buf\+Size,  }\item[{\mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560}{bit\+Framing\+\_\+t}}}]{bit\+Frame }\end{DoxyParamCaption})}
+
+
+
+Performs MIFARE authentication with the MFRC522. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em spi\+Handle} & Pointer to the SPI device handle. \\
+\hline
+{\em wait\+Irq} & Wait for the command to complete (1) or not (0). \\
+\hline
+{\em cmd\+Buf} & Pointer to the command buffer to be transmitted. \\
+\hline
+{\em buf\+Size} & Size of the command buffer. \\
+\hline
+{\em bit\+Frame} & The bit framing type. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if successful, otherwise an error code. 
+\end{DoxyReturn}
+\Hypertarget{_m_f_r_c522_8h_ad0ee2f8148fd691cbfa80fd0ccce6ec2}\label{_m_f_r_c522_8h_ad0ee2f8148fd691cbfa80fd0ccce6ec2} 
+\index{MFRC522.h@{MFRC522.h}!xMFRC522\_ReadRegister@{xMFRC522\_ReadRegister}}
+\index{xMFRC522\_ReadRegister@{xMFRC522\_ReadRegister}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMFRC522\_ReadRegister()}{xMFRC522\_ReadRegister()}}
+{\footnotesize\ttfamily esp\+\_\+err\+\_\+t x\+MFRC522\+\_\+\+Read\+Register (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{register\+Address,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data }\end{DoxyParamCaption})}
 
 
 
@@ -313,11 +569,11 @@ Reads the value from the specified register in the MFRC522.
 \begin{DoxyReturn}{Returns}
 ESP\+\_\+\+OK if successful, otherwise an error code. 
 \end{DoxyReturn}
-\Hypertarget{_m_f_r_c522_8h_a668f7f3d07b0b374016879ecc7ebbb4c}\label{_m_f_r_c522_8h_a668f7f3d07b0b374016879ecc7ebbb4c} 
-\index{MFRC522.h@{MFRC522.h}!MFRC522\_ReadRegisterArr@{MFRC522\_ReadRegisterArr}}
-\index{MFRC522\_ReadRegisterArr@{MFRC522\_ReadRegisterArr}!MFRC522.h@{MFRC522.h}}
-\doxysubsubsection{\texorpdfstring{MFRC522\_ReadRegisterArr()}{MFRC522\_ReadRegisterArr()}}
-{\footnotesize\ttfamily esp\+\_\+err\+\_\+t MFRC522\+\_\+\+Read\+Register\+Arr (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{register\+Address,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data\+Arr,  }\item[{uint8\+\_\+t}]{data\+Size }\end{DoxyParamCaption})}
+\Hypertarget{_m_f_r_c522_8h_ada322c0a78a7db5add268ba10857d865}\label{_m_f_r_c522_8h_ada322c0a78a7db5add268ba10857d865} 
+\index{MFRC522.h@{MFRC522.h}!xMFRC522\_ReadRegisterArr@{xMFRC522\_ReadRegisterArr}}
+\index{xMFRC522\_ReadRegisterArr@{xMFRC522\_ReadRegisterArr}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMFRC522\_ReadRegisterArr()}{xMFRC522\_ReadRegisterArr()}}
+{\footnotesize\ttfamily esp\+\_\+err\+\_\+t x\+MFRC522\+\_\+\+Read\+Register\+Arr (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{register\+Address,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data\+Arr,  }\item[{uint8\+\_\+t}]{data\+Size }\end{DoxyParamCaption})}
 
 
 
@@ -337,11 +593,11 @@ Reads multiple consecutive registers in the MFRC522.
 \begin{DoxyReturn}{Returns}
 ESP\+\_\+\+OK if successful, otherwise an error code. 
 \end{DoxyReturn}
-\Hypertarget{_m_f_r_c522_8h_a1d727d8b59c84c599506d30ef802f887}\label{_m_f_r_c522_8h_a1d727d8b59c84c599506d30ef802f887} 
-\index{MFRC522.h@{MFRC522.h}!MFRC522\_Reset@{MFRC522\_Reset}}
-\index{MFRC522\_Reset@{MFRC522\_Reset}!MFRC522.h@{MFRC522.h}}
-\doxysubsubsection{\texorpdfstring{MFRC522\_Reset()}{MFRC522\_Reset()}}
-{\footnotesize\ttfamily esp\+\_\+err\+\_\+t MFRC522\+\_\+\+Reset (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle }\end{DoxyParamCaption})}
+\Hypertarget{_m_f_r_c522_8h_af1bf925b054065684808151269513159}\label{_m_f_r_c522_8h_af1bf925b054065684808151269513159} 
+\index{MFRC522.h@{MFRC522.h}!xMFRC522\_Reset@{xMFRC522\_Reset}}
+\index{xMFRC522\_Reset@{xMFRC522\_Reset}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMFRC522\_Reset()}{xMFRC522\_Reset()}}
+{\footnotesize\ttfamily esp\+\_\+err\+\_\+t x\+MFRC522\+\_\+\+Reset (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle }\end{DoxyParamCaption})}
 
 
 
@@ -355,11 +611,11 @@ Resets the MFRC522.
 \begin{DoxyReturn}{Returns}
 ESP\+\_\+\+OK if successful, otherwise an error code. 
 \end{DoxyReturn}
-\Hypertarget{_m_f_r_c522_8h_a3d87747382c3a7e6406b9a40e91fceb2}\label{_m_f_r_c522_8h_a3d87747382c3a7e6406b9a40e91fceb2} 
-\index{MFRC522.h@{MFRC522.h}!MFRC522\_SelfTest@{MFRC522\_SelfTest}}
-\index{MFRC522\_SelfTest@{MFRC522\_SelfTest}!MFRC522.h@{MFRC522.h}}
-\doxysubsubsection{\texorpdfstring{MFRC522\_SelfTest()}{MFRC522\_SelfTest()}}
-{\footnotesize\ttfamily esp\+\_\+err\+\_\+t MFRC522\+\_\+\+Self\+Test (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle }\end{DoxyParamCaption})}
+\Hypertarget{_m_f_r_c522_8h_af5515e1586c44dcceb8652946c981700}\label{_m_f_r_c522_8h_af5515e1586c44dcceb8652946c981700} 
+\index{MFRC522.h@{MFRC522.h}!xMFRC522\_SelfTest@{xMFRC522\_SelfTest}}
+\index{xMFRC522\_SelfTest@{xMFRC522\_SelfTest}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMFRC522\_SelfTest()}{xMFRC522\_SelfTest()}}
+{\footnotesize\ttfamily esp\+\_\+err\+\_\+t x\+MFRC522\+\_\+\+Self\+Test (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{rst\+Pin }\end{DoxyParamCaption})}
 
 
 
@@ -373,31 +629,59 @@ Performs a self-\/test of the MFRC522.
 \begin{DoxyReturn}{Returns}
 ESP\+\_\+\+OK if successful, otherwise an error code. 
 \end{DoxyReturn}
-\Hypertarget{_m_f_r_c522_8h_aba7cbb37cc8c4b4e5a4b1dd4bc036f5f}\label{_m_f_r_c522_8h_aba7cbb37cc8c4b4e5a4b1dd4bc036f5f} 
-\index{MFRC522.h@{MFRC522.h}!MFRC522\_SendPICCcmdTranscieve@{MFRC522\_SendPICCcmdTranscieve}}
-\index{MFRC522\_SendPICCcmdTranscieve@{MFRC522\_SendPICCcmdTranscieve}!MFRC522.h@{MFRC522.h}}
-\doxysubsubsection{\texorpdfstring{MFRC522\_SendPICCcmdTranscieve()}{MFRC522\_SendPICCcmdTranscieve()}}
-{\footnotesize\ttfamily esp\+\_\+err\+\_\+t MFRC522\+\_\+\+Send\+PICCcmd\+Transcieve (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{picc\+Cmd }\end{DoxyParamCaption})}
+\Hypertarget{_m_f_r_c522_8h_ae8dd102fbbc49bfd1c9b1d6effe28033}\label{_m_f_r_c522_8h_ae8dd102fbbc49bfd1c9b1d6effe28033} 
+\index{MFRC522.h@{MFRC522.h}!xMFRC522\_SetRegBitMask@{xMFRC522\_SetRegBitMask}}
+\index{xMFRC522\_SetRegBitMask@{xMFRC522\_SetRegBitMask}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMFRC522\_SetRegBitMask()}{xMFRC522\_SetRegBitMask()}}
+{\footnotesize\ttfamily esp\+\_\+err\+\_\+t x\+MFRC522\+\_\+\+Set\+Reg\+Bit\+Mask (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{register\+Address,  }\item[{uint8\+\_\+t}]{mask }\end{DoxyParamCaption})}
 
 
 
-Sends a PICC command and receives the response from the MFRC522. 
+Sets the specified bits in the register of the MFRC522. 
 
 
 \begin{DoxyParams}{Parameters}
 {\em spi\+Handle} & Pointer to the SPI device handle. \\
 \hline
-{\em picc\+Cmd} & The PICC command to send. \\
+{\em register\+Address} & The address of the register to modify. \\
+\hline
+{\em mask} & The bitmask of the bits to set. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 ESP\+\_\+\+OK if successful, otherwise an error code. 
 \end{DoxyReturn}
-\Hypertarget{_m_f_r_c522_8h_a713991009cd897c22595fd80d9372f29}\label{_m_f_r_c522_8h_a713991009cd897c22595fd80d9372f29} 
-\index{MFRC522.h@{MFRC522.h}!MFRC522\_WriteRegister@{MFRC522\_WriteRegister}}
-\index{MFRC522\_WriteRegister@{MFRC522\_WriteRegister}!MFRC522.h@{MFRC522.h}}
-\doxysubsubsection{\texorpdfstring{MFRC522\_WriteRegister()}{MFRC522\_WriteRegister()}}
-{\footnotesize\ttfamily esp\+\_\+err\+\_\+t MFRC522\+\_\+\+Write\+Register (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{register\+Address,  }\item[{uint8\+\_\+t}]{value }\end{DoxyParamCaption})}
+\Hypertarget{_m_f_r_c522_8h_a529a111777380f059592691df6c49644}\label{_m_f_r_c522_8h_a529a111777380f059592691df6c49644} 
+\index{MFRC522.h@{MFRC522.h}!xMFRC522\_Transcieve@{xMFRC522\_Transcieve}}
+\index{xMFRC522\_Transcieve@{xMFRC522\_Transcieve}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMFRC522\_Transcieve()}{xMFRC522\_Transcieve()}}
+{\footnotesize\ttfamily esp\+\_\+err\+\_\+t x\+MFRC522\+\_\+\+Transcieve (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{wait\+Irq,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{cmd\+Buf,  }\item[{uint8\+\_\+t}]{buf\+Size,  }\item[{\mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560}{bit\+Framing\+\_\+t}}}]{bit\+Frame }\end{DoxyParamCaption})}
+
+
+
+Transmits data to the MFRC522 and receives the response. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em spi\+Handle} & Pointer to the SPI device handle. \\
+\hline
+{\em wait\+Irq} & Wait for the command to complete (1) or not (0). \\
+\hline
+{\em cmd\+Buf} & Pointer to the command buffer to be transmitted. \\
+\hline
+{\em buf\+Size} & Size of the command buffer. \\
+\hline
+{\em bit\+Frame} & The bit framing type. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if successful, otherwise an error code. 
+\end{DoxyReturn}
+\Hypertarget{_m_f_r_c522_8h_a0f72b50e5ab2ae30af014a1d438fbb0b}\label{_m_f_r_c522_8h_a0f72b50e5ab2ae30af014a1d438fbb0b} 
+\index{MFRC522.h@{MFRC522.h}!xMFRC522\_WriteRegister@{xMFRC522\_WriteRegister}}
+\index{xMFRC522\_WriteRegister@{xMFRC522\_WriteRegister}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMFRC522\_WriteRegister()}{xMFRC522\_WriteRegister()}}
+{\footnotesize\ttfamily esp\+\_\+err\+\_\+t x\+MFRC522\+\_\+\+Write\+Register (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{register\+Address,  }\item[{uint8\+\_\+t}]{value }\end{DoxyParamCaption})}
 
 
 
@@ -415,11 +699,11 @@ Writes a value to the specified register in the MFRC522.
 \begin{DoxyReturn}{Returns}
 ESP\+\_\+\+OK if successful, otherwise an error code. 
 \end{DoxyReturn}
-\Hypertarget{_m_f_r_c522_8h_a31682d6d5756381e867ea22611793b37}\label{_m_f_r_c522_8h_a31682d6d5756381e867ea22611793b37} 
-\index{MFRC522.h@{MFRC522.h}!MFRC522\_WriteRegisterArr@{MFRC522\_WriteRegisterArr}}
-\index{MFRC522\_WriteRegisterArr@{MFRC522\_WriteRegisterArr}!MFRC522.h@{MFRC522.h}}
-\doxysubsubsection{\texorpdfstring{MFRC522\_WriteRegisterArr()}{MFRC522\_WriteRegisterArr()}}
-{\footnotesize\ttfamily esp\+\_\+err\+\_\+t MFRC522\+\_\+\+Write\+Register\+Arr (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{register\+Address,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data\+Arr,  }\item[{uint8\+\_\+t}]{data\+Size }\end{DoxyParamCaption})}
+\Hypertarget{_m_f_r_c522_8h_a556f72b2e4db6b332ec4569f7b2f1503}\label{_m_f_r_c522_8h_a556f72b2e4db6b332ec4569f7b2f1503} 
+\index{MFRC522.h@{MFRC522.h}!xMFRC522\_WriteRegisterArr@{xMFRC522\_WriteRegisterArr}}
+\index{xMFRC522\_WriteRegisterArr@{xMFRC522\_WriteRegisterArr}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMFRC522\_WriteRegisterArr()}{xMFRC522\_WriteRegisterArr()}}
+{\footnotesize\ttfamily esp\+\_\+err\+\_\+t x\+MFRC522\+\_\+\+Write\+Register\+Arr (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{register\+Address,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data\+Arr,  }\item[{uint8\+\_\+t}]{data\+Size }\end{DoxyParamCaption})}
 
 
 
@@ -434,6 +718,140 @@ Writes multiple consecutive registers in the MFRC522.
 {\em data\+Arr} & Pointer to the array of values to write. \\
 \hline
 {\em data\+Size} & The number of registers to write. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if successful, otherwise an error code. 
+\end{DoxyReturn}
+\Hypertarget{_m_f_r_c522_8h_ad098952e0ccb91cce2f202993ea2eb8d}\label{_m_f_r_c522_8h_ad098952e0ccb91cce2f202993ea2eb8d} 
+\index{MFRC522.h@{MFRC522.h}!xMifare\_Authenticate@{xMifare\_Authenticate}}
+\index{xMifare\_Authenticate@{xMifare\_Authenticate}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMifare\_Authenticate()}{xMifare\_Authenticate()}}
+{\footnotesize\ttfamily esp\+\_\+err\+\_\+t x\+Mifare\+\_\+\+Authenticate (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{cmd,  }\item[{uint8\+\_\+t}]{block\+Address,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{key,  }\item[{\mbox{\hyperlink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{UID }\end{DoxyParamCaption})}
+
+
+
+Performs MIFARE authentication for the specified block address and key with the MFRC522. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em spi\+Handle} & Pointer to the SPI device handle. \\
+\hline
+{\em cmd} & The command for the authentication (PICC\+\_\+\+CMD\+\_\+\+MF\+\_\+\+AUTH\+\_\+\+KEY\+\_\+A or PICC\+\_\+\+CMD\+\_\+\+MF\+\_\+\+AUTH\+\_\+\+KEY\+\_\+B). \\
+\hline
+{\em block\+Address} & The block address to authenticate. \\
+\hline
+{\em key} & The key for authentication. \\
+\hline
+{\em UID} & Pointer to the \doxylink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t} structure containing the UID. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if successful, otherwise an error code. 
+\end{DoxyReturn}
+\Hypertarget{_m_f_r_c522_8h_a0b782a5f8339740f14b7c080e493a0bb}\label{_m_f_r_c522_8h_a0b782a5f8339740f14b7c080e493a0bb} 
+\index{MFRC522.h@{MFRC522.h}!xMifare\_GetKeyData@{xMifare\_GetKeyData}}
+\index{xMifare\_GetKeyData@{xMifare\_GetKeyData}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMifare\_GetKeyData()}{xMifare\_GetKeyData()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_mifare1k_key__t}{Mifare1k\+Key\+\_\+t}} \texorpdfstring{$\ast$}{*} x\+Mifare\+\_\+\+Get\+Key\+Data (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{\mbox{\hyperlink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{UID }\end{DoxyParamCaption})}
+
+
+
+Retrieves the key data for the specified UID from the MFRC522. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em spi\+Handle} & Pointer to the SPI device handle. \\
+\hline
+{\em UID} & Pointer to the \doxylink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t} structure containing the UID. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the \doxylink{struct_mifare1k_key__t}{Mifare1k\+Key\+\_\+t} structure containing the key data, or NULL on failure. 
+\end{DoxyReturn}
+\Hypertarget{_m_f_r_c522_8h_a9430f19f32afe5e64c39739494a2a144}\label{_m_f_r_c522_8h_a9430f19f32afe5e64c39739494a2a144} 
+\index{MFRC522.h@{MFRC522.h}!xMifare\_ReadKeyBlock@{xMifare\_ReadKeyBlock}}
+\index{xMifare\_ReadKeyBlock@{xMifare\_ReadKeyBlock}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMifare\_ReadKeyBlock()}{xMifare\_ReadKeyBlock()}}
+{\footnotesize\ttfamily esp\+\_\+err\+\_\+t x\+Mifare\+\_\+\+Read\+Key\+Block (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{block\+Address,  }\item[{\mbox{\hyperlink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{UID }\end{DoxyParamCaption})}
+
+
+
+Reads the key block at the specified block address for the specified UID in the MFRC522. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em spi\+Handle} & Pointer to the SPI device handle. \\
+\hline
+{\em block\+Address} & The block address to read from. \\
+\hline
+{\em UID} & Pointer to the \doxylink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t} structure containing the UID. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if successful, otherwise an error code. 
+\end{DoxyReturn}
+\Hypertarget{_m_f_r_c522_8h_a850ffb1764cc8591acdbc36c32f68b3e}\label{_m_f_r_c522_8h_a850ffb1764cc8591acdbc36c32f68b3e} 
+\index{MFRC522.h@{MFRC522.h}!xMifare\_ReadUID@{xMifare\_ReadUID}}
+\index{xMifare\_ReadUID@{xMifare\_ReadUID}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMifare\_ReadUID()}{xMifare\_ReadUID()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t}} \texorpdfstring{$\ast$}{*} x\+Mifare\+\_\+\+Read\+UID (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{\mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06c}{uid\+Size\+\_\+t}}}]{uid\+Size }\end{DoxyParamCaption})}
+
+
+
+Reads the UID from the MFRC522 for the specified UID size. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em spi\+Handle} & Pointer to the SPI device handle. \\
+\hline
+{\em uid\+Size} & The size of the UID. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the \doxylink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t} structure containing the UID information, or NULL on failure. 
+\end{DoxyReturn}
+\Hypertarget{_m_f_r_c522_8h_ae235f1a8480f6e4fca6cfa3b66ed23a0}\label{_m_f_r_c522_8h_ae235f1a8480f6e4fca6cfa3b66ed23a0} 
+\index{MFRC522.h@{MFRC522.h}!xMifare\_WriteKey@{xMifare\_WriteKey}}
+\index{xMifare\_WriteKey@{xMifare\_WriteKey}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMifare\_WriteKey()}{xMifare\_WriteKey()}}
+{\footnotesize\ttfamily esp\+\_\+err\+\_\+t x\+Mifare\+\_\+\+Write\+Key (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{\mbox{\hyperlink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{UID,  }\item[{uint8\+\_\+t}]{data\mbox{[}45\mbox{]}\mbox{[}16\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Writes the provided key data to the specified UID in the MFRC522. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em spi\+Handle} & Pointer to the SPI device handle. \\
+\hline
+{\em UID} & Pointer to the \doxylink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t} structure containing the UID. \\
+\hline
+{\em data} & The key data to be written. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if successful, otherwise an error code. 
+\end{DoxyReturn}
+\Hypertarget{_m_f_r_c522_8h_aa677f2f607c42a532de49c88a2d2a49e}\label{_m_f_r_c522_8h_aa677f2f607c42a532de49c88a2d2a49e} 
+\index{MFRC522.h@{MFRC522.h}!xMifare\_WriteKeyBlock@{xMifare\_WriteKeyBlock}}
+\index{xMifare\_WriteKeyBlock@{xMifare\_WriteKeyBlock}!MFRC522.h@{MFRC522.h}}
+\doxysubsubsection{\texorpdfstring{xMifare\_WriteKeyBlock()}{xMifare\_WriteKeyBlock()}}
+{\footnotesize\ttfamily esp\+\_\+err\+\_\+t x\+Mifare\+\_\+\+Write\+Key\+Block (\begin{DoxyParamCaption}\item[{spi\+\_\+device\+\_\+handle\+\_\+t \texorpdfstring{$\ast$}{*}}]{spi\+Handle,  }\item[{uint8\+\_\+t}]{block\+Address,  }\item[{\mbox{\hyperlink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{UID,  }\item[{uint8\+\_\+t}]{data\mbox{[}16\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Writes the provided data to the specified block address for the specified UID in the MFRC522. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em spi\+Handle} & Pointer to the SPI device handle. \\
+\hline
+{\em block\+Address} & The block address to write the data to. \\
+\hline
+{\em UID} & Pointer to the \doxylink{struct_unique_identifier__t}{Unique\+Identifier\+\_\+t} structure containing the UID. \\
+\hline
+{\em data} & The data to be written. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

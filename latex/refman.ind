@@ -1,45 +1,173 @@
 \begin{theindex}
 
-  \item {MFRC522 Commands}, \hyperpage{6}
-  \item {MFRC522 Register Addresses}, \hyperpage{5}
-  \item {MFRC522.h}
-    \subitem {MFRC522\_AntennaOn}, \hyperpage{12}
-    \subitem {MFRC522\_ClrRegBitMask}, \hyperpage{12}
-    \subitem {MFRC522\_Init}, \hyperpage{13}
-    \subitem {MFRC522\_IsCardPresent}, \hyperpage{13}
-    \subitem {MFRC522\_ReadRegister}, \hyperpage{13}
-    \subitem {MFRC522\_ReadRegisterArr}, \hyperpage{14}
-    \subitem {MFRC522\_Reset}, \hyperpage{14}
-    \subitem {MFRC522\_SelfTest}, \hyperpage{14}
-    \subitem {MFRC522\_SendPICCcmdTranscieve}, \hyperpage{15}
-    \subitem {MFRC522\_WriteRegister}, \hyperpage{15}
-    \subitem {MFRC522\_WriteRegisterArr}, \hyperpage{15}
-  \item {MFRC522\_AntennaOn}
-    \subitem {MFRC522.h}, \hyperpage{12}
-  \item {MFRC522\_ClrRegBitMask}
-    \subitem {MFRC522.h}, \hyperpage{12}
-  \item {MFRC522\_Init}
-    \subitem {MFRC522.h}, \hyperpage{13}
-  \item {MFRC522\_IsCardPresent}
-    \subitem {MFRC522.h}, \hyperpage{13}
-  \item {MFRC522\_ReadRegister}
-    \subitem {MFRC522.h}, \hyperpage{13}
-  \item {MFRC522\_ReadRegisterArr}
-    \subitem {MFRC522.h}, \hyperpage{14}
-  \item {MFRC522\_Reset}
-    \subitem {MFRC522.h}, \hyperpage{14}
-  \item {MFRC522\_SelfTest}
-    \subitem {MFRC522.h}, \hyperpage{14}
-  \item {MFRC522\_SendPICCcmdTranscieve}
-    \subitem {MFRC522.h}, \hyperpage{15}
-  \item {MFRC522\_WriteRegister}
-    \subitem {MFRC522.h}, \hyperpage{15}
-  \item {MFRC522\_WriteRegisterArr}
-    \subitem {MFRC522.h}, \hyperpage{15}
+  \item {bccByte}
+    \subitem {UniqueIdentifier\_t}, \hyperpage{12}
+  \item {bitFraming\_t}
+    \subitem {MFRC522.h}, \hyperpage{17}
+  \item {blockKey}
+    \subitem {Mifare1kKey\_t}, \hyperpage{11}
 
   \indexspace
 
-  \item {Sources/bluetooth\_contr/BLE\_Controller.h}, \hyperpage{9}
-  \item {Sources/drivers/MFRC522.h}, \hyperpage{9}, \hyperpage{16}
+  \item {doubleSizeUidData}
+    \subitem {UniqueIdentifier\_t}, \hyperpage{12}
+
+  \indexspace
+
+  \item {eightBit}
+    \subitem {MFRC522.h}, \hyperpage{18}
+
+  \indexspace
+
+  \item {fourBytesSingle}
+    \subitem {MFRC522.h}, \hyperpage{18}
+
+  \indexspace
+
+  \item {keyData}
+    \subitem {Mifare1kKey\_t}, \hyperpage{11}
+
+  \indexspace
+
+  \item {MFRC522 Commands}, \hyperpage{8}
+  \item {MFRC522 Register Addresses}, \hyperpage{7}
+  \item {MFRC522.h}
+    \subitem {bitFraming\_t}, \hyperpage{17}
+    \subitem {eightBit}, \hyperpage{18}
+    \subitem {fourBytesSingle}, \hyperpage{18}
+    \subitem {MIFARE\_KEY\_SIZE}, \hyperpage{17}
+    \subitem {NUM\_BLOCKS\_PER\_SECTOR}, \hyperpage{17}
+    \subitem {NUM\_SECTORE\_MIFARE\_1K}, \hyperpage{17}
+    \subitem {sevenBit}, \hyperpage{18}
+    \subitem {sevenBytesDouble}, \hyperpage{18}
+    \subitem {tenBytesTripple}, \hyperpage{18}
+    \subitem {uidSize\_t}, \hyperpage{18}
+    \subitem {vMFRC522\_GetAndPrintFifoBuf}, \hyperpage{18}
+    \subitem {vMifare\_PrintKey}, \hyperpage{18}
+    \subitem {vMifare\_PrintUID}, \hyperpage{18}
+    \subitem {xMFRC522\_AntennaOn}, \hyperpage{19}
+    \subitem {xMFRC522\_CalculateCRC}, \hyperpage{19}
+    \subitem {xMFRC522\_ClrRegBitMask}, \hyperpage{19}
+    \subitem {xMFRC522\_CommWithMifare}, \hyperpage{20}
+    \subitem {xMFRC522\_Init}, \hyperpage{20}
+    \subitem {xMFRC522\_IsCardPresent}, \hyperpage{21}
+    \subitem {xMFRC522\_MF\_Authent}, \hyperpage{21}
+    \subitem {xMFRC522\_ReadRegister}, \hyperpage{21}
+    \subitem {xMFRC522\_ReadRegisterArr}, \hyperpage{22}
+    \subitem {xMFRC522\_Reset}, \hyperpage{22}
+    \subitem {xMFRC522\_SelfTest}, \hyperpage{23}
+    \subitem {xMFRC522\_SetRegBitMask}, \hyperpage{23}
+    \subitem {xMFRC522\_Transcieve}, \hyperpage{23}
+    \subitem {xMFRC522\_WriteRegister}, \hyperpage{24}
+    \subitem {xMFRC522\_WriteRegisterArr}, \hyperpage{24}
+    \subitem {xMifare\_Authenticate}, \hyperpage{25}
+    \subitem {xMifare\_GetKeyData}, \hyperpage{25}
+    \subitem {xMifare\_ReadKeyBlock}, \hyperpage{26}
+    \subitem {xMifare\_ReadUID}, \hyperpage{26}
+    \subitem {xMifare\_WriteKey}, \hyperpage{26}
+    \subitem {xMifare\_WriteKeyBlock}, \hyperpage{27}
+  \item {Mifare1kKey\_t}, \hyperpage{11}
+    \subitem {blockKey}, \hyperpage{11}
+    \subitem {keyData}, \hyperpage{11}
+    \subitem {uid}, \hyperpage{11}
+  \item {MIFARE\_KEY\_SIZE}
+    \subitem {MFRC522.h}, \hyperpage{17}
+
+  \indexspace
+
+  \item {NUM\_BLOCKS\_PER\_SECTOR}
+    \subitem {MFRC522.h}, \hyperpage{17}
+  \item {NUM\_SECTORE\_MIFARE\_1K}
+    \subitem {MFRC522.h}, \hyperpage{17}
+
+  \indexspace
+
+  \item {sakByte}
+    \subitem {UniqueIdentifier\_t}, \hyperpage{12}
+  \item {sevenBit}
+    \subitem {MFRC522.h}, \hyperpage{18}
+  \item {sevenBytesDouble}
+    \subitem {MFRC522.h}, \hyperpage{18}
+  \item {singleSizeUidData}
+    \subitem {UniqueIdentifier\_t}, \hyperpage{12}
+  \item {Sources/bluetooth\_contr/BLE\_Controller.h}, \hyperpage{13}
+  \item {Sources/drivers/MFRC522.h}, \hyperpage{13}, \hyperpage{27}
+
+  \indexspace
+
+  \item {tenBytesTripple}
+    \subitem {MFRC522.h}, \hyperpage{18}
+  \item {trippleSizeUidData}
+    \subitem {UniqueIdentifier\_t}, \hyperpage{12}
+
+  \indexspace
+
+  \item {uid}
+    \subitem {Mifare1kKey\_t}, \hyperpage{11}
+  \item {uidSize}
+    \subitem {UniqueIdentifier\_t}, \hyperpage{12}
+  \item {uidSize\_t}
+    \subitem {MFRC522.h}, \hyperpage{18}
+  \item {UniqueIdentifier\_t}, \hyperpage{12}
+    \subitem {bccByte}, \hyperpage{12}
+    \subitem {doubleSizeUidData}, \hyperpage{12}
+    \subitem {sakByte}, \hyperpage{12}
+    \subitem {singleSizeUidData}, \hyperpage{12}
+    \subitem {trippleSizeUidData}, \hyperpage{12}
+    \subitem {uidSize}, \hyperpage{12}
+
+  \indexspace
+
+  \item {vMFRC522\_GetAndPrintFifoBuf}
+    \subitem {MFRC522.h}, \hyperpage{18}
+  \item {vMifare\_PrintKey}
+    \subitem {MFRC522.h}, \hyperpage{18}
+  \item {vMifare\_PrintUID}
+    \subitem {MFRC522.h}, \hyperpage{18}
+
+  \indexspace
+
+  \item {xMFRC522\_AntennaOn}
+    \subitem {MFRC522.h}, \hyperpage{19}
+  \item {xMFRC522\_CalculateCRC}
+    \subitem {MFRC522.h}, \hyperpage{19}
+  \item {xMFRC522\_ClrRegBitMask}
+    \subitem {MFRC522.h}, \hyperpage{19}
+  \item {xMFRC522\_CommWithMifare}
+    \subitem {MFRC522.h}, \hyperpage{20}
+  \item {xMFRC522\_Init}
+    \subitem {MFRC522.h}, \hyperpage{20}
+  \item {xMFRC522\_IsCardPresent}
+    \subitem {MFRC522.h}, \hyperpage{21}
+  \item {xMFRC522\_MF\_Authent}
+    \subitem {MFRC522.h}, \hyperpage{21}
+  \item {xMFRC522\_ReadRegister}
+    \subitem {MFRC522.h}, \hyperpage{21}
+  \item {xMFRC522\_ReadRegisterArr}
+    \subitem {MFRC522.h}, \hyperpage{22}
+  \item {xMFRC522\_Reset}
+    \subitem {MFRC522.h}, \hyperpage{22}
+  \item {xMFRC522\_SelfTest}
+    \subitem {MFRC522.h}, \hyperpage{23}
+  \item {xMFRC522\_SetRegBitMask}
+    \subitem {MFRC522.h}, \hyperpage{23}
+  \item {xMFRC522\_Transcieve}
+    \subitem {MFRC522.h}, \hyperpage{23}
+  \item {xMFRC522\_WriteRegister}
+    \subitem {MFRC522.h}, \hyperpage{24}
+  \item {xMFRC522\_WriteRegisterArr}
+    \subitem {MFRC522.h}, \hyperpage{24}
+  \item {xMifare\_Authenticate}
+    \subitem {MFRC522.h}, \hyperpage{25}
+  \item {xMifare\_GetKeyData}
+    \subitem {MFRC522.h}, \hyperpage{25}
+  \item {xMifare\_ReadKeyBlock}
+    \subitem {MFRC522.h}, \hyperpage{26}
+  \item {xMifare\_ReadUID}
+    \subitem {MFRC522.h}, \hyperpage{26}
+  \item {xMifare\_WriteKey}
+    \subitem {MFRC522.h}, \hyperpage{26}
+  \item {xMifare\_WriteKeyBlock}
+    \subitem {MFRC522.h}, \hyperpage{27}
 
 \end{theindex}

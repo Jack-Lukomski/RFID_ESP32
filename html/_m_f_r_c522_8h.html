@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.7"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: Sources/drivers/MFRC522.h File Reference</title>
+<title>RFID_ESP32: Sources/drivers/MFRC522.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,8 +21,9 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">My Project
+   <div id="projectname">RFID_ESP32
    </div>
+   <div id="projectbrief">ESP32 project utlizing the RFID-RC522 and BLE</div>
   </td>
  </tr>
  </tbody>
@@ -74,18 +75,40 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">MFRC522.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;driver/spi_master.h&quot;</code><br />
 <code>#include &quot;esp_timer.h&quot;</code><br />
+<code>#include &lt;freertos/FreeRTOS.h&gt;</code><br />
+<code>#include &lt;freertos/task.h&gt;</code><br />
+<code>#include &lt;driver/gpio.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;time.h&gt;</code><br />
 </div>
 <p><a href="_m_f_r_c522_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_mifare1k_key__t.html">Mifare1kKey_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:a99dd47850820e27018f33fbb27a78003"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a99dd47850820e27018f33fbb27a78003">NUM_SECTORE_MIFARE_1K</a>&#160;&#160;&#160;16</td></tr>
+<tr class="separator:a99dd47850820e27018f33fbb27a78003"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7c5755f748bae4fca459151d60562f3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#ab7c5755f748bae4fca459151d60562f3">NUM_BLOCKS_PER_SECTOR</a>&#160;&#160;&#160;4</td></tr>
+<tr class="separator:ab7c5755f748bae4fca459151d60562f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55e13ad605c77bf3bca4b778d631f960"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a55e13ad605c77bf3bca4b778d631f960">MIFARE_KEY_SIZE</a>&#160;&#160;&#160;6</td></tr>
+<tr class="separator:a55e13ad605c77bf3bca4b778d631f960"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga54a66bc0d65836c0233c07ad158a3b19"><td class="memItemLeft" align="right" valign="top">
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>MFRC522_REG_RESERVED00</b>&#160;&#160;&#160;0x00 &lt;&lt; 1</td></tr>
 <tr class="separator:ga54a66bc0d65836c0233c07ad158a3b19"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -278,57 +301,6 @@ Macros</h2></td></tr>
 <tr class="memitem:gaf6c3aaa9b0c5123254e0aacbb355eef8"><td class="memItemLeft" align="right" valign="top">
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>MFRC522_REG_RESERVED34</b>&#160;&#160;&#160;0x3F &lt;&lt; 1</td></tr>
 <tr class="separator:gaf6c3aaa9b0c5123254e0aacbb355eef8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga33131d8120f47e65afb27acd5a6f6ad8"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_REQA</b>&#160;&#160;&#160;0x26</td></tr>
-<tr class="separator:ga33131d8120f47e65afb27acd5a6f6ad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga66cc1aaaa46b7ba72ccb0995539de108"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_WUPA</b>&#160;&#160;&#160;0x52</td></tr>
-<tr class="separator:ga66cc1aaaa46b7ba72ccb0995539de108"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4e064642df88e24661ebf12c6c083ad9"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_CT</b>&#160;&#160;&#160;0x88</td></tr>
-<tr class="separator:ga4e064642df88e24661ebf12c6c083ad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad5d76935b87ae299680a24ebbeee512e"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_SEL_CL1</b>&#160;&#160;&#160;0x93</td></tr>
-<tr class="separator:gad5d76935b87ae299680a24ebbeee512e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3827568410f425aba209798d84aa983d"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_SEL_CL2</b>&#160;&#160;&#160;0x95</td></tr>
-<tr class="separator:ga3827568410f425aba209798d84aa983d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gadf904bc71f065830eb8279449d84958a"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_SEL_CL3</b>&#160;&#160;&#160;0x97</td></tr>
-<tr class="separator:gadf904bc71f065830eb8279449d84958a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga843abf2289900a5b77f04b06b5c017dd"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_HLTA</b>&#160;&#160;&#160;0x50</td></tr>
-<tr class="separator:ga843abf2289900a5b77f04b06b5c017dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabbc63470e66f8eca28b2268e45e07642"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_RATS</b>&#160;&#160;&#160;0xE0</td></tr>
-<tr class="separator:gabbc63470e66f8eca28b2268e45e07642"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae6d4b8a80da08cbff1f37f60995edb4b"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_MF_AUTH_KEY_A</b>&#160;&#160;&#160;0x60</td></tr>
-<tr class="separator:gae6d4b8a80da08cbff1f37f60995edb4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3d96af090106c9bcf4045c7b8fdc7244"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_MF_AUTH_KEY_B</b>&#160;&#160;&#160;0x61</td></tr>
-<tr class="separator:ga3d96af090106c9bcf4045c7b8fdc7244"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga334904c6aeda36cd941b629e864de12a"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_MF_READ</b>&#160;&#160;&#160;0x30</td></tr>
-<tr class="separator:ga334904c6aeda36cd941b629e864de12a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0dd22588a8054afa74099dc1d04a0510"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_MF_WRITE</b>&#160;&#160;&#160;0xA0</td></tr>
-<tr class="separator:ga0dd22588a8054afa74099dc1d04a0510"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga08f5b202c738547d944d99ce9bb6e58f"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_MF_DECREMENT</b>&#160;&#160;&#160;0xC0</td></tr>
-<tr class="separator:ga08f5b202c738547d944d99ce9bb6e58f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0d38b266b50f530f6dad8a380cc6e664"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_MF_INCREMENT</b>&#160;&#160;&#160;0xC1</td></tr>
-<tr class="separator:ga0d38b266b50f530f6dad8a380cc6e664"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae70289cbae5787575ab3453563e4f3b7"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_MF_RESTORE</b>&#160;&#160;&#160;0xC2</td></tr>
-<tr class="separator:gae70289cbae5787575ab3453563e4f3b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8ef1ea291772d0e50b3f216b2dedec0b"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_MF_TRANSFER</b>&#160;&#160;&#160;0xB0</td></tr>
-<tr class="separator:ga8ef1ea291772d0e50b3f216b2dedec0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa21b67a605da01ae12c025353b93b2f8"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICC_CMD_UL_WRITE</b>&#160;&#160;&#160;0xA2</td></tr>
-<tr class="separator:gaa21b67a605da01ae12c025353b93b2f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga245406a99e5fd21f643601c7bca7c392"><td class="memItemLeft" align="right" valign="top">
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PCD_CMD_IDLE</b>&#160;&#160;&#160;0x00</td></tr>
 <tr class="separator:ga245406a99e5fd21f643601c7bca7c392"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -360,51 +332,334 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PCD_CMD_SOFT_RESET</b>&#160;&#160;&#160;0x0F</td></tr>
 <tr class="separator:ga468be9c442562bea15d066573464833e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ac68981dc3e297ee159fe8d0a34030abe"><td class="memItemLeft" align="right" valign="top"><a id="ac68981dc3e297ee159fe8d0a34030abe" name="ac68981dc3e297ee159fe8d0a34030abe"></a>
+typedef uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>singleSizeUID_t</b>[4]</td></tr>
+<tr class="memdesc:ac68981dc3e297ee159fe8d0a34030abe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for single size UID. It consists of 4 bytes. <br /></td></tr>
+<tr class="separator:ac68981dc3e297ee159fe8d0a34030abe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a152e4554336e458e8ac7b71c64bc33d7"><td class="memItemLeft" align="right" valign="top"><a id="a152e4554336e458e8ac7b71c64bc33d7" name="a152e4554336e458e8ac7b71c64bc33d7"></a>
+typedef uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>doubleSizeUID_t</b>[7]</td></tr>
+<tr class="memdesc:a152e4554336e458e8ac7b71c64bc33d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for double size UID. It consists of 7 bytes. <br /></td></tr>
+<tr class="separator:a152e4554336e458e8ac7b71c64bc33d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6925d3d8d338b485c9de602cd9e0e8f2"><td class="memItemLeft" align="right" valign="top"><a id="a6925d3d8d338b485c9de602cd9e0e8f2" name="a6925d3d8d338b485c9de602cd9e0e8f2"></a>
+typedef uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>trippleSizeUID_t</b>[10]</td></tr>
+<tr class="memdesc:a6925d3d8d338b485c9de602cd9e0e8f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for triple size UID. It consists of 10 bytes. <br /></td></tr>
+<tr class="separator:a6925d3d8d338b485c9de602cd9e0e8f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:ac49078cfbfe66864f852d58c5d5d5560"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#ac49078cfbfe66864f852d58c5d5d5560">bitFraming_t</a> { <a class="el" href="_m_f_r_c522_8h.html#ac49078cfbfe66864f852d58c5d5d5560a56aa0a0cc66c9afde89077c36eb5f6ee">sevenBit</a> = 0x07
+, <a class="el" href="_m_f_r_c522_8h.html#ac49078cfbfe66864f852d58c5d5d5560a53b7424de67234dce8863e3630dafe5c">eightBit</a> = 0x08
+ }</td></tr>
+<tr class="memdesc:ac49078cfbfe66864f852d58c5d5d5560"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum typedef for bit framing. It can either be sevenBit or eightBit.  <a href="_m_f_r_c522_8h.html#ac49078cfbfe66864f852d58c5d5d5560">More...</a><br /></td></tr>
+<tr class="separator:ac49078cfbfe66864f852d58c5d5d5560"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac3e16145dce091503510dd0572ad06c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#aac3e16145dce091503510dd0572ad06c">uidSize_t</a> { <a class="el" href="_m_f_r_c522_8h.html#aac3e16145dce091503510dd0572ad06cabe74bc6234f219aaebddfc3a60bf519d">fourBytesSingle</a> = 4
+, <a class="el" href="_m_f_r_c522_8h.html#aac3e16145dce091503510dd0572ad06ca4ec0de1b1967020341dfb3b152b0d1b9">sevenBytesDouble</a> = 7
+, <a class="el" href="_m_f_r_c522_8h.html#aac3e16145dce091503510dd0572ad06ca265b1d88a5359b5fccffaa0d94fd83c8">tenBytesTripple</a> = 10
+ }</td></tr>
+<tr class="memdesc:aac3e16145dce091503510dd0572ad06c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum typedef for UID size. It can be either fourBytesSingle, sevenBytesDouble or tenBytesTripple.  <a href="_m_f_r_c522_8h.html#aac3e16145dce091503510dd0572ad06c">More...</a><br /></td></tr>
+<tr class="separator:aac3e16145dce091503510dd0572ad06c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1cab13728c20a91e3f1c44cddea9cb74"><td class="memItemLeft" align="right" valign="top"><a id="ga1cab13728c20a91e3f1c44cddea9cb74" name="ga1cab13728c20a91e3f1c44cddea9cb74"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>piccCmds_t</b> { <br />
+&#160;&#160;<b>PICC_CMD_REQA</b> = 0x26
+, <b>PICC_CMD_WUPA</b> = 0x52
+, <b>PICC_CMD_CT</b> = 0x88
+, <b>PICC_CMD_SEL_CL1</b> = 0x93
+, <br />
+&#160;&#160;<b>PICC_CMD_SEL_CL2</b> = 0x95
+, <b>PICC_CMD_SEL_CL3</b> = 0x97
+, <b>PICC_CMD_HLTA</b> = 0x50
+, <b>PICC_CMD_RATS</b> = 0xE0
+, <br />
+&#160;&#160;<b>PICC_CMD_MF_AUTH_KEY_A</b> = 0x60
+, <b>PICC_CMD_MF_AUTH_KEY_B</b> = 0x61
+, <b>PICC_CMD_MF_READ</b> = 0x30
+, <b>PICC_CMD_MF_WRITE</b> = 0xA0
+, <br />
+&#160;&#160;<b>PICC_CMD_MF_DECREMENT</b> = 0xC0
+, <b>PICC_CMD_MF_INCREMENT</b> = 0xC1
+, <b>PICC_CMD_MF_RESTORE</b> = 0xC2
+, <b>PICC_CMD_MF_TRANSFER</b> = 0xB0
+, <br />
+&#160;&#160;<b>PICC_CMD_UL_WRITE</b> = 0xA2
+, <b>MFRC522_MIFARE_ACK</b> = 0x0A
+<br />
+ }</td></tr>
+<tr class="separator:ga1cab13728c20a91e3f1c44cddea9cb74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a713991009cd897c22595fd80d9372f29"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a713991009cd897c22595fd80d9372f29">MFRC522_WriteRegister</a> (spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t value)</td></tr>
-<tr class="memdesc:a713991009cd897c22595fd80d9372f29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a value to the specified register in the MFRC522.  <br /></td></tr>
-<tr class="separator:a713991009cd897c22595fd80d9372f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60838eb7eee973df66e89a97ebe62d55"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a60838eb7eee973df66e89a97ebe62d55">MFRC522_ReadRegister</a> (spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t *data)</td></tr>
-<tr class="memdesc:a60838eb7eee973df66e89a97ebe62d55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the value from the specified register in the MFRC522.  <br /></td></tr>
-<tr class="separator:a60838eb7eee973df66e89a97ebe62d55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a668f7f3d07b0b374016879ecc7ebbb4c"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a668f7f3d07b0b374016879ecc7ebbb4c">MFRC522_ReadRegisterArr</a> (spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t *dataArr, uint8_t dataSize)</td></tr>
-<tr class="memdesc:a668f7f3d07b0b374016879ecc7ebbb4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads multiple consecutive registers in the MFRC522.  <br /></td></tr>
-<tr class="separator:a668f7f3d07b0b374016879ecc7ebbb4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31682d6d5756381e867ea22611793b37"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a31682d6d5756381e867ea22611793b37">MFRC522_WriteRegisterArr</a> (spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t *dataArr, uint8_t dataSize)</td></tr>
-<tr class="memdesc:a31682d6d5756381e867ea22611793b37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes multiple consecutive registers in the MFRC522.  <br /></td></tr>
-<tr class="separator:a31682d6d5756381e867ea22611793b37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6e8b6a97eed708d132a0d49525ebfa7"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#ad6e8b6a97eed708d132a0d49525ebfa7">MFRC522_Init</a> (spi_device_handle_t *spiHandle)</td></tr>
-<tr class="memdesc:ad6e8b6a97eed708d132a0d49525ebfa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the MFRC522 RFID module.  <br /></td></tr>
-<tr class="separator:ad6e8b6a97eed708d132a0d49525ebfa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a972c67fb8698e663d9833aa24f6dc90c"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a972c67fb8698e663d9833aa24f6dc90c">MFRC522_ClrRegBitMask</a> (spi_device_handle_t *spiHandle, uint8_t registerAdress, uint8_t mask)</td></tr>
-<tr class="memdesc:a972c67fb8698e663d9833aa24f6dc90c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the specified bits in the register of the MFRC522.  <br /></td></tr>
-<tr class="separator:a972c67fb8698e663d9833aa24f6dc90c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ebffe456fa4d128592e1bfa857221a0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a1ebffe456fa4d128592e1bfa857221a0">MFRC522_IsCardPresent</a> (spi_device_handle_t *spiHandle)</td></tr>
-<tr class="memdesc:a1ebffe456fa4d128592e1bfa857221a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a card is present.  <br /></td></tr>
-<tr class="separator:a1ebffe456fa4d128592e1bfa857221a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeef649c6616151d6da7973216e4ad177"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#aeef649c6616151d6da7973216e4ad177">MFRC522_AntennaOn</a> (spi_device_handle_t *spiHandle)</td></tr>
-<tr class="memdesc:aeef649c6616151d6da7973216e4ad177"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turns on the antenna of the MFRC522.  <br /></td></tr>
-<tr class="separator:aeef649c6616151d6da7973216e4ad177"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d87747382c3a7e6406b9a40e91fceb2"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a3d87747382c3a7e6406b9a40e91fceb2">MFRC522_SelfTest</a> (spi_device_handle_t *spiHandle)</td></tr>
-<tr class="memdesc:a3d87747382c3a7e6406b9a40e91fceb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a self-test of the MFRC522.  <br /></td></tr>
-<tr class="separator:a3d87747382c3a7e6406b9a40e91fceb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d727d8b59c84c599506d30ef802f887"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a1d727d8b59c84c599506d30ef802f887">MFRC522_Reset</a> (spi_device_handle_t *spiHandle)</td></tr>
-<tr class="memdesc:a1d727d8b59c84c599506d30ef802f887"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the MFRC522.  <br /></td></tr>
-<tr class="separator:a1d727d8b59c84c599506d30ef802f887"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba7cbb37cc8c4b4e5a4b1dd4bc036f5f"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#aba7cbb37cc8c4b4e5a4b1dd4bc036f5f">MFRC522_SendPICCcmdTranscieve</a> (spi_device_handle_t *spiHandle, uint8_t piccCmd)</td></tr>
-<tr class="memdesc:aba7cbb37cc8c4b4e5a4b1dd4bc036f5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a PICC command and receives the response from the MFRC522.  <br /></td></tr>
-<tr class="separator:aba7cbb37cc8c4b4e5a4b1dd4bc036f5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f72b50e5ab2ae30af014a1d438fbb0b"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a0f72b50e5ab2ae30af014a1d438fbb0b">xMFRC522_WriteRegister</a> (spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t value)</td></tr>
+<tr class="memdesc:a0f72b50e5ab2ae30af014a1d438fbb0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a value to the specified register in the MFRC522.  <br /></td></tr>
+<tr class="separator:a0f72b50e5ab2ae30af014a1d438fbb0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0ee2f8148fd691cbfa80fd0ccce6ec2"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#ad0ee2f8148fd691cbfa80fd0ccce6ec2">xMFRC522_ReadRegister</a> (spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t *data)</td></tr>
+<tr class="memdesc:ad0ee2f8148fd691cbfa80fd0ccce6ec2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the value from the specified register in the MFRC522.  <br /></td></tr>
+<tr class="separator:ad0ee2f8148fd691cbfa80fd0ccce6ec2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada322c0a78a7db5add268ba10857d865"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#ada322c0a78a7db5add268ba10857d865">xMFRC522_ReadRegisterArr</a> (spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t *dataArr, uint8_t dataSize)</td></tr>
+<tr class="memdesc:ada322c0a78a7db5add268ba10857d865"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads multiple consecutive registers in the MFRC522.  <br /></td></tr>
+<tr class="separator:ada322c0a78a7db5add268ba10857d865"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a556f72b2e4db6b332ec4569f7b2f1503"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a556f72b2e4db6b332ec4569f7b2f1503">xMFRC522_WriteRegisterArr</a> (spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t *dataArr, uint8_t dataSize)</td></tr>
+<tr class="memdesc:a556f72b2e4db6b332ec4569f7b2f1503"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes multiple consecutive registers in the MFRC522.  <br /></td></tr>
+<tr class="separator:a556f72b2e4db6b332ec4569f7b2f1503"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f6caabfd73340b5ad7013056d469dd3"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a7f6caabfd73340b5ad7013056d469dd3">xMFRC522_Init</a> (spi_device_handle_t *spiHandle, uint8_t rstPin)</td></tr>
+<tr class="memdesc:a7f6caabfd73340b5ad7013056d469dd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the MFRC522 RFID module.  <br /></td></tr>
+<tr class="separator:a7f6caabfd73340b5ad7013056d469dd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50c2ad051bcbca4dec0567c022196757"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a50c2ad051bcbca4dec0567c022196757">xMFRC522_ClrRegBitMask</a> (spi_device_handle_t *spiHandle, uint8_t registerAdress, uint8_t mask)</td></tr>
+<tr class="memdesc:a50c2ad051bcbca4dec0567c022196757"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the specified bits in the register of the MFRC522.  <br /></td></tr>
+<tr class="separator:a50c2ad051bcbca4dec0567c022196757"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8c385cbfba9791d16c3589b908831d0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#ab8c385cbfba9791d16c3589b908831d0">xMFRC522_IsCardPresent</a> (spi_device_handle_t *spiHandle)</td></tr>
+<tr class="memdesc:ab8c385cbfba9791d16c3589b908831d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a card is present.  <br /></td></tr>
+<tr class="separator:ab8c385cbfba9791d16c3589b908831d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a066a27d242a1c8feab852db7c6d54a13"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a066a27d242a1c8feab852db7c6d54a13">xMFRC522_AntennaOn</a> (spi_device_handle_t *spiHandle)</td></tr>
+<tr class="memdesc:a066a27d242a1c8feab852db7c6d54a13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turns on the antenna of the MFRC522.  <br /></td></tr>
+<tr class="separator:a066a27d242a1c8feab852db7c6d54a13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5515e1586c44dcceb8652946c981700"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#af5515e1586c44dcceb8652946c981700">xMFRC522_SelfTest</a> (spi_device_handle_t *spiHandle, uint8_t rstPin)</td></tr>
+<tr class="memdesc:af5515e1586c44dcceb8652946c981700"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a self-test of the MFRC522.  <br /></td></tr>
+<tr class="separator:af5515e1586c44dcceb8652946c981700"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1bf925b054065684808151269513159"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#af1bf925b054065684808151269513159">xMFRC522_Reset</a> (spi_device_handle_t *spiHandle)</td></tr>
+<tr class="memdesc:af1bf925b054065684808151269513159"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the MFRC522.  <br /></td></tr>
+<tr class="separator:af1bf925b054065684808151269513159"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a529a111777380f059592691df6c49644"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a529a111777380f059592691df6c49644">xMFRC522_Transcieve</a> (spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t *cmdBuf, uint8_t bufSize, <a class="el" href="_m_f_r_c522_8h.html#ac49078cfbfe66864f852d58c5d5d5560">bitFraming_t</a> bitFrame)</td></tr>
+<tr class="memdesc:a529a111777380f059592691df6c49644"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transmits data to the MFRC522 and receives the response.  <br /></td></tr>
+<tr class="separator:a529a111777380f059592691df6c49644"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a490d16b98486755e504d855538a9a0e5"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a490d16b98486755e504d855538a9a0e5">xMFRC522_MF_Authent</a> (spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t *cmdBuf, uint8_t bufSize, <a class="el" href="_m_f_r_c522_8h.html#ac49078cfbfe66864f852d58c5d5d5560">bitFraming_t</a> bitFrame)</td></tr>
+<tr class="memdesc:a490d16b98486755e504d855538a9a0e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs MIFARE authentication with the MFRC522.  <br /></td></tr>
+<tr class="separator:a490d16b98486755e504d855538a9a0e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50adb68c2f5299083cf59df68a7dea04"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a50adb68c2f5299083cf59df68a7dea04">xMFRC522_CommWithMifare</a> (uint8_t cmd, spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t *cmdBuf, uint8_t bufSize, <a class="el" href="_m_f_r_c522_8h.html#ac49078cfbfe66864f852d58c5d5d5560">bitFraming_t</a> bitFrame)</td></tr>
+<tr class="memdesc:a50adb68c2f5299083cf59df68a7dea04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs communication with a MIFARE card using the MFRC522.  <br /></td></tr>
+<tr class="separator:a50adb68c2f5299083cf59df68a7dea04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8dd102fbbc49bfd1c9b1d6effe28033"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#ae8dd102fbbc49bfd1c9b1d6effe28033">xMFRC522_SetRegBitMask</a> (spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t mask)</td></tr>
+<tr class="memdesc:ae8dd102fbbc49bfd1c9b1d6effe28033"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the specified bits in the register of the MFRC522.  <br /></td></tr>
+<tr class="separator:ae8dd102fbbc49bfd1c9b1d6effe28033"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad5b8ec13396bd7ea04f221db63366bf"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#aad5b8ec13396bd7ea04f221db63366bf">xMFRC522_CalculateCRC</a> (spi_device_handle_t *spiHandle, uint8_t *buf, uint8_t bufLen, uint8_t resultBuf[2])</td></tr>
+<tr class="memdesc:aad5b8ec13396bd7ea04f221db63366bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the CRC value for the given buffer.  <br /></td></tr>
+<tr class="separator:aad5b8ec13396bd7ea04f221db63366bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a850ffb1764cc8591acdbc36c32f68b3e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a850ffb1764cc8591acdbc36c32f68b3e">xMifare_ReadUID</a> (spi_device_handle_t *spiHandle, <a class="el" href="_m_f_r_c522_8h.html#aac3e16145dce091503510dd0572ad06c">uidSize_t</a> uidSize)</td></tr>
+<tr class="memdesc:a850ffb1764cc8591acdbc36c32f68b3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the UID from the MFRC522 for the specified UID size.  <br /></td></tr>
+<tr class="separator:a850ffb1764cc8591acdbc36c32f68b3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b782a5f8339740f14b7c080e493a0bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_mifare1k_key__t.html">Mifare1kKey_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a0b782a5f8339740f14b7c080e493a0bb">xMifare_GetKeyData</a> (spi_device_handle_t *spiHandle, <a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> *UID)</td></tr>
+<tr class="memdesc:a0b782a5f8339740f14b7c080e493a0bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the key data for the specified UID from the MFRC522.  <br /></td></tr>
+<tr class="separator:a0b782a5f8339740f14b7c080e493a0bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae235f1a8480f6e4fca6cfa3b66ed23a0"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#ae235f1a8480f6e4fca6cfa3b66ed23a0">xMifare_WriteKey</a> (spi_device_handle_t *spiHandle, <a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> *UID, uint8_t data[45][16])</td></tr>
+<tr class="memdesc:ae235f1a8480f6e4fca6cfa3b66ed23a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the provided key data to the specified UID in the MFRC522.  <br /></td></tr>
+<tr class="separator:ae235f1a8480f6e4fca6cfa3b66ed23a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa677f2f607c42a532de49c88a2d2a49e"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#aa677f2f607c42a532de49c88a2d2a49e">xMifare_WriteKeyBlock</a> (spi_device_handle_t *spiHandle, uint8_t blockAddress, <a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> *UID, uint8_t data[16])</td></tr>
+<tr class="memdesc:aa677f2f607c42a532de49c88a2d2a49e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the provided data to the specified block address for the specified UID in the MFRC522.  <br /></td></tr>
+<tr class="separator:aa677f2f607c42a532de49c88a2d2a49e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9430f19f32afe5e64c39739494a2a144"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a9430f19f32afe5e64c39739494a2a144">xMifare_ReadKeyBlock</a> (spi_device_handle_t *spiHandle, uint8_t blockAddress, <a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> *UID)</td></tr>
+<tr class="memdesc:a9430f19f32afe5e64c39739494a2a144"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the key block at the specified block address for the specified UID in the MFRC522.  <br /></td></tr>
+<tr class="separator:a9430f19f32afe5e64c39739494a2a144"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad098952e0ccb91cce2f202993ea2eb8d"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#ad098952e0ccb91cce2f202993ea2eb8d">xMifare_Authenticate</a> (spi_device_handle_t *spiHandle, uint8_t cmd, uint8_t blockAddress, uint8_t *key, <a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> *UID)</td></tr>
+<tr class="memdesc:ad098952e0ccb91cce2f202993ea2eb8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs MIFARE authentication for the specified block address and key with the MFRC522.  <br /></td></tr>
+<tr class="separator:ad098952e0ccb91cce2f202993ea2eb8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fa4af8664e6eede404515597a982326"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a4fa4af8664e6eede404515597a982326">vMifare_PrintUID</a> (<a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> *UID)</td></tr>
+<tr class="memdesc:a4fa4af8664e6eede404515597a982326"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the UID information to the console.  <br /></td></tr>
+<tr class="separator:a4fa4af8664e6eede404515597a982326"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a592ea722f06940b31d2ea40586c7b2f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a592ea722f06940b31d2ea40586c7b2f4">vMFRC522_GetAndPrintFifoBuf</a> (spi_device_handle_t *spiHandle, uint8_t *fifoBuf, bool print)</td></tr>
+<tr class="memdesc:a592ea722f06940b31d2ea40586c7b2f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves and prints the FIFO buffer data from the MFRC522.  <br /></td></tr>
+<tr class="separator:a592ea722f06940b31d2ea40586c7b2f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a3be30bcad132603737cdb0374346d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_f_r_c522_8h.html#a0a3be30bcad132603737cdb0374346d7">vMifare_PrintKey</a> (<a class="el" href="struct_mifare1k_key__t.html">Mifare1kKey_t</a> *key)</td></tr>
+<tr class="memdesc:a0a3be30bcad132603737cdb0374346d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the key data to the console.  <br /></td></tr>
+<tr class="separator:a0a3be30bcad132603737cdb0374346d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="aeef649c6616151d6da7973216e4ad177" name="aeef649c6616151d6da7973216e4ad177"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeef649c6616151d6da7973216e4ad177">&#9670;&#160;</a></span>MFRC522_AntennaOn()</h2>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a55e13ad605c77bf3bca4b778d631f960" name="a55e13ad605c77bf3bca4b778d631f960"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55e13ad605c77bf3bca4b778d631f960">&#9670;&#160;</a></span>MIFARE_KEY_SIZE</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">esp_err_t MFRC522_AntennaOn </td>
+          <td class="memname">#define MIFARE_KEY_SIZE&#160;&#160;&#160;6</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Size of MIFARE key. </p>
+
+</div>
+</div>
+<a id="ab7c5755f748bae4fca459151d60562f3" name="ab7c5755f748bae4fca459151d60562f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7c5755f748bae4fca459151d60562f3">&#9670;&#160;</a></span>NUM_BLOCKS_PER_SECTOR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NUM_BLOCKS_PER_SECTOR&#160;&#160;&#160;4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Number of blocks per sector. </p>
+
+</div>
+</div>
+<a id="a99dd47850820e27018f33fbb27a78003" name="a99dd47850820e27018f33fbb27a78003"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99dd47850820e27018f33fbb27a78003">&#9670;&#160;</a></span>NUM_SECTORE_MIFARE_1K</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NUM_SECTORE_MIFARE_1K&#160;&#160;&#160;16</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Number of sectors in MIFARE 1k. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="ac49078cfbfe66864f852d58c5d5d5560" name="ac49078cfbfe66864f852d58c5d5d5560"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac49078cfbfe66864f852d58c5d5d5560">&#9670;&#160;</a></span>bitFraming_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="_m_f_r_c522_8h.html#ac49078cfbfe66864f852d58c5d5d5560">bitFraming_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enum typedef for bit framing. It can either be sevenBit or eightBit. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ac49078cfbfe66864f852d58c5d5d5560a56aa0a0cc66c9afde89077c36eb5f6ee" name="ac49078cfbfe66864f852d58c5d5d5560a56aa0a0cc66c9afde89077c36eb5f6ee"></a>sevenBit&#160;</td><td class="fielddoc"><p>7 bit framing </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac49078cfbfe66864f852d58c5d5d5560a53b7424de67234dce8863e3630dafe5c" name="ac49078cfbfe66864f852d58c5d5d5560a53b7424de67234dce8863e3630dafe5c"></a>eightBit&#160;</td><td class="fielddoc"><p>8 bit framing </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="aac3e16145dce091503510dd0572ad06c" name="aac3e16145dce091503510dd0572ad06c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac3e16145dce091503510dd0572ad06c">&#9670;&#160;</a></span>uidSize_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="_m_f_r_c522_8h.html#aac3e16145dce091503510dd0572ad06c">uidSize_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enum typedef for UID size. It can be either fourBytesSingle, sevenBytesDouble or tenBytesTripple. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aac3e16145dce091503510dd0572ad06cabe74bc6234f219aaebddfc3a60bf519d" name="aac3e16145dce091503510dd0572ad06cabe74bc6234f219aaebddfc3a60bf519d"></a>fourBytesSingle&#160;</td><td class="fielddoc"><p>UID of 4 bytes </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aac3e16145dce091503510dd0572ad06ca4ec0de1b1967020341dfb3b152b0d1b9" name="aac3e16145dce091503510dd0572ad06ca4ec0de1b1967020341dfb3b152b0d1b9"></a>sevenBytesDouble&#160;</td><td class="fielddoc"><p>UID of 7 bytes </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aac3e16145dce091503510dd0572ad06ca265b1d88a5359b5fccffaa0d94fd83c8" name="aac3e16145dce091503510dd0572ad06ca265b1d88a5359b5fccffaa0d94fd83c8"></a>tenBytesTripple&#160;</td><td class="fielddoc"><p>UID of 10 bytes </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a592ea722f06940b31d2ea40586c7b2f4" name="a592ea722f06940b31d2ea40586c7b2f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a592ea722f06940b31d2ea40586c7b2f4">&#9670;&#160;</a></span>vMFRC522_GetAndPrintFifoBuf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void vMFRC522_GetAndPrintFifoBuf </td>
+          <td>(</td>
+          <td class="paramtype">spi_device_handle_t *&#160;</td>
+          <td class="paramname"><em>spiHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>fifoBuf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>print</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves and prints the FIFO buffer data from the MFRC522. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">spiHandle</td><td>Pointer to the SPI device handle. </td></tr>
+    <tr><td class="paramname">fifoBuf</td><td>Pointer to the buffer to store the FIFO data. </td></tr>
+    <tr><td class="paramname">print</td><td>Flag indicating whether to print the FIFO data or not. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0a3be30bcad132603737cdb0374346d7" name="a0a3be30bcad132603737cdb0374346d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a3be30bcad132603737cdb0374346d7">&#9670;&#160;</a></span>vMifare_PrintKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void vMifare_PrintKey </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_mifare1k_key__t.html">Mifare1kKey_t</a> *&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Prints the key data to the console. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>Pointer to the <a class="el" href="struct_mifare1k_key__t.html">Mifare1kKey_t</a> structure containing the key data. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4fa4af8664e6eede404515597a982326" name="a4fa4af8664e6eede404515597a982326"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4fa4af8664e6eede404515597a982326">&#9670;&#160;</a></span>vMifare_PrintUID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void vMifare_PrintUID </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> *&#160;</td>
+          <td class="paramname"><em>UID</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Prints the UID information to the console. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">UID</td><td>Pointer to the <a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> structure containing the UID. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a066a27d242a1c8feab852db7c6d54a13" name="a066a27d242a1c8feab852db7c6d54a13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a066a27d242a1c8feab852db7c6d54a13">&#9670;&#160;</a></span>xMFRC522_AntennaOn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t xMFRC522_AntennaOn </td>
           <td>(</td>
           <td class="paramtype">spi_device_handle_t *&#160;</td>
           <td class="paramname"><em>spiHandle</em></td><td>)</td>
@@ -424,14 +679,66 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a972c67fb8698e663d9833aa24f6dc90c" name="a972c67fb8698e663d9833aa24f6dc90c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a972c67fb8698e663d9833aa24f6dc90c">&#9670;&#160;</a></span>MFRC522_ClrRegBitMask()</h2>
+<a id="aad5b8ec13396bd7ea04f221db63366bf" name="aad5b8ec13396bd7ea04f221db63366bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad5b8ec13396bd7ea04f221db63366bf">&#9670;&#160;</a></span>xMFRC522_CalculateCRC()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">esp_err_t MFRC522_ClrRegBitMask </td>
+          <td class="memname">esp_err_t xMFRC522_CalculateCRC </td>
+          <td>(</td>
+          <td class="paramtype">spi_device_handle_t *&#160;</td>
+          <td class="paramname"><em>spiHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>bufLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>resultBuf</em>[2]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calculates the CRC value for the given buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">spiHandle</td><td>Pointer to the SPI device handle. </td></tr>
+    <tr><td class="paramname">buf</td><td>Pointer to the buffer for which the CRC is to be calculated. </td></tr>
+    <tr><td class="paramname">bufLen</td><td>Length of the buffer. </td></tr>
+    <tr><td class="paramname">resultBuf</td><td>Pointer to the buffer to store the calculated CRC value (2 bytes). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK if successful, otherwise an error code. </dd></dl>
+
+</div>
+</div>
+<a id="a50c2ad051bcbca4dec0567c022196757" name="a50c2ad051bcbca4dec0567c022196757"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50c2ad051bcbca4dec0567c022196757">&#9670;&#160;</a></span>xMFRC522_ClrRegBitMask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t xMFRC522_ClrRegBitMask </td>
           <td>(</td>
           <td class="paramtype">spi_device_handle_t *&#160;</td>
           <td class="paramname"><em>spiHandle</em>, </td>
@@ -469,18 +776,94 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ad6e8b6a97eed708d132a0d49525ebfa7" name="ad6e8b6a97eed708d132a0d49525ebfa7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad6e8b6a97eed708d132a0d49525ebfa7">&#9670;&#160;</a></span>MFRC522_Init()</h2>
+<a id="a50adb68c2f5299083cf59df68a7dea04" name="a50adb68c2f5299083cf59df68a7dea04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50adb68c2f5299083cf59df68a7dea04">&#9670;&#160;</a></span>xMFRC522_CommWithMifare()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">esp_err_t MFRC522_Init </td>
+          <td class="memname">esp_err_t xMFRC522_CommWithMifare </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>cmd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">spi_device_handle_t *&#160;</td>
+          <td class="paramname"><em>spiHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>waitIrq</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>cmdBuf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>bufSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_m_f_r_c522_8h.html#ac49078cfbfe66864f852d58c5d5d5560">bitFraming_t</a>&#160;</td>
+          <td class="paramname"><em>bitFrame</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Performs communication with a MIFARE card using the MFRC522. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmd</td><td>Command to be sent to the MIFARE card. </td></tr>
+    <tr><td class="paramname">spiHandle</td><td>Pointer to the SPI device handle. </td></tr>
+    <tr><td class="paramname">waitIrq</td><td>Wait for the command to complete (1) or not (0). </td></tr>
+    <tr><td class="paramname">cmdBuf</td><td>Pointer to the command buffer to be transmitted. </td></tr>
+    <tr><td class="paramname">bufSize</td><td>Size of the command buffer. </td></tr>
+    <tr><td class="paramname">bitFrame</td><td>The bit framing type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK if successful, otherwise an error code. </dd></dl>
+
+</div>
+</div>
+<a id="a7f6caabfd73340b5ad7013056d469dd3" name="a7f6caabfd73340b5ad7013056d469dd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f6caabfd73340b5ad7013056d469dd3">&#9670;&#160;</a></span>xMFRC522_Init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t xMFRC522_Init </td>
           <td>(</td>
           <td class="paramtype">spi_device_handle_t *&#160;</td>
-          <td class="paramname"><em>spiHandle</em></td><td>)</td>
+          <td class="paramname"><em>spiHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>rstPin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -496,14 +879,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a1ebffe456fa4d128592e1bfa857221a0" name="a1ebffe456fa4d128592e1bfa857221a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ebffe456fa4d128592e1bfa857221a0">&#9670;&#160;</a></span>MFRC522_IsCardPresent()</h2>
+<a id="ab8c385cbfba9791d16c3589b908831d0" name="ab8c385cbfba9791d16c3589b908831d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8c385cbfba9791d16c3589b908831d0">&#9670;&#160;</a></span>xMFRC522_IsCardPresent()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool MFRC522_IsCardPresent </td>
+          <td class="memname">bool xMFRC522_IsCardPresent </td>
           <td>(</td>
           <td class="paramtype">spi_device_handle_t *&#160;</td>
           <td class="paramname"><em>spiHandle</em></td><td>)</td>
@@ -523,14 +906,73 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a60838eb7eee973df66e89a97ebe62d55" name="a60838eb7eee973df66e89a97ebe62d55"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60838eb7eee973df66e89a97ebe62d55">&#9670;&#160;</a></span>MFRC522_ReadRegister()</h2>
+<a id="a490d16b98486755e504d855538a9a0e5" name="a490d16b98486755e504d855538a9a0e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a490d16b98486755e504d855538a9a0e5">&#9670;&#160;</a></span>xMFRC522_MF_Authent()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">esp_err_t MFRC522_ReadRegister </td>
+          <td class="memname">esp_err_t xMFRC522_MF_Authent </td>
+          <td>(</td>
+          <td class="paramtype">spi_device_handle_t *&#160;</td>
+          <td class="paramname"><em>spiHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>waitIrq</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>cmdBuf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>bufSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_m_f_r_c522_8h.html#ac49078cfbfe66864f852d58c5d5d5560">bitFraming_t</a>&#160;</td>
+          <td class="paramname"><em>bitFrame</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Performs MIFARE authentication with the MFRC522. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">spiHandle</td><td>Pointer to the SPI device handle. </td></tr>
+    <tr><td class="paramname">waitIrq</td><td>Wait for the command to complete (1) or not (0). </td></tr>
+    <tr><td class="paramname">cmdBuf</td><td>Pointer to the command buffer to be transmitted. </td></tr>
+    <tr><td class="paramname">bufSize</td><td>Size of the command buffer. </td></tr>
+    <tr><td class="paramname">bitFrame</td><td>The bit framing type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK if successful, otherwise an error code. </dd></dl>
+
+</div>
+</div>
+<a id="ad0ee2f8148fd691cbfa80fd0ccce6ec2" name="ad0ee2f8148fd691cbfa80fd0ccce6ec2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0ee2f8148fd691cbfa80fd0ccce6ec2">&#9670;&#160;</a></span>xMFRC522_ReadRegister()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t xMFRC522_ReadRegister </td>
           <td>(</td>
           <td class="paramtype">spi_device_handle_t *&#160;</td>
           <td class="paramname"><em>spiHandle</em>, </td>
@@ -568,14 +1010,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a668f7f3d07b0b374016879ecc7ebbb4c" name="a668f7f3d07b0b374016879ecc7ebbb4c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a668f7f3d07b0b374016879ecc7ebbb4c">&#9670;&#160;</a></span>MFRC522_ReadRegisterArr()</h2>
+<a id="ada322c0a78a7db5add268ba10857d865" name="ada322c0a78a7db5add268ba10857d865"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada322c0a78a7db5add268ba10857d865">&#9670;&#160;</a></span>xMFRC522_ReadRegisterArr()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">esp_err_t MFRC522_ReadRegisterArr </td>
+          <td class="memname">esp_err_t xMFRC522_ReadRegisterArr </td>
           <td>(</td>
           <td class="paramtype">spi_device_handle_t *&#160;</td>
           <td class="paramname"><em>spiHandle</em>, </td>
@@ -620,14 +1062,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a1d727d8b59c84c599506d30ef802f887" name="a1d727d8b59c84c599506d30ef802f887"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d727d8b59c84c599506d30ef802f887">&#9670;&#160;</a></span>MFRC522_Reset()</h2>
+<a id="af1bf925b054065684808151269513159" name="af1bf925b054065684808151269513159"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1bf925b054065684808151269513159">&#9670;&#160;</a></span>xMFRC522_Reset()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">esp_err_t MFRC522_Reset </td>
+          <td class="memname">esp_err_t xMFRC522_Reset </td>
           <td>(</td>
           <td class="paramtype">spi_device_handle_t *&#160;</td>
           <td class="paramname"><em>spiHandle</em></td><td>)</td>
@@ -647,18 +1089,28 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a3d87747382c3a7e6406b9a40e91fceb2" name="a3d87747382c3a7e6406b9a40e91fceb2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d87747382c3a7e6406b9a40e91fceb2">&#9670;&#160;</a></span>MFRC522_SelfTest()</h2>
+<a id="af5515e1586c44dcceb8652946c981700" name="af5515e1586c44dcceb8652946c981700"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5515e1586c44dcceb8652946c981700">&#9670;&#160;</a></span>xMFRC522_SelfTest()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">esp_err_t MFRC522_SelfTest </td>
+          <td class="memname">esp_err_t xMFRC522_SelfTest </td>
           <td>(</td>
           <td class="paramtype">spi_device_handle_t *&#160;</td>
-          <td class="paramname"><em>spiHandle</em></td><td>)</td>
+          <td class="paramname"><em>spiHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>rstPin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -674,14 +1126,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aba7cbb37cc8c4b4e5a4b1dd4bc036f5f" name="aba7cbb37cc8c4b4e5a4b1dd4bc036f5f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba7cbb37cc8c4b4e5a4b1dd4bc036f5f">&#9670;&#160;</a></span>MFRC522_SendPICCcmdTranscieve()</h2>
+<a id="ae8dd102fbbc49bfd1c9b1d6effe28033" name="ae8dd102fbbc49bfd1c9b1d6effe28033"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8dd102fbbc49bfd1c9b1d6effe28033">&#9670;&#160;</a></span>xMFRC522_SetRegBitMask()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">esp_err_t MFRC522_SendPICCcmdTranscieve </td>
+          <td class="memname">esp_err_t xMFRC522_SetRegBitMask </td>
           <td>(</td>
           <td class="paramtype">spi_device_handle_t *&#160;</td>
           <td class="paramname"><em>spiHandle</em>, </td>
@@ -690,7 +1142,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>piccCmd</em>&#160;</td>
+          <td class="paramname"><em>registerAddress</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>mask</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -700,11 +1158,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Sends a PICC command and receives the response from the MFRC522. </p>
+<p>Sets the specified bits in the register of the MFRC522. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">spiHandle</td><td>Pointer to the SPI device handle. </td></tr>
-    <tr><td class="paramname">piccCmd</td><td>The PICC command to send. </td></tr>
+    <tr><td class="paramname">registerAddress</td><td>The address of the register to modify. </td></tr>
+    <tr><td class="paramname">mask</td><td>The bitmask of the bits to set. </td></tr>
   </table>
   </dd>
 </dl>
@@ -712,14 +1171,73 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a713991009cd897c22595fd80d9372f29" name="a713991009cd897c22595fd80d9372f29"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a713991009cd897c22595fd80d9372f29">&#9670;&#160;</a></span>MFRC522_WriteRegister()</h2>
+<a id="a529a111777380f059592691df6c49644" name="a529a111777380f059592691df6c49644"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a529a111777380f059592691df6c49644">&#9670;&#160;</a></span>xMFRC522_Transcieve()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">esp_err_t MFRC522_WriteRegister </td>
+          <td class="memname">esp_err_t xMFRC522_Transcieve </td>
+          <td>(</td>
+          <td class="paramtype">spi_device_handle_t *&#160;</td>
+          <td class="paramname"><em>spiHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>waitIrq</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>cmdBuf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>bufSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_m_f_r_c522_8h.html#ac49078cfbfe66864f852d58c5d5d5560">bitFraming_t</a>&#160;</td>
+          <td class="paramname"><em>bitFrame</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Transmits data to the MFRC522 and receives the response. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">spiHandle</td><td>Pointer to the SPI device handle. </td></tr>
+    <tr><td class="paramname">waitIrq</td><td>Wait for the command to complete (1) or not (0). </td></tr>
+    <tr><td class="paramname">cmdBuf</td><td>Pointer to the command buffer to be transmitted. </td></tr>
+    <tr><td class="paramname">bufSize</td><td>Size of the command buffer. </td></tr>
+    <tr><td class="paramname">bitFrame</td><td>The bit framing type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK if successful, otherwise an error code. </dd></dl>
+
+</div>
+</div>
+<a id="a0f72b50e5ab2ae30af014a1d438fbb0b" name="a0f72b50e5ab2ae30af014a1d438fbb0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f72b50e5ab2ae30af014a1d438fbb0b">&#9670;&#160;</a></span>xMFRC522_WriteRegister()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t xMFRC522_WriteRegister </td>
           <td>(</td>
           <td class="paramtype">spi_device_handle_t *&#160;</td>
           <td class="paramname"><em>spiHandle</em>, </td>
@@ -757,14 +1275,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a31682d6d5756381e867ea22611793b37" name="a31682d6d5756381e867ea22611793b37"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31682d6d5756381e867ea22611793b37">&#9670;&#160;</a></span>MFRC522_WriteRegisterArr()</h2>
+<a id="a556f72b2e4db6b332ec4569f7b2f1503" name="a556f72b2e4db6b332ec4569f7b2f1503"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a556f72b2e4db6b332ec4569f7b2f1503">&#9670;&#160;</a></span>xMFRC522_WriteRegisterArr()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">esp_err_t MFRC522_WriteRegisterArr </td>
+          <td class="memname">esp_err_t xMFRC522_WriteRegisterArr </td>
           <td>(</td>
           <td class="paramtype">spi_device_handle_t *&#160;</td>
           <td class="paramname"><em>spiHandle</em>, </td>
@@ -802,6 +1320,283 @@ Functions</h2></td></tr>
     <tr><td class="paramname">registerAddress</td><td>The address of the first register to write. </td></tr>
     <tr><td class="paramname">dataArr</td><td>Pointer to the array of values to write. </td></tr>
     <tr><td class="paramname">dataSize</td><td>The number of registers to write. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK if successful, otherwise an error code. </dd></dl>
+
+</div>
+</div>
+<a id="ad098952e0ccb91cce2f202993ea2eb8d" name="ad098952e0ccb91cce2f202993ea2eb8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad098952e0ccb91cce2f202993ea2eb8d">&#9670;&#160;</a></span>xMifare_Authenticate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t xMifare_Authenticate </td>
+          <td>(</td>
+          <td class="paramtype">spi_device_handle_t *&#160;</td>
+          <td class="paramname"><em>spiHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>cmd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>blockAddress</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> *&#160;</td>
+          <td class="paramname"><em>UID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Performs MIFARE authentication for the specified block address and key with the MFRC522. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">spiHandle</td><td>Pointer to the SPI device handle. </td></tr>
+    <tr><td class="paramname">cmd</td><td>The command for the authentication (PICC_CMD_MF_AUTH_KEY_A or PICC_CMD_MF_AUTH_KEY_B). </td></tr>
+    <tr><td class="paramname">blockAddress</td><td>The block address to authenticate. </td></tr>
+    <tr><td class="paramname">key</td><td>The key for authentication. </td></tr>
+    <tr><td class="paramname">UID</td><td>Pointer to the <a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> structure containing the UID. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK if successful, otherwise an error code. </dd></dl>
+
+</div>
+</div>
+<a id="a0b782a5f8339740f14b7c080e493a0bb" name="a0b782a5f8339740f14b7c080e493a0bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b782a5f8339740f14b7c080e493a0bb">&#9670;&#160;</a></span>xMifare_GetKeyData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_mifare1k_key__t.html">Mifare1kKey_t</a> * xMifare_GetKeyData </td>
+          <td>(</td>
+          <td class="paramtype">spi_device_handle_t *&#160;</td>
+          <td class="paramname"><em>spiHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> *&#160;</td>
+          <td class="paramname"><em>UID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves the key data for the specified UID from the MFRC522. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">spiHandle</td><td>Pointer to the SPI device handle. </td></tr>
+    <tr><td class="paramname">UID</td><td>Pointer to the <a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> structure containing the UID. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the <a class="el" href="struct_mifare1k_key__t.html">Mifare1kKey_t</a> structure containing the key data, or NULL on failure. </dd></dl>
+
+</div>
+</div>
+<a id="a9430f19f32afe5e64c39739494a2a144" name="a9430f19f32afe5e64c39739494a2a144"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9430f19f32afe5e64c39739494a2a144">&#9670;&#160;</a></span>xMifare_ReadKeyBlock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t xMifare_ReadKeyBlock </td>
+          <td>(</td>
+          <td class="paramtype">spi_device_handle_t *&#160;</td>
+          <td class="paramname"><em>spiHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>blockAddress</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> *&#160;</td>
+          <td class="paramname"><em>UID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reads the key block at the specified block address for the specified UID in the MFRC522. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">spiHandle</td><td>Pointer to the SPI device handle. </td></tr>
+    <tr><td class="paramname">blockAddress</td><td>The block address to read from. </td></tr>
+    <tr><td class="paramname">UID</td><td>Pointer to the <a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> structure containing the UID. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK if successful, otherwise an error code. </dd></dl>
+
+</div>
+</div>
+<a id="a850ffb1764cc8591acdbc36c32f68b3e" name="a850ffb1764cc8591acdbc36c32f68b3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a850ffb1764cc8591acdbc36c32f68b3e">&#9670;&#160;</a></span>xMifare_ReadUID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> * xMifare_ReadUID </td>
+          <td>(</td>
+          <td class="paramtype">spi_device_handle_t *&#160;</td>
+          <td class="paramname"><em>spiHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_m_f_r_c522_8h.html#aac3e16145dce091503510dd0572ad06c">uidSize_t</a>&#160;</td>
+          <td class="paramname"><em>uidSize</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reads the UID from the MFRC522 for the specified UID size. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">spiHandle</td><td>Pointer to the SPI device handle. </td></tr>
+    <tr><td class="paramname">uidSize</td><td>The size of the UID. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the <a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> structure containing the UID information, or NULL on failure. </dd></dl>
+
+</div>
+</div>
+<a id="ae235f1a8480f6e4fca6cfa3b66ed23a0" name="ae235f1a8480f6e4fca6cfa3b66ed23a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae235f1a8480f6e4fca6cfa3b66ed23a0">&#9670;&#160;</a></span>xMifare_WriteKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t xMifare_WriteKey </td>
+          <td>(</td>
+          <td class="paramtype">spi_device_handle_t *&#160;</td>
+          <td class="paramname"><em>spiHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> *&#160;</td>
+          <td class="paramname"><em>UID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>data</em>[45][16]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Writes the provided key data to the specified UID in the MFRC522. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">spiHandle</td><td>Pointer to the SPI device handle. </td></tr>
+    <tr><td class="paramname">UID</td><td>Pointer to the <a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> structure containing the UID. </td></tr>
+    <tr><td class="paramname">data</td><td>The key data to be written. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK if successful, otherwise an error code. </dd></dl>
+
+</div>
+</div>
+<a id="aa677f2f607c42a532de49c88a2d2a49e" name="aa677f2f607c42a532de49c88a2d2a49e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa677f2f607c42a532de49c88a2d2a49e">&#9670;&#160;</a></span>xMifare_WriteKeyBlock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t xMifare_WriteKeyBlock </td>
+          <td>(</td>
+          <td class="paramtype">spi_device_handle_t *&#160;</td>
+          <td class="paramname"><em>spiHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>blockAddress</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> *&#160;</td>
+          <td class="paramname"><em>UID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>data</em>[16]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Writes the provided data to the specified block address for the specified UID in the MFRC522. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">spiHandle</td><td>Pointer to the SPI device handle. </td></tr>
+    <tr><td class="paramname">blockAddress</td><td>The block address to write the data to. </td></tr>
+    <tr><td class="paramname">UID</td><td>Pointer to the <a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> structure containing the UID. </td></tr>
+    <tr><td class="paramname">data</td><td>The data to be written. </td></tr>
   </table>
   </dd>
 </dl>

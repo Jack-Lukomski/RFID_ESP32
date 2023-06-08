@@ -1,0 +1,65 @@
+\doxysection{Unique\+Identifier\+\_\+t Struct Reference}
+\hypertarget{struct_unique_identifier__t}{}\label{struct_unique_identifier__t}\index{UniqueIdentifier\_t@{UniqueIdentifier\_t}}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06c}{uid\+Size\+\_\+t}} \mbox{\hyperlink{struct_unique_identifier__t_a50e97829ee33a806e29b10645726b4e6}{uid\+Size}}
+\item 
+\Hypertarget{struct_unique_identifier__t_a3f220531c9cd7ed0aea2cbbfcb09303c}\label{struct_unique_identifier__t_a3f220531c9cd7ed0aea2cbbfcb09303c} 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>\mbox{\hyperlink{_m_f_r_c522_8h_ac68981dc3e297ee159fe8d0a34030abe}{singleSizeUID\_t}} \mbox{\hyperlink{struct_unique_identifier__t_a205c7b211d8f865cdff9c9c4fb45cd46}{singleSizeUidData}}\\
+\>\mbox{\hyperlink{_m_f_r_c522_8h_a152e4554336e458e8ac7b71c64bc33d7}{doubleSizeUID\_t}} \mbox{\hyperlink{struct_unique_identifier__t_a2432a96de43296d6847346a0b3a7a844}{doubleSizeUidData}}\\
+\>\mbox{\hyperlink{_m_f_r_c522_8h_a6925d3d8d338b485c9de602cd9e0e8f2}{trippleSizeUID\_t}} \mbox{\hyperlink{struct_unique_identifier__t_a92c03c7fa6a6f3956698cd2f25d6ce51}{trippleSizeUidData}}\\
+\} {\bfseries uidData}\\
+
+\end{tabbing}\item 
+uint8\+\_\+t \mbox{\hyperlink{struct_unique_identifier__t_a11cb640c171b4968b86b68740efe39dc}{sak\+Byte}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{struct_unique_identifier__t_a298756bee2b18a1c5374f87d8752da7f}{bcc\+Byte}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_unique_identifier__t_a298756bee2b18a1c5374f87d8752da7f}\label{struct_unique_identifier__t_a298756bee2b18a1c5374f87d8752da7f} 
+\index{UniqueIdentifier\_t@{UniqueIdentifier\_t}!bccByte@{bccByte}}
+\index{bccByte@{bccByte}!UniqueIdentifier\_t@{UniqueIdentifier\_t}}
+\doxysubsubsection{\texorpdfstring{bccByte}{bccByte}}
+{\footnotesize\ttfamily uint8\+\_\+t Unique\+Identifier\+\_\+t\+::bcc\+Byte}
+
+BCC byte. \Hypertarget{struct_unique_identifier__t_a2432a96de43296d6847346a0b3a7a844}\label{struct_unique_identifier__t_a2432a96de43296d6847346a0b3a7a844} 
+\index{UniqueIdentifier\_t@{UniqueIdentifier\_t}!doubleSizeUidData@{doubleSizeUidData}}
+\index{doubleSizeUidData@{doubleSizeUidData}!UniqueIdentifier\_t@{UniqueIdentifier\_t}}
+\doxysubsubsection{\texorpdfstring{doubleSizeUidData}{doubleSizeUidData}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_m_f_r_c522_8h_a152e4554336e458e8ac7b71c64bc33d7}{double\+Size\+UID\+\_\+t}} Unique\+Identifier\+\_\+t\+::double\+Size\+Uid\+Data}
+
+Data for a double size UID. \Hypertarget{struct_unique_identifier__t_a11cb640c171b4968b86b68740efe39dc}\label{struct_unique_identifier__t_a11cb640c171b4968b86b68740efe39dc} 
+\index{UniqueIdentifier\_t@{UniqueIdentifier\_t}!sakByte@{sakByte}}
+\index{sakByte@{sakByte}!UniqueIdentifier\_t@{UniqueIdentifier\_t}}
+\doxysubsubsection{\texorpdfstring{sakByte}{sakByte}}
+{\footnotesize\ttfamily uint8\+\_\+t Unique\+Identifier\+\_\+t\+::sak\+Byte}
+
+The SAK (Select acknowledge) byte returned from the PICC after successful selection. \Hypertarget{struct_unique_identifier__t_a205c7b211d8f865cdff9c9c4fb45cd46}\label{struct_unique_identifier__t_a205c7b211d8f865cdff9c9c4fb45cd46} 
+\index{UniqueIdentifier\_t@{UniqueIdentifier\_t}!singleSizeUidData@{singleSizeUidData}}
+\index{singleSizeUidData@{singleSizeUidData}!UniqueIdentifier\_t@{UniqueIdentifier\_t}}
+\doxysubsubsection{\texorpdfstring{singleSizeUidData}{singleSizeUidData}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_m_f_r_c522_8h_ac68981dc3e297ee159fe8d0a34030abe}{single\+Size\+UID\+\_\+t}} Unique\+Identifier\+\_\+t\+::single\+Size\+Uid\+Data}
+
+Data for a single size UID. \Hypertarget{struct_unique_identifier__t_a92c03c7fa6a6f3956698cd2f25d6ce51}\label{struct_unique_identifier__t_a92c03c7fa6a6f3956698cd2f25d6ce51} 
+\index{UniqueIdentifier\_t@{UniqueIdentifier\_t}!trippleSizeUidData@{trippleSizeUidData}}
+\index{trippleSizeUidData@{trippleSizeUidData}!UniqueIdentifier\_t@{UniqueIdentifier\_t}}
+\doxysubsubsection{\texorpdfstring{trippleSizeUidData}{trippleSizeUidData}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_m_f_r_c522_8h_a6925d3d8d338b485c9de602cd9e0e8f2}{tripple\+Size\+UID\+\_\+t}} Unique\+Identifier\+\_\+t\+::tripple\+Size\+Uid\+Data}
+
+Data for a triple size UID. \Hypertarget{struct_unique_identifier__t_a50e97829ee33a806e29b10645726b4e6}\label{struct_unique_identifier__t_a50e97829ee33a806e29b10645726b4e6} 
+\index{UniqueIdentifier\_t@{UniqueIdentifier\_t}!uidSize@{uidSize}}
+\index{uidSize@{uidSize}!UniqueIdentifier\_t@{UniqueIdentifier\_t}}
+\doxysubsubsection{\texorpdfstring{uidSize}{uidSize}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06c}{uid\+Size\+\_\+t}} Unique\+Identifier\+\_\+t\+::uid\+Size}
+
+The size of the UID. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Sources/drivers/\mbox{\hyperlink{_m_f_r_c522_8h}{MFRC522.\+h}}\end{DoxyCompactItemize}
