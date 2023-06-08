@@ -12,44 +12,68 @@
 #include <driver/gpio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 // Number of bytes in the UID. 4, 7 or 10.
+/** @typedef singleSizeUID_t
+ *  @brief Typedef for single size UID. It consists of 4 bytes.
+ */
 typedef uint8_t singleSizeUID_t[4];
+
+/** @typedef doubleSizeUID_t
+ *  @brief Typedef for double size UID. It consists of 7 bytes.
+ */
 typedef uint8_t doubleSizeUID_t[7];
+
+/** @typedef trippleSizeUID_t
+ *  @brief Typedef for triple size UID. It consists of 10 bytes.
+ */
 typedef uint8_t trippleSizeUID_t[10];
 
+/** @typedef bitFraming_t
+ *  @brief Enum typedef for bit framing. It can either be sevenBit or eightBit.
+ */
 typedef enum {
-    sevenBit = 0x07,
-    eightBit = 0x08,
+    sevenBit = 0x07,    /**< 7 bit framing */
+    eightBit = 0x08,    /**< 8 bit framing */
 } bitFraming_t;
 
+/** @typedef uidSize_t
+ *  @brief Enum typedef for UID size. It can be either fourBytesSingle, sevenBytesDouble or tenBytesTripple.
+ */
 typedef enum {
-    fourBytesSingle = 4,
-    sevenBytesDouble = 7,
-    tenBytesTripple = 10,
+    fourBytesSingle = 4,    /**< UID of 4 bytes */
+    sevenBytesDouble = 7,   /**< UID of 7 bytes */
+    tenBytesTripple = 10,   /**< UID of 10 bytes */
 } uidSize_t;
 
+/** @typedef UniqueIdentifier_t
+ *  @brief Struct typedef to represent a unique identifier (UID).
+ */
 typedef struct {
-    uidSize_t uidSize;
+    uidSize_t uidSize;    /**< The size of the UID. */
     union {
-        singleSizeUID_t singleSizeUidData;
-        doubleSizeUID_t doubleSizeUidData;
-        trippleSizeUID_t trippleSizeUidData;
+        singleSizeUID_t singleSizeUidData;    /**< Data for a single size UID. */
+        doubleSizeUID_t doubleSizeUidData;    /**< Data for a double size UID. */
+        trippleSizeUID_t trippleSizeUidData;  /**< Data for a triple size UID. */
     } uidData;
-    uint8_t sakByte; // The SAK (Select acknowledge) byte returned from the PICC after successful selection.
-    uint8_t bccByte;
+    uint8_t sakByte;    /**< The SAK (Select acknowledge) byte returned from the PICC after successful selection. */
+    uint8_t bccByte;    /**< BCC byte. */
 } UniqueIdentifier_t;
 
-// structure for MIFARE 1k rfid tag
+/** @typedef Mifare1kKey_t
+ *  @brief Struct typedef to represent a MIFARE 1k RFID tag.
+ */
 typedef struct {
-    UniqueIdentifier_t uid; // 7 byte uid, the default
-    uint8_t blockKey[6];
-    uint8_t keyData[16][64]; // for 1k card (1024 bytes)
+    UniqueIdentifier_t uid;    /**< 7 byte uid, the default */
+    uint8_t blockKey[6];    /**< Block key. */
+    uint8_t keyData[16][64];    /**< Key data for 1k card (1024 bytes). */
 } Mifare1kKey_t;
 
-#define NUM_SECTORE_MIFARE_1K 16
-#define NUM_BLOCKS_PER_SECTOR 4
-#define MIFARE_KEY_SIZE 6
+// Definitions for some constants
+#define NUM_SECTORE_MIFARE_1K 16    /**< Number of sectors in MIFARE 1k. */
+#define NUM_BLOCKS_PER_SECTOR 4    /**< Number of blocks per sector. */
+#define MIFARE_KEY_SIZE 6    /**< Size of MIFARE key. */
 
 /**
  * @defgroup MFRC522_Register_Addresses MFRC522 Register Addresses
@@ -260,42 +284,165 @@ esp_err_t xMFRC522_SelfTest(spi_device_handle_t *spiHandle, uint8_t rstPin);
 esp_err_t xMFRC522_Reset(spi_device_handle_t *spiHandle);
 
 /**
- * @brief Sends a PICC command and receives the response from the MFRC522.
+ * @brief Transmits data to the MFRC522 and receives the response.
  *
  * @param spiHandle Pointer to the SPI device handle.
- * @param piccCmd The PICC command to send.
+ * @param waitIrq Wait for the command to complete (1) or not (0).
+ * @param cmdBuf Pointer to the command buffer to be transmitted.
+ * @param bufSize Size of the command buffer.
+ * @param bitFrame The bit framing type.
  * @return ESP_OK if successful, otherwise an error code.
  */
-esp_err_t xMFRC522_Transcieve(spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t * cmdBuf, uint8_t bufSize, bitFraming_t bitFrame);
+esp_err_t xMFRC522_Transcieve(spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t *cmdBuf, uint8_t bufSize, bitFraming_t bitFrame);
 
-esp_err_t xMFRC522_MF_Authent(spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t * cmdBuf, uint8_t bufSize, bitFraming_t bitFrame);
+/**
+ * @brief Performs MIFARE authentication with the MFRC522.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @param waitIrq Wait for the command to complete (1) or not (0).
+ * @param cmdBuf Pointer to the command buffer to be transmitted.
+ * @param bufSize Size of the command buffer.
+ * @param bitFrame The bit framing type.
+ * @return ESP_OK if successful, otherwise an error code.
+ */
+esp_err_t xMFRC522_MF_Authent(spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t *cmdBuf, uint8_t bufSize, bitFraming_t bitFrame);
 
-esp_err_t xMFRC522_CommWithMifare(uint8_t cmd, spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t * cmdBuf, uint8_t bufSize, bitFraming_t bitFrame);
+/**
+ * @brief Performs communication with a MIFARE card using the MFRC522.
+ *
+ * @param cmd Command to be sent to the MIFARE card.
+ * @param spiHandle Pointer to the SPI device handle.
+ * @param waitIrq Wait for the command to complete (1) or not (0).
+ * @param cmdBuf Pointer to the command buffer to be transmitted.
+ * @param bufSize Size of the command buffer.
+ * @param bitFrame The bit framing type.
+ * @return ESP_OK if successful, otherwise an error code.
+ */
+esp_err_t xMFRC522_CommWithMifare(uint8_t cmd, spi_device_handle_t *spiHandle, uint8_t waitIrq, uint8_t *cmdBuf, uint8_t bufSize, bitFraming_t bitFrame);
 
+/**
+ * @brief Sets the specified bits in the register of the MFRC522.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @param registerAddress The address of the register to modify.
+ * @param mask The bitmask of the bits to set.
+ * @return ESP_OK if successful, otherwise an error code.
+ */
 esp_err_t xMFRC522_SetRegBitMask(spi_device_handle_t *spiHandle, uint8_t registerAddress, uint8_t mask);
 
-esp_err_t xMFRC522_CalculateCRC(spi_device_handle_t *spiHandle, uint8_t * buf, uint8_t bufLen, uint8_t resultBuf[2]);
+/**
+ * @brief Calculates the CRC value for the given buffer.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @param buf Pointer to the buffer for which the CRC is to be calculated.
+ * @param bufLen Length of the buffer.
+ * @param resultBuf Pointer to the buffer to store the calculated CRC value (2 bytes).
+ * @return ESP_OK if successful, otherwise an error code.
+ */
+esp_err_t xMFRC522_CalculateCRC(spi_device_handle_t *spiHandle, uint8_t *buf, uint8_t bufLen, uint8_t resultBuf[2]);
 
-UniqueIdentifier_t * xMifare_ReadUID(spi_device_handle_t *spiHandle, uidSize_t uidSize);
+/**
+ * @brief Reads the UID from the MFRC522 for the specified UID size.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @param uidSize The size of the UID.
+ * @return Pointer to the UniqueIdentifier_t structure containing the UID information, or NULL on failure.
+ */
+UniqueIdentifier_t *xMifare_ReadUID(spi_device_handle_t *spiHandle, uidSize_t uidSize);
 
-Mifare1kKey_t * xMifare_GetKeyData(spi_device_handle_t *spiHandle, UniqueIdentifier_t * UID);
+/**
+ * @brief Retrieves the key data for the specified UID from the MFRC522.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @param UID Pointer to the UniqueIdentifier_t structure containing the UID.
+ * @return Pointer to the Mifare1kKey_t structure containing the key data, or NULL on failure.
+ */
+Mifare1kKey_t *xMifare_GetKeyData(spi_device_handle_t *spiHandle, UniqueIdentifier_t *UID);
 
-esp_err_t xMifare_WriteKey(spi_device_handle_t *spiHandle, Mifare1kKey_t * key);
+/**
+ * @brief Writes the provided key data to the specified UID in the MFRC522.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @param UID Pointer to the UniqueIdentifier_t structure containing the UID.
+ * @param data The key data to be written.
+ * @return ESP_OK if successful, otherwise an error code.
+ */
+esp_err_t xMifare_WriteKey(spi_device_handle_t *spiHandle, UniqueIdentifier_t *UID, uint8_t data[45][16]);
 
-esp_err_t xMifare_WriteKeyBlock(spi_device_handle_t *spiHandle, uint8_t blockAddress, UniqueIdentifier_t * UID, uint8_t data[16]);
+/**
+ * @brief Writes the provided data to the specified block address for the specified UID in the MFRC522.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @param blockAddress The block address to write the data to.
+ * @param UID Pointer to the UniqueIdentifier_t structure containing the UID.
+ * @param data The data to be written.
+ * @return ESP_OK if successful, otherwise an error code.
+ */
+esp_err_t xMifare_WriteKeyBlock(spi_device_handle_t *spiHandle, uint8_t blockAddress, UniqueIdentifier_t *UID, uint8_t data[16]);
 
-static esp_err_t xMifare_SetSakByte(spi_device_handle_t *spiHandle, UniqueIdentifier_t * UID);
+/**
+ * @brief Sets the SAK (Select Acknowledge) byte for the specified UID in the MFRC522.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @param UID Pointer to the UniqueIdentifier_t structure containing the UID.
+ * @return ESP_OK if successful, otherwise an error code.
+ */
+static esp_err_t xMifare_SetSakByte(spi_device_handle_t *spiHandle, UniqueIdentifier_t *UID);
 
-esp_err_t xMifare_ReadKeyBlock(spi_device_handle_t *spiHandle, uint8_t blockAddress, UniqueIdentifier_t * UID);
+/**
+ * @brief Reads the key block at the specified block address for the specified UID in the MFRC522.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @param blockAddress The block address to read from.
+ * @param UID Pointer to the UniqueIdentifier_t structure containing the UID.
+ * @return ESP_OK if successful, otherwise an error code.
+ */
+esp_err_t xMifare_ReadKeyBlock(spi_device_handle_t *spiHandle, uint8_t blockAddress, UniqueIdentifier_t *UID);
 
-static bool xPrv_Mifare_BlockCheckChar(uint8_t * bufData, uint8_t bufSize, UniqueIdentifier_t * UID);
+/**
+ * @brief Performs a block check character calculation for the provided data and UID.
+ *
+ * @param bufData Pointer to the buffer data.
+ * @param bufSize Size of the buffer.
+ * @param UID Pointer to the UniqueIdentifier_t structure containing the UID.
+ * @return True if the block check character is valid, false otherwise.
+ */
+static bool xPrv_Mifare_BlockCheckChar(uint8_t *bufData, uint8_t bufSize, UniqueIdentifier_t *UID);
 
-esp_err_t xMifare_Authenticate(spi_device_handle_t *spiHandle, uint8_t cmd, uint8_t blockAddress, uint8_t * key, UniqueIdentifier_t * UID);
+/**
+ * @brief Performs MIFARE authentication for the specified block address and key with the MFRC522.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @param cmd The command for the authentication (PICC_CMD_MF_AUTH_KEY_A or PICC_CMD_MF_AUTH_KEY_B).
+ * @param blockAddress The block address to authenticate.
+ * @param key The key for authentication.
+ * @param UID Pointer to the UniqueIdentifier_t structure containing the UID.
+ * @return ESP_OK if successful, otherwise an error code.
+ */
+esp_err_t xMifare_Authenticate(spi_device_handle_t *spiHandle, uint8_t cmd, uint8_t blockAddress, uint8_t *key, UniqueIdentifier_t *UID);
 
-void vMifare_PrintUID(UniqueIdentifier_t * UID);
+/**
+ * @brief Prints the UID information to the console.
+ *
+ * @param UID Pointer to the UniqueIdentifier_t structure containing the UID.
+ */
+void vMifare_PrintUID(UniqueIdentifier_t *UID);
 
-void vMFRC522_GetAndPrintFifoBuf(spi_device_handle_t *spiHandle, uint8_t * fifoBuf, bool print);
+/**
+ * @brief Retrieves and prints the FIFO buffer data from the MFRC522.
+ *
+ * @param spiHandle Pointer to the SPI device handle.
+ * @param fifoBuf Pointer to the buffer to store the FIFO data.
+ * @param print Flag indicating whether to print the FIFO data or not.
+ */
+void vMFRC522_GetAndPrintFifoBuf(spi_device_handle_t *spiHandle, uint8_t *fifoBuf, bool print);
 
-void vMifare_PrintKey(Mifare1kKey_t * key);
+/**
+ * @brief Prints the key data to the console.
+ *
+ * @param key Pointer to the Mifare1kKey_t structure containing the key data.
+ */
+void vMifare_PrintKey(Mifare1kKey_t *key);
+
 
 #endif // _MFRC522_H_
