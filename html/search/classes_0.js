@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mifare1kkey_5ft_0',['Mifare1kKey_t',['../struct_mifare1k_key__t.html',1,'']]]
+  ['gatts_5fprofile_5finst_0',['gatts_profile_inst',['../structgatts__profile__inst.html',1,'']]]
 ];

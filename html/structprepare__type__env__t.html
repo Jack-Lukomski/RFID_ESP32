@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.7"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ESP32 RFID Cloner using MFRC522 and BLE: Mifare1kKey_t Struct Reference</title>
+<title>ESP32 RFID Cloner using MFRC522 and BLE: prepare_type_env_t Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -71,68 +71,22 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="struct_mifare1k_key__t-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">Mifare1kKey_t Struct Reference</div></div>
+<a href="structprepare__type__env__t-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">prepare_type_env_t Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a37663afffdc905e60c9bdd5dcd06e40d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_mifare1k_key__t.html#a37663afffdc905e60c9bdd5dcd06e40d">uid</a></td></tr>
-<tr class="separator:a37663afffdc905e60c9bdd5dcd06e40d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa94af8798a694d5853927fe62bf4c2ff"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_mifare1k_key__t.html#aa94af8798a694d5853927fe62bf4c2ff">blockKey</a> [6]</td></tr>
-<tr class="separator:aa94af8798a694d5853927fe62bf4c2ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8385db8814afd1e73a23181376a75f3"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_mifare1k_key__t.html#aa8385db8814afd1e73a23181376a75f3">keyData</a> [16][64]</td></tr>
-<tr class="separator:aa8385db8814afd1e73a23181376a75f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86277091728e8864d48925ccb1dd55c8"><td class="memItemLeft" align="right" valign="top"><a id="a86277091728e8864d48925ccb1dd55c8" name="a86277091728e8864d48925ccb1dd55c8"></a>
+uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>prepare_buf</b></td></tr>
+<tr class="separator:a86277091728e8864d48925ccb1dd55c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e7990aa05a5d71f70d4c30f5fe2e83c"><td class="memItemLeft" align="right" valign="top"><a id="a1e7990aa05a5d71f70d4c30f5fe2e83c" name="a1e7990aa05a5d71f70d4c30f5fe2e83c"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>prepare_len</b></td></tr>
+<tr class="separator:a1e7990aa05a5d71f70d4c30f5fe2e83c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="aa94af8798a694d5853927fe62bf4c2ff" name="aa94af8798a694d5853927fe62bf4c2ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa94af8798a694d5853927fe62bf4c2ff">&#9670;&#160;</a></span>blockKey</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t Mifare1kKey_t::blockKey[6]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Block key. </p>
-
-</div>
-</div>
-<a id="aa8385db8814afd1e73a23181376a75f3" name="aa8385db8814afd1e73a23181376a75f3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa8385db8814afd1e73a23181376a75f3">&#9670;&#160;</a></span>keyData</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t Mifare1kKey_t::keyData[16][64]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Key data for 1k card (1024 bytes). </p>
-
-</div>
-</div>
-<a id="a37663afffdc905e60c9bdd5dcd06e40d" name="a37663afffdc905e60c9bdd5dcd06e40d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37663afffdc905e60c9bdd5dcd06e40d">&#9670;&#160;</a></span>uid</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_unique_identifier__t.html">UniqueIdentifier_t</a> Mifare1kKey_t::uid</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>7 byte uid, the default </p>
-
-</div>
-</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>Sources/drivers/<a class="el" href="_m_f_r_c522_8h_source.html">MFRC522.h</a></li>
+<li>Sources/bluetooth_contr/<a class="el" href="_b_l_e___controller_8h_source.html">BLE_Controller.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

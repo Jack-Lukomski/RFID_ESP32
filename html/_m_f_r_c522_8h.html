@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.7"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>RFID_ESP32: Sources/drivers/MFRC522.h File Reference</title>
+<title>ESP32 RFID Cloner using MFRC522 and BLE: Sources/drivers/MFRC522.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,9 +21,8 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">RFID_ESP32
+   <div id="projectname">ESP32 RFID Cloner using MFRC522 and BLE
    </div>
-   <div id="projectbrief">ESP32 project utlizing the RFID-RC522 and BLE</div>
   </td>
  </tr>
  </tbody>
@@ -83,7 +82,11 @@ $(function() {
   <div class="headertitle"><div class="title">MFRC522.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;driver/spi_master.h&quot;</code><br />
+
+<p>MFRC522 RFID Module.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="unit__tests_8h_source.html">../unit_tests/unit_tests.h</a>&quot;</code><br />
+<code>#include &quot;driver/spi_master.h&quot;</code><br />
 <code>#include &quot;esp_timer.h&quot;</code><br />
 <code>#include &lt;freertos/FreeRTOS.h&gt;</code><br />
 <code>#include &lt;freertos/task.h&gt;</code><br />
@@ -91,6 +94,7 @@ $(function() {
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &lt;time.h&gt;</code><br />
+<code>#include &lt;assert.h&gt;</code><br />
 </div>
 <p><a href="_m_f_r_c522_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -462,7 +466,12 @@ Functions</h2></td></tr>
 <tr class="memdesc:a0a3be30bcad132603737cdb0374346d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the key data to the console.  <br /></td></tr>
 <tr class="separator:a0a3be30bcad132603737cdb0374346d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>MFRC522 RFID Module. </p>
+<dl class="section author"><dt>Author</dt><dd>Jack Lukomski </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>Date: 2023-06-02</dd></dl>
+<p>This file contains the declarations for the MFRC522 RFID module. It provides functions for initializing, communicating, and authenticating with MIFARE RFID cards using the MFRC522 chip. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a55e13ad605c77bf3bca4b778d631f960" name="a55e13ad605c77bf3bca4b778d631f960"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a55e13ad605c77bf3bca4b778d631f960">&#9670;&#160;</a></span>MIFARE_KEY_SIZE</h2>
 

@@ -3,214 +3,216 @@
 \mbox{\hyperlink{_m_f_r_c522_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ }
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ \_MFRC522\_H\_}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ \_MFRC522\_H\_}}
-\DoxyCodeLine{00007\ }
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}driver/spi\_master.h"{}}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}esp\_timer.h"{}}}
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <freertos/FreeRTOS.h>}}
-\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <freertos/task.h>}}
-\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <driver/gpio.h>}}
-\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
-\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <string.h>}}
-\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <time.h>}}
-\DoxyCodeLine{00016\ }
-\DoxyCodeLine{00017\ \textcolor{comment}{//\ Number\ of\ bytes\ in\ the\ UID.\ 4,\ 7\ or\ 10.}}
-\DoxyCodeLine{00021\ \textcolor{comment}{}\textcolor{keyword}{typedef}\ uint8\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_ac68981dc3e297ee159fe8d0a34030abe}{singleSizeUID\_t}}[4];}
-\DoxyCodeLine{00022\ }
-\DoxyCodeLine{00026\ \textcolor{keyword}{typedef}\ uint8\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a152e4554336e458e8ac7b71c64bc33d7}{doubleSizeUID\_t}}[7];}
-\DoxyCodeLine{00027\ }
-\DoxyCodeLine{00031\ \textcolor{keyword}{typedef}\ uint8\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a6925d3d8d338b485c9de602cd9e0e8f2}{trippleSizeUID\_t}}[10];}
-\DoxyCodeLine{00032\ }
-\DoxyCodeLine{00036\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
-\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560a56aa0a0cc66c9afde89077c36eb5f6ee}{sevenBit}}\ =\ 0x07,\ \ \ \ }
-\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560a53b7424de67234dce8863e3630dafe5c}{eightBit}}\ =\ 0x08,\ \ \ \ }
-\DoxyCodeLine{00039\ \}\ \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560}{bitFraming\_t}};}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ \_MFRC522\_H\_}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ \_MFRC522\_H\_}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}../unit\_tests/unit\_tests.h"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}driver/spi\_master.h"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}esp\_timer.h"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <freertos/FreeRTOS.h>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <freertos/task.h>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <driver/gpio.h>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <time.h>}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ <assert.h>}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{comment}{//\ Number\ of\ bytes\ in\ the\ UID.\ 4,\ 7\ or\ 10.}}
+\DoxyCodeLine{00029\ \textcolor{comment}{}\textcolor{keyword}{typedef}\ uint8\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_ac68981dc3e297ee159fe8d0a34030abe}{singleSizeUID\_t}}[4];}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{typedef}\ uint8\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a152e4554336e458e8ac7b71c64bc33d7}{doubleSizeUID\_t}}[7];}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{typedef}\ uint8\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a6925d3d8d338b485c9de602cd9e0e8f2}{trippleSizeUID\_t}}[10];}
 \DoxyCodeLine{00040\ }
 \DoxyCodeLine{00044\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
-\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06cabe74bc6234f219aaebddfc3a60bf519d}{fourBytesSingle}}\ =\ 4,\ \ \ \ }
-\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06ca4ec0de1b1967020341dfb3b152b0d1b9}{sevenBytesDouble}}\ =\ 7,\ \ \ }
-\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06ca265b1d88a5359b5fccffaa0d94fd83c8}{tenBytesTripple}}\ =\ 10,\ \ \ }
-\DoxyCodeLine{00048\ \}\ \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06c}{uidSize\_t}};}
-\DoxyCodeLine{00049\ }
-\DoxyCodeLine{00053\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06c}{uidSize\_t}}\ \mbox{\hyperlink{struct_unique_identifier__t_a50e97829ee33a806e29b10645726b4e6}{uidSize}};\ \ \ \ }
-\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{union\ }\{}
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_m_f_r_c522_8h_ac68981dc3e297ee159fe8d0a34030abe}{singleSizeUID\_t}}\ \mbox{\hyperlink{struct_unique_identifier__t_a205c7b211d8f865cdff9c9c4fb45cd46}{singleSizeUidData}};\ \ \ \ }
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_m_f_r_c522_8h_a152e4554336e458e8ac7b71c64bc33d7}{doubleSizeUID\_t}}\ \mbox{\hyperlink{struct_unique_identifier__t_a2432a96de43296d6847346a0b3a7a844}{doubleSizeUidData}};\ \ \ \ }
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_m_f_r_c522_8h_a6925d3d8d338b485c9de602cd9e0e8f2}{trippleSizeUID\_t}}\ \mbox{\hyperlink{struct_unique_identifier__t_a92c03c7fa6a6f3956698cd2f25d6ce51}{trippleSizeUidData}};\ \ }
-\DoxyCodeLine{00059\ \ \ \ \ \}\ uidData;}
-\DoxyCodeLine{00060\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_unique_identifier__t_a11cb640c171b4968b86b68740efe39dc}{sakByte}};\ \ \ \ }
-\DoxyCodeLine{00061\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_unique_identifier__t_a298756bee2b18a1c5374f87d8752da7f}{bccByte}};\ \ \ \ }
-\DoxyCodeLine{00062\ \}\ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}};}
-\DoxyCodeLine{00063\ }
-\DoxyCodeLine{00067\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ \mbox{\hyperlink{struct_mifare1k_key__t_a37663afffdc905e60c9bdd5dcd06e40d}{uid}};\ \ \ \ }
-\DoxyCodeLine{00069\ \ \ \ \ uint8\_t\ blockKey[6];\ \ \ \ }
-\DoxyCodeLine{00070\ \ \ \ \ uint8\_t\ keyData[16][64];\ \ \ \ }
-\DoxyCodeLine{00071\ \}\ \mbox{\hyperlink{struct_mifare1k_key__t}{Mifare1kKey\_t}};}
-\DoxyCodeLine{00072\ }
-\DoxyCodeLine{00073\ \textcolor{comment}{//\ Definitions\ for\ some\ constants}}
-\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ NUM\_SECTORE\_MIFARE\_1K\ 16\ \ \ \ }}
-\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ NUM\_BLOCKS\_PER\_SECTOR\ 4\ \ \ \ }}
-\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ MIFARE\_KEY\_SIZE\ 6\ \ \ \ }}
-\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED00\ \ \ \ \ \ \ \ \ \ \ 0x00\ <<\ 1}}
-\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_COMMAND\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x01\ <<\ 1}}
-\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_COMIEN\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x02\ <<\ 1}}
-\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_DIVIEN\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x03\ <<\ 1}}
-\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_COMIRQ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x04\ <<\ 1}}
-\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_DIVIRQ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x05\ <<\ 1}}
-\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_ERROR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x06\ <<\ 1}}
-\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_STATUS1\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x07\ <<\ 1}}
-\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_STATUS2\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x08\ <<\ 1}}
-\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_FIFO\_DATA\ \ \ \ \ \ \ \ \ \ \ \ 0x09\ <<\ 1}}
-\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_FIFO\_LEVEL\ \ \ \ \ \ \ \ \ \ \ 0x0A\ <<\ 1}}
-\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_WATER\_LEVEL\ \ \ \ \ \ \ \ \ \ 0x0B\ <<\ 1}}
-\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_CONTROL\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x0C\ <<\ 1}}
-\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_BIT\_FRAMING\ \ \ \ \ \ \ \ \ \ 0x0D\ <<\ 1}}
-\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_COLL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x0E\ <<\ 1}}
-\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED01\ \ \ \ \ \ \ \ \ \ \ 0x0F\ <<\ 1}}
-\DoxyCodeLine{00098\ }
-\DoxyCodeLine{00099\ \textcolor{comment}{//\ Page\ 1:\ Command}}
-\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED10\ \ \ \ \ \ \ \ \ \ \ 0x10\ <<\ 1}}
-\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_MODE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x11\ <<\ 1}}
-\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TX\_MODE\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x12\ <<\ 1}}
-\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RX\_MODE\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x13\ <<\ 1}}
-\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TX\_CONTROL\ \ \ \ \ \ \ \ \ \ \ 0x14\ <<\ 1}}
-\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TX\_AUTO\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x15\ <<\ 1}}
-\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TX\_SEL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x16\ <<\ 1}}
-\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RX\_SEL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x17\ <<\ 1}}
-\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RX\_THRESHOLD\ \ \ \ \ \ \ \ \ 0x18\ <<\ 1}}
-\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_DEMOD\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x19\ <<\ 1}}
-\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED11\ \ \ \ \ \ \ \ \ \ \ 0x1A\ <<\ 1}}
-\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED12\ \ \ \ \ \ \ \ \ \ \ 0x1B\ <<\ 1}}
-\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_MIFARE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x1C\ <<\ 1}}
-\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED13\ \ \ \ \ \ \ \ \ \ \ 0x1D\ <<\ 1}}
-\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED14\ \ \ \ \ \ \ \ \ \ \ 0x1E\ <<\ 1}}
-\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_SERIALSPEED\ \ \ \ \ \ \ \ \ \ 0x1F\ <<\ 1}}
-\DoxyCodeLine{00116\ }
-\DoxyCodeLine{00117\ \textcolor{comment}{//\ Page\ 2:\ Configuration}}
-\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED20\ \ \ \ \ \ \ \ \ \ \ 0x20\ <<\ 1}}
-\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_CRC\_RESULT\_M\ \ \ \ \ \ \ \ \ 0x21\ <<\ 1}}
-\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_CRC\_RESULT\_L\ \ \ \ \ \ \ \ \ 0x22\ <<\ 1}}
-\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED21\ \ \ \ \ \ \ \ \ \ \ 0x23\ <<\ 1}}
-\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_MOD\_WIDTH\ \ \ \ \ \ \ \ \ \ \ \ 0x24\ <<\ 1}}
-\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED22\ \ \ \ \ \ \ \ \ \ \ 0x25\ <<\ 1}}
-\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RF\_CFG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x26\ <<\ 1}}
-\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_GS\_N\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x27\ <<\ 1}}
-\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_CWGS\_PREG\ \ \ \ \ \ \ \ \ \ \ \ 0x28\ <<\ 1}}
-\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_MOD\_GS\_PREG\ \ \ \ \ \ \ \ \ \ 0x29\ <<\ 1}}
-\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_T\_MODE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x2A\ <<\ 1}}
-\DoxyCodeLine{00129\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_T\_PRESCALER\ \ \ \ \ \ \ \ \ \ 0x2B\ <<\ 1}}
-\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_T\_RELOAD\_H\ \ \ \ \ \ \ \ \ \ \ 0x2C\ <<\ 1}}
-\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_T\_RELOAD\_L\ \ \ \ \ \ \ \ \ \ \ 0x2D\ <<\ 1}}
-\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_T\_COUNTER\_VALUE\_H\ \ \ \ 0x2E\ <<\ 1}}
-\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_T\_COUNTER\_VALUE\_L\ \ \ \ 0x2F\ <<\ 1}}
-\DoxyCodeLine{00134\ }
-\DoxyCodeLine{00135\ \textcolor{comment}{//\ Page\ 3:\ Test}}
-\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED30\ \ \ \ \ \ \ \ \ \ \ 0x30\ <<\ 1}}
-\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TEST\_SEL1\ \ \ \ \ \ \ \ \ \ \ \ 0x31\ <<\ 1}}
-\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TEST\_SEL2\ \ \ \ \ \ \ \ \ \ \ \ 0x32\ <<\ 1}}
-\DoxyCodeLine{00139\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TEST\_PIN\_EN\ \ \ \ \ \ \ \ \ \ 0x33\ <<\ 1}}
-\DoxyCodeLine{00140\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TEST\_PIN\_VALUE\ \ \ \ \ \ \ 0x34\ <<\ 1}}
-\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TEST\_BUS\ \ \ \ \ \ \ \ \ \ \ \ \ 0x35\ <<\ 1}}
-\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_AUTO\_TEST\ \ \ \ \ \ \ \ \ \ \ \ 0x36\ <<\ 1}}
-\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_VERSION\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x37\ <<\ 1}}
-\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_ANALOG\_TEST\ \ \ \ \ \ \ \ \ \ 0x38\ <<\ 1}}
-\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TEST\_DAC1\ \ \ \ \ \ \ \ \ \ \ \ 0x39\ <<\ 1}}
-\DoxyCodeLine{00146\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TEST\_DAC2\ \ \ \ \ \ \ \ \ \ \ \ 0x3A\ <<\ 1}}
-\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TEST\_ADC\ \ \ \ \ \ \ \ \ \ \ \ \ 0x3B\ <<\ 1}}
-\DoxyCodeLine{00148\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED31\ \ \ \ \ \ \ \ \ \ \ 0x3C\ <<\ 1}}
-\DoxyCodeLine{00149\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED32\ \ \ \ \ \ \ \ \ \ \ 0x3D\ <<\ 1}}
-\DoxyCodeLine{00150\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED33\ \ \ \ \ \ \ \ \ \ \ 0x3E\ <<\ 1}}
-\DoxyCodeLine{00151\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED34\ \ \ \ \ \ \ \ \ \ \ 0x3F\ <<\ 1}}
-\DoxyCodeLine{00158\ \textcolor{comment}{//\ Commands\ sent\ to\ the\ PICC.}}
-\DoxyCodeLine{00159\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
-\DoxyCodeLine{00160\ \ \ \ \ PICC\_CMD\_REQA\ \ \ \ \ \ \ \ \ =\ 0x26,}
-\DoxyCodeLine{00161\ \ \ \ \ PICC\_CMD\_WUPA\ \ \ \ \ \ \ \ \ =\ 0x52,}
-\DoxyCodeLine{00162\ \ \ \ \ PICC\_CMD\_CT\ \ \ \ \ \ \ \ \ \ \ =\ 0x88,}
-\DoxyCodeLine{00163\ \ \ \ \ PICC\_CMD\_SEL\_CL1\ \ \ \ \ \ =\ 0x93,}
-\DoxyCodeLine{00164\ \ \ \ \ PICC\_CMD\_SEL\_CL2\ \ \ \ \ \ =\ 0x95,}
-\DoxyCodeLine{00165\ \ \ \ \ PICC\_CMD\_SEL\_CL3\ \ \ \ \ \ =\ 0x97,}
-\DoxyCodeLine{00166\ \ \ \ \ PICC\_CMD\_HLTA\ \ \ \ \ \ \ \ \ =\ 0x50,}
-\DoxyCodeLine{00167\ \ \ \ \ PICC\_CMD\_RATS\ \ \ \ \ \ \ \ \ =\ 0xE0,}
-\DoxyCodeLine{00168\ \ \ \ \ PICC\_CMD\_MF\_AUTH\_KEY\_A\ =\ 0x60,}
-\DoxyCodeLine{00169\ \ \ \ \ PICC\_CMD\_MF\_AUTH\_KEY\_B\ =\ 0x61,}
-\DoxyCodeLine{00170\ \ \ \ \ PICC\_CMD\_MF\_READ\ \ \ \ \ \ =\ 0x30,}
-\DoxyCodeLine{00171\ \ \ \ \ PICC\_CMD\_MF\_WRITE\ \ \ \ \ =\ 0xA0,}
-\DoxyCodeLine{00172\ \ \ \ \ PICC\_CMD\_MF\_DECREMENT\ =\ 0xC0,}
-\DoxyCodeLine{00173\ \ \ \ \ PICC\_CMD\_MF\_INCREMENT\ =\ 0xC1,}
-\DoxyCodeLine{00174\ \ \ \ \ PICC\_CMD\_MF\_RESTORE\ \ \ =\ 0xC2,}
-\DoxyCodeLine{00175\ \ \ \ \ PICC\_CMD\_MF\_TRANSFER\ \ =\ 0xB0,}
-\DoxyCodeLine{00176\ \ \ \ \ PICC\_CMD\_UL\_WRITE\ \ \ \ \ =\ 0xA2,}
-\DoxyCodeLine{00177\ \ \ \ \ MFRC522\_MIFARE\_ACK\ \ \ \ =\ 0x0A,}
-\DoxyCodeLine{00178\ \}\ piccCmds\_t;}
-\DoxyCodeLine{00179\ }
-\DoxyCodeLine{00180\ }
-\DoxyCodeLine{00181\ \textcolor{comment}{//\ MFRC522's\ commands\ for\ the\ PCD.}}
-\DoxyCodeLine{00182\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_IDLE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00\ \ }\textcolor{comment}{//\ NO\ action;\ cancels\ current\ command\ execution}}
-\DoxyCodeLine{00183\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_MEM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x01\ \ }\textcolor{comment}{//\ Stores\ 25\ bytes\ into\ the\ internal\ buffer}}
-\DoxyCodeLine{00184\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_GEN\_RANDOM\_ID\ \ \ \ \ \ \ 0x02\ \ }\textcolor{comment}{//\ Generates\ a\ 10-\/byte\ random\ ID\ number}}
-\DoxyCodeLine{00185\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_CALC\_CRC\ \ \ \ \ \ \ \ \ \ \ \ 0x03\ \ }\textcolor{comment}{//\ Activates\ the\ CRC\ coprocessor\ or\ performs\ a\ self-\/test}}
-\DoxyCodeLine{00186\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_TRANSMIT\ \ \ \ \ \ \ \ \ \ \ \ 0x04\ \ }\textcolor{comment}{//\ Transmits\ data\ from\ the\ FIFO\ buffer}}
-\DoxyCodeLine{00187\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_NO\_CMD\_CHANGE\ \ \ \ \ \ \ 0x07\ \ }\textcolor{comment}{//\ Can\ be\ used\ to\ modify\ the\ CommandReg\ register\ bits\ without\ affecting\ the\ command,\ if\ any,\ currently\ being\ executed}}
-\DoxyCodeLine{00188\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_RECEIVE\ \ \ \ \ \ \ \ \ \ \ \ \ 0x08\ \ }\textcolor{comment}{//\ Activates\ the\ receiver\ circuits}}
-\DoxyCodeLine{00189\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_TRANSCEIVE\ \ \ \ \ \ \ \ \ \ 0x0C\ \ }\textcolor{comment}{//\ Transmits\ data\ from\ FIFO\ buffer\ to\ antenna\ and\ automatically\ activates\ the\ receiver\ after\ transmission}}
-\DoxyCodeLine{00190\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_MF\_AUTHENT\ \ \ \ \ \ \ \ \ \ 0x0E\ \ }\textcolor{comment}{//\ Performs\ the\ MIFARE\ standard\ authentication\ as\ a\ reader}}
-\DoxyCodeLine{00191\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_SOFT\_RESET\ \ \ \ \ \ \ \ \ \ 0x0F\ \ }\textcolor{comment}{//\ Resets\ the\ MFRC522}}
-\DoxyCodeLine{00202\ \textcolor{comment}{}esp\_err\_t\ xMFRC522\_WriteRegister(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ registerAddress,\ uint8\_t\ value);}
-\DoxyCodeLine{00203\ }
-\DoxyCodeLine{00212\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_ad0ee2f8148fd691cbfa80fd0ccce6ec2}{xMFRC522\_ReadRegister}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ registerAddress,\ uint8\_t\ *data);}
-\DoxyCodeLine{00213\ }
-\DoxyCodeLine{00223\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_ada322c0a78a7db5add268ba10857d865}{xMFRC522\_ReadRegisterArr}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ registerAddress,\ uint8\_t\ *dataArr,\ uint8\_t\ dataSize);}
-\DoxyCodeLine{00224\ }
-\DoxyCodeLine{00234\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a556f72b2e4db6b332ec4569f7b2f1503}{xMFRC522\_WriteRegisterArr}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ registerAddress,\ uint8\_t\ *dataArr,\ uint8\_t\ dataSize);}
-\DoxyCodeLine{00235\ }
-\DoxyCodeLine{00242\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a7f6caabfd73340b5ad7013056d469dd3}{xMFRC522\_Init}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ rstPin);}
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560a56aa0a0cc66c9afde89077c36eb5f6ee}{sevenBit}}\ =\ 0x07,\ \ \ \ }
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560a53b7424de67234dce8863e3630dafe5c}{eightBit}}\ =\ 0x08,\ \ \ \ }
+\DoxyCodeLine{00047\ \}\ \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560}{bitFraming\_t}};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06cabe74bc6234f219aaebddfc3a60bf519d}{fourBytesSingle}}\ =\ 4,\ \ \ \ }
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06ca4ec0de1b1967020341dfb3b152b0d1b9}{sevenBytesDouble}}\ =\ 7,\ \ \ }
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06ca265b1d88a5359b5fccffaa0d94fd83c8}{tenBytesTripple}}\ =\ 10,\ \ \ }
+\DoxyCodeLine{00056\ \}\ \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06c}{uidSize\_t}};}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00061\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06c}{uidSize\_t}}\ \mbox{\hyperlink{struct_unique_identifier__t_a50e97829ee33a806e29b10645726b4e6}{uidSize}};\ \ \ \ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_m_f_r_c522_8h_ac68981dc3e297ee159fe8d0a34030abe}{singleSizeUID\_t}}\ \mbox{\hyperlink{struct_unique_identifier__t_a205c7b211d8f865cdff9c9c4fb45cd46}{singleSizeUidData}};\ \ \ \ }
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_m_f_r_c522_8h_a152e4554336e458e8ac7b71c64bc33d7}{doubleSizeUID\_t}}\ \mbox{\hyperlink{struct_unique_identifier__t_a2432a96de43296d6847346a0b3a7a844}{doubleSizeUidData}};\ \ \ \ }
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_m_f_r_c522_8h_a6925d3d8d338b485c9de602cd9e0e8f2}{trippleSizeUID\_t}}\ \mbox{\hyperlink{struct_unique_identifier__t_a92c03c7fa6a6f3956698cd2f25d6ce51}{trippleSizeUidData}};\ \ }
+\DoxyCodeLine{00067\ \ \ \ \ \}\ uidData;}
+\DoxyCodeLine{00068\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_unique_identifier__t_a11cb640c171b4968b86b68740efe39dc}{sakByte}};\ \ \ \ }
+\DoxyCodeLine{00069\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_unique_identifier__t_a298756bee2b18a1c5374f87d8752da7f}{bccByte}};\ \ \ \ }
+\DoxyCodeLine{00070\ \}\ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}};}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00075\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ \mbox{\hyperlink{struct_mifare1k_key__t_a37663afffdc905e60c9bdd5dcd06e40d}{uid}};\ \ \ \ }
+\DoxyCodeLine{00077\ \ \ \ \ uint8\_t\ blockKey[6];\ \ \ \ }
+\DoxyCodeLine{00078\ \ \ \ \ uint8\_t\ keyData[16][64];\ \ \ \ }
+\DoxyCodeLine{00079\ \}\ \mbox{\hyperlink{struct_mifare1k_key__t}{Mifare1kKey\_t}};}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{comment}{//\ Definitions\ for\ some\ constants}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#define\ NUM\_SECTORE\_MIFARE\_1K\ 16\ \ \ \ }}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#define\ NUM\_BLOCKS\_PER\_SECTOR\ 4\ \ \ \ }}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#define\ MIFARE\_KEY\_SIZE\ 6\ \ \ \ }}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED00\ \ \ \ \ \ \ \ \ \ \ 0x00\ <<\ 1}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_COMMAND\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x01\ <<\ 1}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_COMIEN\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x02\ <<\ 1}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_DIVIEN\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x03\ <<\ 1}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_COMIRQ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x04\ <<\ 1}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_DIVIRQ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x05\ <<\ 1}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_ERROR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x06\ <<\ 1}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_STATUS1\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x07\ <<\ 1}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_STATUS2\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x08\ <<\ 1}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_FIFO\_DATA\ \ \ \ \ \ \ \ \ \ \ \ 0x09\ <<\ 1}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_FIFO\_LEVEL\ \ \ \ \ \ \ \ \ \ \ 0x0A\ <<\ 1}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_WATER\_LEVEL\ \ \ \ \ \ \ \ \ \ 0x0B\ <<\ 1}}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_CONTROL\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x0C\ <<\ 1}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_BIT\_FRAMING\ \ \ \ \ \ \ \ \ \ 0x0D\ <<\ 1}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_COLL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x0E\ <<\ 1}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED01\ \ \ \ \ \ \ \ \ \ \ 0x0F\ <<\ 1}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \textcolor{comment}{//\ Page\ 1:\ Command}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED10\ \ \ \ \ \ \ \ \ \ \ 0x10\ <<\ 1}}
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_MODE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x11\ <<\ 1}}
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TX\_MODE\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x12\ <<\ 1}}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RX\_MODE\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x13\ <<\ 1}}
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TX\_CONTROL\ \ \ \ \ \ \ \ \ \ \ 0x14\ <<\ 1}}
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TX\_AUTO\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x15\ <<\ 1}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TX\_SEL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x16\ <<\ 1}}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RX\_SEL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x17\ <<\ 1}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RX\_THRESHOLD\ \ \ \ \ \ \ \ \ 0x18\ <<\ 1}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_DEMOD\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x19\ <<\ 1}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED11\ \ \ \ \ \ \ \ \ \ \ 0x1A\ <<\ 1}}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED12\ \ \ \ \ \ \ \ \ \ \ 0x1B\ <<\ 1}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_MIFARE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x1C\ <<\ 1}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED13\ \ \ \ \ \ \ \ \ \ \ 0x1D\ <<\ 1}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED14\ \ \ \ \ \ \ \ \ \ \ 0x1E\ <<\ 1}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_SERIALSPEED\ \ \ \ \ \ \ \ \ \ 0x1F\ <<\ 1}}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \textcolor{comment}{//\ Page\ 2:\ Configuration}}
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED20\ \ \ \ \ \ \ \ \ \ \ 0x20\ <<\ 1}}
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_CRC\_RESULT\_M\ \ \ \ \ \ \ \ \ 0x21\ <<\ 1}}
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_CRC\_RESULT\_L\ \ \ \ \ \ \ \ \ 0x22\ <<\ 1}}
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED21\ \ \ \ \ \ \ \ \ \ \ 0x23\ <<\ 1}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_MOD\_WIDTH\ \ \ \ \ \ \ \ \ \ \ \ 0x24\ <<\ 1}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED22\ \ \ \ \ \ \ \ \ \ \ 0x25\ <<\ 1}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RF\_CFG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x26\ <<\ 1}}
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_GS\_N\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x27\ <<\ 1}}
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_CWGS\_PREG\ \ \ \ \ \ \ \ \ \ \ \ 0x28\ <<\ 1}}
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_MOD\_GS\_PREG\ \ \ \ \ \ \ \ \ \ 0x29\ <<\ 1}}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_T\_MODE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x2A\ <<\ 1}}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_T\_PRESCALER\ \ \ \ \ \ \ \ \ \ 0x2B\ <<\ 1}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_T\_RELOAD\_H\ \ \ \ \ \ \ \ \ \ \ 0x2C\ <<\ 1}}
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_T\_RELOAD\_L\ \ \ \ \ \ \ \ \ \ \ 0x2D\ <<\ 1}}
+\DoxyCodeLine{00140\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_T\_COUNTER\_VALUE\_H\ \ \ \ 0x2E\ <<\ 1}}
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_T\_COUNTER\_VALUE\_L\ \ \ \ 0x2F\ <<\ 1}}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \textcolor{comment}{//\ Page\ 3:\ Test}}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED30\ \ \ \ \ \ \ \ \ \ \ 0x30\ <<\ 1}}
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TEST\_SEL1\ \ \ \ \ \ \ \ \ \ \ \ 0x31\ <<\ 1}}
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TEST\_SEL2\ \ \ \ \ \ \ \ \ \ \ \ 0x32\ <<\ 1}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TEST\_PIN\_EN\ \ \ \ \ \ \ \ \ \ 0x33\ <<\ 1}}
+\DoxyCodeLine{00148\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TEST\_PIN\_VALUE\ \ \ \ \ \ \ 0x34\ <<\ 1}}
+\DoxyCodeLine{00149\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TEST\_BUS\ \ \ \ \ \ \ \ \ \ \ \ \ 0x35\ <<\ 1}}
+\DoxyCodeLine{00150\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_AUTO\_TEST\ \ \ \ \ \ \ \ \ \ \ \ 0x36\ <<\ 1}}
+\DoxyCodeLine{00151\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_VERSION\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x37\ <<\ 1}}
+\DoxyCodeLine{00152\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_ANALOG\_TEST\ \ \ \ \ \ \ \ \ \ 0x38\ <<\ 1}}
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TEST\_DAC1\ \ \ \ \ \ \ \ \ \ \ \ 0x39\ <<\ 1}}
+\DoxyCodeLine{00154\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TEST\_DAC2\ \ \ \ \ \ \ \ \ \ \ \ 0x3A\ <<\ 1}}
+\DoxyCodeLine{00155\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_TEST\_ADC\ \ \ \ \ \ \ \ \ \ \ \ \ 0x3B\ <<\ 1}}
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED31\ \ \ \ \ \ \ \ \ \ \ 0x3C\ <<\ 1}}
+\DoxyCodeLine{00157\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED32\ \ \ \ \ \ \ \ \ \ \ 0x3D\ <<\ 1}}
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED33\ \ \ \ \ \ \ \ \ \ \ 0x3E\ <<\ 1}}
+\DoxyCodeLine{00159\ \textcolor{preprocessor}{\#define\ MFRC522\_REG\_RESERVED34\ \ \ \ \ \ \ \ \ \ \ 0x3F\ <<\ 1}}
+\DoxyCodeLine{00166\ \textcolor{comment}{//\ Commands\ sent\ to\ the\ PICC.}}
+\DoxyCodeLine{00167\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00168\ \ \ \ \ PICC\_CMD\_REQA\ \ \ \ \ \ \ \ \ =\ 0x26,}
+\DoxyCodeLine{00169\ \ \ \ \ PICC\_CMD\_WUPA\ \ \ \ \ \ \ \ \ =\ 0x52,}
+\DoxyCodeLine{00170\ \ \ \ \ PICC\_CMD\_CT\ \ \ \ \ \ \ \ \ \ \ =\ 0x88,}
+\DoxyCodeLine{00171\ \ \ \ \ PICC\_CMD\_SEL\_CL1\ \ \ \ \ \ =\ 0x93,}
+\DoxyCodeLine{00172\ \ \ \ \ PICC\_CMD\_SEL\_CL2\ \ \ \ \ \ =\ 0x95,}
+\DoxyCodeLine{00173\ \ \ \ \ PICC\_CMD\_SEL\_CL3\ \ \ \ \ \ =\ 0x97,}
+\DoxyCodeLine{00174\ \ \ \ \ PICC\_CMD\_HLTA\ \ \ \ \ \ \ \ \ =\ 0x50,}
+\DoxyCodeLine{00175\ \ \ \ \ PICC\_CMD\_RATS\ \ \ \ \ \ \ \ \ =\ 0xE0,}
+\DoxyCodeLine{00176\ \ \ \ \ PICC\_CMD\_MF\_AUTH\_KEY\_A\ =\ 0x60,}
+\DoxyCodeLine{00177\ \ \ \ \ PICC\_CMD\_MF\_AUTH\_KEY\_B\ =\ 0x61,}
+\DoxyCodeLine{00178\ \ \ \ \ PICC\_CMD\_MF\_READ\ \ \ \ \ \ =\ 0x30,}
+\DoxyCodeLine{00179\ \ \ \ \ PICC\_CMD\_MF\_WRITE\ \ \ \ \ =\ 0xA0,}
+\DoxyCodeLine{00180\ \ \ \ \ PICC\_CMD\_MF\_DECREMENT\ =\ 0xC0,}
+\DoxyCodeLine{00181\ \ \ \ \ PICC\_CMD\_MF\_INCREMENT\ =\ 0xC1,}
+\DoxyCodeLine{00182\ \ \ \ \ PICC\_CMD\_MF\_RESTORE\ \ \ =\ 0xC2,}
+\DoxyCodeLine{00183\ \ \ \ \ PICC\_CMD\_MF\_TRANSFER\ \ =\ 0xB0,}
+\DoxyCodeLine{00184\ \ \ \ \ PICC\_CMD\_UL\_WRITE\ \ \ \ \ =\ 0xA2,}
+\DoxyCodeLine{00185\ \ \ \ \ MFRC522\_MIFARE\_ACK\ \ \ \ =\ 0x0A,}
+\DoxyCodeLine{00186\ \}\ piccCmds\_t;}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \textcolor{comment}{//\ MFRC522's\ commands\ for\ the\ PCD.}}
+\DoxyCodeLine{00190\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_IDLE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00\ \ }\textcolor{comment}{//\ NO\ action;\ cancels\ current\ command\ execution}}
+\DoxyCodeLine{00191\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_MEM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x01\ \ }\textcolor{comment}{//\ Stores\ 25\ bytes\ into\ the\ internal\ buffer}}
+\DoxyCodeLine{00192\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_GEN\_RANDOM\_ID\ \ \ \ \ \ \ 0x02\ \ }\textcolor{comment}{//\ Generates\ a\ 10-\/byte\ random\ ID\ number}}
+\DoxyCodeLine{00193\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_CALC\_CRC\ \ \ \ \ \ \ \ \ \ \ \ 0x03\ \ }\textcolor{comment}{//\ Activates\ the\ CRC\ coprocessor\ or\ performs\ a\ self-\/test}}
+\DoxyCodeLine{00194\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_TRANSMIT\ \ \ \ \ \ \ \ \ \ \ \ 0x04\ \ }\textcolor{comment}{//\ Transmits\ data\ from\ the\ FIFO\ buffer}}
+\DoxyCodeLine{00195\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_NO\_CMD\_CHANGE\ \ \ \ \ \ \ 0x07\ \ }\textcolor{comment}{//\ Can\ be\ used\ to\ modify\ the\ CommandReg\ register\ bits\ without\ affecting\ the\ command,\ if\ any,\ currently\ being\ executed}}
+\DoxyCodeLine{00196\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_RECEIVE\ \ \ \ \ \ \ \ \ \ \ \ \ 0x08\ \ }\textcolor{comment}{//\ Activates\ the\ receiver\ circuits}}
+\DoxyCodeLine{00197\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_TRANSCEIVE\ \ \ \ \ \ \ \ \ \ 0x0C\ \ }\textcolor{comment}{//\ Transmits\ data\ from\ FIFO\ buffer\ to\ antenna\ and\ automatically\ activates\ the\ receiver\ after\ transmission}}
+\DoxyCodeLine{00198\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_MF\_AUTHENT\ \ \ \ \ \ \ \ \ \ 0x0E\ \ }\textcolor{comment}{//\ Performs\ the\ MIFARE\ standard\ authentication\ as\ a\ reader}}
+\DoxyCodeLine{00199\ \textcolor{preprocessor}{\#define\ PCD\_CMD\_SOFT\_RESET\ \ \ \ \ \ \ \ \ \ 0x0F\ \ }\textcolor{comment}{//\ Resets\ the\ MFRC522}}
+\DoxyCodeLine{00210\ \textcolor{comment}{}esp\_err\_t\ xMFRC522\_WriteRegister(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ registerAddress,\ uint8\_t\ value);}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00220\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_ad0ee2f8148fd691cbfa80fd0ccce6ec2}{xMFRC522\_ReadRegister}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ registerAddress,\ uint8\_t\ *data);}
+\DoxyCodeLine{00221\ }
+\DoxyCodeLine{00231\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_ada322c0a78a7db5add268ba10857d865}{xMFRC522\_ReadRegisterArr}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ registerAddress,\ uint8\_t\ *dataArr,\ uint8\_t\ dataSize);}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00242\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a556f72b2e4db6b332ec4569f7b2f1503}{xMFRC522\_WriteRegisterArr}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ registerAddress,\ uint8\_t\ *dataArr,\ uint8\_t\ dataSize);}
 \DoxyCodeLine{00243\ }
-\DoxyCodeLine{00252\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a50c2ad051bcbca4dec0567c022196757}{xMFRC522\_ClrRegBitMask}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ registerAdress,\ uint8\_t\ mask);}
-\DoxyCodeLine{00253\ }
-\DoxyCodeLine{00260\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{_m_f_r_c522_8h_ab8c385cbfba9791d16c3589b908831d0}{xMFRC522\_IsCardPresent}}(spi\_device\_handle\_t\ *spiHandle);}
+\DoxyCodeLine{00250\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a7f6caabfd73340b5ad7013056d469dd3}{xMFRC522\_Init}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ rstPin);}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00260\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a50c2ad051bcbca4dec0567c022196757}{xMFRC522\_ClrRegBitMask}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ registerAdress,\ uint8\_t\ mask);}
 \DoxyCodeLine{00261\ }
-\DoxyCodeLine{00268\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a066a27d242a1c8feab852db7c6d54a13}{xMFRC522\_AntennaOn}}(spi\_device\_handle\_t\ *spiHandle);}
+\DoxyCodeLine{00268\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{_m_f_r_c522_8h_ab8c385cbfba9791d16c3589b908831d0}{xMFRC522\_IsCardPresent}}(spi\_device\_handle\_t\ *spiHandle);}
 \DoxyCodeLine{00269\ }
-\DoxyCodeLine{00276\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_af5515e1586c44dcceb8652946c981700}{xMFRC522\_SelfTest}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ rstPin);}
+\DoxyCodeLine{00276\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a066a27d242a1c8feab852db7c6d54a13}{xMFRC522\_AntennaOn}}(spi\_device\_handle\_t\ *spiHandle);}
 \DoxyCodeLine{00277\ }
-\DoxyCodeLine{00284\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_af1bf925b054065684808151269513159}{xMFRC522\_Reset}}(spi\_device\_handle\_t\ *spiHandle);}
+\DoxyCodeLine{00284\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_af5515e1586c44dcceb8652946c981700}{xMFRC522\_SelfTest}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ rstPin);}
 \DoxyCodeLine{00285\ }
-\DoxyCodeLine{00296\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a529a111777380f059592691df6c49644}{xMFRC522\_Transcieve}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ waitIrq,\ uint8\_t\ *cmdBuf,\ uint8\_t\ bufSize,\ \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560}{bitFraming\_t}}\ bitFrame);}
-\DoxyCodeLine{00297\ }
-\DoxyCodeLine{00308\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a490d16b98486755e504d855538a9a0e5}{xMFRC522\_MF\_Authent}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ waitIrq,\ uint8\_t\ *cmdBuf,\ uint8\_t\ bufSize,\ \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560}{bitFraming\_t}}\ bitFrame);}
-\DoxyCodeLine{00309\ }
-\DoxyCodeLine{00321\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a50adb68c2f5299083cf59df68a7dea04}{xMFRC522\_CommWithMifare}}(uint8\_t\ cmd,\ spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ waitIrq,\ uint8\_t\ *cmdBuf,\ uint8\_t\ bufSize,\ \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560}{bitFraming\_t}}\ bitFrame);}
-\DoxyCodeLine{00322\ }
-\DoxyCodeLine{00331\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_ae8dd102fbbc49bfd1c9b1d6effe28033}{xMFRC522\_SetRegBitMask}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ registerAddress,\ uint8\_t\ mask);}
-\DoxyCodeLine{00332\ }
-\DoxyCodeLine{00342\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_aad5b8ec13396bd7ea04f221db63366bf}{xMFRC522\_CalculateCRC}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ *buf,\ uint8\_t\ bufLen,\ uint8\_t\ resultBuf[2]);}
-\DoxyCodeLine{00343\ }
-\DoxyCodeLine{00351\ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ *\mbox{\hyperlink{_m_f_r_c522_8h_a850ffb1764cc8591acdbc36c32f68b3e}{xMifare\_ReadUID}}(spi\_device\_handle\_t\ *spiHandle,\ \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06c}{uidSize\_t}}\ uidSize);}
-\DoxyCodeLine{00352\ }
-\DoxyCodeLine{00360\ \mbox{\hyperlink{struct_mifare1k_key__t}{Mifare1kKey\_t}}\ *\mbox{\hyperlink{_m_f_r_c522_8h_a0b782a5f8339740f14b7c080e493a0bb}{xMifare\_GetKeyData}}(spi\_device\_handle\_t\ *spiHandle,\ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ *UID);}
-\DoxyCodeLine{00361\ }
-\DoxyCodeLine{00370\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_ae235f1a8480f6e4fca6cfa3b66ed23a0}{xMifare\_WriteKey}}(spi\_device\_handle\_t\ *spiHandle,\ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ *UID,\ uint8\_t\ data[45][16]);}
-\DoxyCodeLine{00371\ }
-\DoxyCodeLine{00381\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_aa677f2f607c42a532de49c88a2d2a49e}{xMifare\_WriteKeyBlock}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ blockAddress,\ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ *UID,\ uint8\_t\ data[16]);}
-\DoxyCodeLine{00382\ }
-\DoxyCodeLine{00390\ \textcolor{keyword}{static}\ esp\_err\_t\ xMifare\_SetSakByte(spi\_device\_handle\_t\ *spiHandle,\ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ *UID);}
-\DoxyCodeLine{00391\ }
-\DoxyCodeLine{00400\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a9430f19f32afe5e64c39739494a2a144}{xMifare\_ReadKeyBlock}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ blockAddress,\ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ *UID);}
-\DoxyCodeLine{00401\ }
-\DoxyCodeLine{00410\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ xPrv\_Mifare\_BlockCheckChar(uint8\_t\ *bufData,\ uint8\_t\ bufSize,\ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ *UID);}
-\DoxyCodeLine{00411\ }
-\DoxyCodeLine{00422\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_ad098952e0ccb91cce2f202993ea2eb8d}{xMifare\_Authenticate}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ cmd,\ uint8\_t\ blockAddress,\ uint8\_t\ *key,\ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ *UID);}
-\DoxyCodeLine{00423\ }
-\DoxyCodeLine{00429\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_m_f_r_c522_8h_a4fa4af8664e6eede404515597a982326}{vMifare\_PrintUID}}(\mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ *UID);}
-\DoxyCodeLine{00430\ }
-\DoxyCodeLine{00438\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_m_f_r_c522_8h_a592ea722f06940b31d2ea40586c7b2f4}{vMFRC522\_GetAndPrintFifoBuf}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ *fifoBuf,\ \textcolor{keywordtype}{bool}\ print);}
-\DoxyCodeLine{00439\ }
-\DoxyCodeLine{00445\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_m_f_r_c522_8h_a0a3be30bcad132603737cdb0374346d7}{vMifare\_PrintKey}}(\mbox{\hyperlink{struct_mifare1k_key__t}{Mifare1kKey\_t}}\ *key);}
-\DoxyCodeLine{00446\ }
+\DoxyCodeLine{00292\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_af1bf925b054065684808151269513159}{xMFRC522\_Reset}}(spi\_device\_handle\_t\ *spiHandle);}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00304\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a529a111777380f059592691df6c49644}{xMFRC522\_Transcieve}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ waitIrq,\ uint8\_t\ *cmdBuf,\ uint8\_t\ bufSize,\ \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560}{bitFraming\_t}}\ bitFrame);}
+\DoxyCodeLine{00305\ }
+\DoxyCodeLine{00316\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a490d16b98486755e504d855538a9a0e5}{xMFRC522\_MF\_Authent}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ waitIrq,\ uint8\_t\ *cmdBuf,\ uint8\_t\ bufSize,\ \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560}{bitFraming\_t}}\ bitFrame);}
+\DoxyCodeLine{00317\ }
+\DoxyCodeLine{00329\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a50adb68c2f5299083cf59df68a7dea04}{xMFRC522\_CommWithMifare}}(uint8\_t\ cmd,\ spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ waitIrq,\ uint8\_t\ *cmdBuf,\ uint8\_t\ bufSize,\ \mbox{\hyperlink{_m_f_r_c522_8h_ac49078cfbfe66864f852d58c5d5d5560}{bitFraming\_t}}\ bitFrame);}
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00339\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_ae8dd102fbbc49bfd1c9b1d6effe28033}{xMFRC522\_SetRegBitMask}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ registerAddress,\ uint8\_t\ mask);}
+\DoxyCodeLine{00340\ }
+\DoxyCodeLine{00350\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_aad5b8ec13396bd7ea04f221db63366bf}{xMFRC522\_CalculateCRC}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ *buf,\ uint8\_t\ bufLen,\ uint8\_t\ resultBuf[2]);}
+\DoxyCodeLine{00351\ }
+\DoxyCodeLine{00359\ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ *\mbox{\hyperlink{_m_f_r_c522_8h_a850ffb1764cc8591acdbc36c32f68b3e}{xMifare\_ReadUID}}(spi\_device\_handle\_t\ *spiHandle,\ \mbox{\hyperlink{_m_f_r_c522_8h_aac3e16145dce091503510dd0572ad06c}{uidSize\_t}}\ uidSize);}
+\DoxyCodeLine{00360\ }
+\DoxyCodeLine{00368\ \mbox{\hyperlink{struct_mifare1k_key__t}{Mifare1kKey\_t}}\ *\mbox{\hyperlink{_m_f_r_c522_8h_a0b782a5f8339740f14b7c080e493a0bb}{xMifare\_GetKeyData}}(spi\_device\_handle\_t\ *spiHandle,\ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ *UID);}
+\DoxyCodeLine{00369\ }
+\DoxyCodeLine{00378\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_ae235f1a8480f6e4fca6cfa3b66ed23a0}{xMifare\_WriteKey}}(spi\_device\_handle\_t\ *spiHandle,\ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ *UID,\ uint8\_t\ data[45][16]);}
+\DoxyCodeLine{00379\ }
+\DoxyCodeLine{00389\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_aa677f2f607c42a532de49c88a2d2a49e}{xMifare\_WriteKeyBlock}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ blockAddress,\ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ *UID,\ uint8\_t\ data[16]);}
+\DoxyCodeLine{00390\ }
+\DoxyCodeLine{00398\ \textcolor{keyword}{static}\ esp\_err\_t\ xMifare\_SetSakByte(spi\_device\_handle\_t\ *spiHandle,\ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ *UID);}
+\DoxyCodeLine{00399\ }
+\DoxyCodeLine{00408\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_a9430f19f32afe5e64c39739494a2a144}{xMifare\_ReadKeyBlock}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ blockAddress,\ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ *UID);}
+\DoxyCodeLine{00409\ }
+\DoxyCodeLine{00418\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ xPrv\_Mifare\_BlockCheckChar(uint8\_t\ *bufData,\ uint8\_t\ bufSize,\ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ *UID);}
+\DoxyCodeLine{00419\ }
+\DoxyCodeLine{00430\ esp\_err\_t\ \mbox{\hyperlink{_m_f_r_c522_8h_ad098952e0ccb91cce2f202993ea2eb8d}{xMifare\_Authenticate}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ cmd,\ uint8\_t\ blockAddress,\ uint8\_t\ *key,\ \mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ *UID);}
+\DoxyCodeLine{00431\ }
+\DoxyCodeLine{00437\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_m_f_r_c522_8h_a4fa4af8664e6eede404515597a982326}{vMifare\_PrintUID}}(\mbox{\hyperlink{struct_unique_identifier__t}{UniqueIdentifier\_t}}\ *UID);}
+\DoxyCodeLine{00438\ }
+\DoxyCodeLine{00446\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_m_f_r_c522_8h_a592ea722f06940b31d2ea40586c7b2f4}{vMFRC522\_GetAndPrintFifoBuf}}(spi\_device\_handle\_t\ *spiHandle,\ uint8\_t\ *fifoBuf,\ \textcolor{keywordtype}{bool}\ print);}
 \DoxyCodeLine{00447\ }
-\DoxyCodeLine{00448\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_MFRC522\_H\_}}
+\DoxyCodeLine{00453\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_m_f_r_c522_8h_a0a3be30bcad132603737cdb0374346d7}{vMifare\_PrintKey}}(\mbox{\hyperlink{struct_mifare1k_key__t}{Mifare1kKey\_t}}\ *key);}
+\DoxyCodeLine{00454\ }
+\DoxyCodeLine{00455\ }
+\DoxyCodeLine{00456\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_MFRC522\_H\_}}
 
 \end{DoxyCode}

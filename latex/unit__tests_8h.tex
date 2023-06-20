@@ -1,0 +1,62 @@
+\doxysection{Sources/unit\+\_\+tests/unit\+\_\+tests.h File Reference}
+\hypertarget{unit__tests_8h}{}\label{unit__tests_8h}\index{Sources/unit\_tests/unit\_tests.h@{Sources/unit\_tests/unit\_tests.h}}
+
+
+Unit Test Framework.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{unit__tests_8h_a8fd24f56528333b035faeb173d24319f}\label{unit__tests_8h_a8fd24f56528333b035faeb173d24319f} 
+\#define {\bfseries UNIT\+\_\+\+TESTS}~0
+\item 
+\#define \mbox{\hyperlink{unit__tests_8h_ad936c5a1cd1d5b3188598fd7211df325}{ESP\+\_\+\+ASSERT}}(name,  condition,  message)
+\begin{DoxyCompactList}\small\item\em Macro for performing unit test assertions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Unit Test Framework. 
+
+This file contains macros and utilities for performing unit tests.
+
+\begin{DoxyAuthor}{Author}
+Jack Lukomski 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{unit__tests_8h_ad936c5a1cd1d5b3188598fd7211df325}\label{unit__tests_8h_ad936c5a1cd1d5b3188598fd7211df325} 
+\index{unit\_tests.h@{unit\_tests.h}!ESP\_ASSERT@{ESP\_ASSERT}}
+\index{ESP\_ASSERT@{ESP\_ASSERT}!unit\_tests.h@{unit\_tests.h}}
+\doxysubsubsection{\texorpdfstring{ESP\_ASSERT}{ESP\_ASSERT}}
+{\footnotesize\ttfamily \#define ESP\+\_\+\+ASSERT(\begin{DoxyParamCaption}\item[{}]{name,  }\item[{}]{condition,  }\item[{}]{message }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \{\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}Unit\ Test\ Name:\ \%s,\ Test\ Result:\ "{}},\ name);\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ if\ (!(condition))\ \{\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Test\ Failed:\ \%s\(\backslash\)n"{}},\ message);\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Test\ Passed!\(\backslash\)n"{}});\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}\ \(\backslash\)}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Macro for performing unit test assertions. 
+
+This macro checks the condition and prints the test result. If the condition is false, it prints the test failure message.
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & The name of the unit test. \\
+\hline
+{\em condition} & The condition to be checked. \\
+\hline
+{\em message} & The failure message to be printed. \\
+\hline
+\end{DoxyParams}

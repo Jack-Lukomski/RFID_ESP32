@@ -11,53 +11,61 @@
 \contentsline {section}{\numberline {4.2}MFRC522 Commands}{8}{section.4.2}%
 \contentsline {subsection}{\numberline {4.2.1}Detailed Description}{9}{subsection.4.2.1}%
 \contentsline {chapter}{\numberline {5}Class Documentation}{11}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Mifare1k\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Key\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{11}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Member Data Documentation}{11}{subsection.5.1.1}%
-\contentsline {subsubsection}{\numberline {5.1.1.1}blockKey}{11}{subsubsection.5.1.1.1}%
-\contentsline {subsubsection}{\numberline {5.1.1.2}keyData}{11}{subsubsection.5.1.1.2}%
-\contentsline {subsubsection}{\numberline {5.1.1.3}uid}{11}{subsubsection.5.1.1.3}%
-\contentsline {section}{\numberline {5.2}Unique\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Identifier\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{12}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Member Data Documentation}{12}{subsection.5.2.1}%
-\contentsline {subsubsection}{\numberline {5.2.1.1}bccByte}{12}{subsubsection.5.2.1.1}%
-\contentsline {subsubsection}{\numberline {5.2.1.2}doubleSizeUidData}{12}{subsubsection.5.2.1.2}%
-\contentsline {subsubsection}{\numberline {5.2.1.3}sakByte}{12}{subsubsection.5.2.1.3}%
-\contentsline {subsubsection}{\numberline {5.2.1.4}singleSizeUidData}{12}{subsubsection.5.2.1.4}%
-\contentsline {subsubsection}{\numberline {5.2.1.5}trippleSizeUidData}{12}{subsubsection.5.2.1.5}%
-\contentsline {subsubsection}{\numberline {5.2.1.6}uidSize}{12}{subsubsection.5.2.1.6}%
-\contentsline {chapter}{\numberline {6}File Documentation}{13}{chapter.6}%
-\contentsline {section}{\numberline {6.1}BLE\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Controller.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{13}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Sources/drivers/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}MFRC522.h File Reference}{13}{section.6.2}%
-\contentsline {subsection}{\numberline {6.2.1}Macro Definition Documentation}{17}{subsection.6.2.1}%
-\contentsline {subsubsection}{\numberline {6.2.1.1}MIFARE\_KEY\_SIZE}{17}{subsubsection.6.2.1.1}%
-\contentsline {subsubsection}{\numberline {6.2.1.2}NUM\_BLOCKS\_PER\_SECTOR}{17}{subsubsection.6.2.1.2}%
-\contentsline {subsubsection}{\numberline {6.2.1.3}NUM\_SECTORE\_MIFARE\_1K}{17}{subsubsection.6.2.1.3}%
-\contentsline {subsection}{\numberline {6.2.2}Enumeration Type Documentation}{17}{subsection.6.2.2}%
-\contentsline {subsubsection}{\numberline {6.2.2.1}bitFraming\_t}{17}{subsubsection.6.2.2.1}%
-\contentsline {subsubsection}{\numberline {6.2.2.2}uidSize\_t}{18}{subsubsection.6.2.2.2}%
-\contentsline {subsection}{\numberline {6.2.3}Function Documentation}{18}{subsection.6.2.3}%
-\contentsline {subsubsection}{\numberline {6.2.3.1}vMFRC522\_GetAndPrintFifoBuf()}{18}{subsubsection.6.2.3.1}%
-\contentsline {subsubsection}{\numberline {6.2.3.2}vMifare\_PrintKey()}{18}{subsubsection.6.2.3.2}%
-\contentsline {subsubsection}{\numberline {6.2.3.3}vMifare\_PrintUID()}{19}{subsubsection.6.2.3.3}%
-\contentsline {subsubsection}{\numberline {6.2.3.4}xMFRC522\_AntennaOn()}{19}{subsubsection.6.2.3.4}%
-\contentsline {subsubsection}{\numberline {6.2.3.5}xMFRC522\_CalculateCRC()}{19}{subsubsection.6.2.3.5}%
-\contentsline {subsubsection}{\numberline {6.2.3.6}xMFRC522\_ClrRegBitMask()}{20}{subsubsection.6.2.3.6}%
-\contentsline {subsubsection}{\numberline {6.2.3.7}xMFRC522\_CommWithMifare()}{20}{subsubsection.6.2.3.7}%
-\contentsline {subsubsection}{\numberline {6.2.3.8}xMFRC522\_Init()}{20}{subsubsection.6.2.3.8}%
-\contentsline {subsubsection}{\numberline {6.2.3.9}xMFRC522\_IsCardPresent()}{21}{subsubsection.6.2.3.9}%
-\contentsline {subsubsection}{\numberline {6.2.3.10}xMFRC522\_MF\_Authent()}{21}{subsubsection.6.2.3.10}%
-\contentsline {subsubsection}{\numberline {6.2.3.11}xMFRC522\_ReadRegister()}{22}{subsubsection.6.2.3.11}%
-\contentsline {subsubsection}{\numberline {6.2.3.12}xMFRC522\_ReadRegisterArr()}{22}{subsubsection.6.2.3.12}%
-\contentsline {subsubsection}{\numberline {6.2.3.13}xMFRC522\_Reset()}{22}{subsubsection.6.2.3.13}%
-\contentsline {subsubsection}{\numberline {6.2.3.14}xMFRC522\_SelfTest()}{23}{subsubsection.6.2.3.14}%
-\contentsline {subsubsection}{\numberline {6.2.3.15}xMFRC522\_SetRegBitMask()}{23}{subsubsection.6.2.3.15}%
-\contentsline {subsubsection}{\numberline {6.2.3.16}xMFRC522\_Transcieve()}{23}{subsubsection.6.2.3.16}%
-\contentsline {subsubsection}{\numberline {6.2.3.17}xMFRC522\_WriteRegister()}{24}{subsubsection.6.2.3.17}%
-\contentsline {subsubsection}{\numberline {6.2.3.18}xMFRC522\_WriteRegisterArr()}{24}{subsubsection.6.2.3.18}%
-\contentsline {subsubsection}{\numberline {6.2.3.19}xMifare\_Authenticate()}{25}{subsubsection.6.2.3.19}%
-\contentsline {subsubsection}{\numberline {6.2.3.20}xMifare\_GetKeyData()}{25}{subsubsection.6.2.3.20}%
-\contentsline {subsubsection}{\numberline {6.2.3.21}xMifare\_ReadKeyBlock()}{26}{subsubsection.6.2.3.21}%
-\contentsline {subsubsection}{\numberline {6.2.3.22}xMifare\_ReadUID()}{26}{subsubsection.6.2.3.22}%
-\contentsline {subsubsection}{\numberline {6.2.3.23}xMifare\_WriteKey()}{26}{subsubsection.6.2.3.23}%
-\contentsline {subsubsection}{\numberline {6.2.3.24}xMifare\_WriteKeyBlock()}{27}{subsubsection.6.2.3.24}%
-\contentsline {section}{\numberline {6.3}MFRC522.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{27}{section.6.3}%
-\contentsline {chapter}{Index}{31}{section*.11}%
+\contentsline {section}{\numberline {5.1}gatts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}profile\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}inst Struct Reference}{11}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Mifare1k\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Key\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{11}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Member Data Documentation}{11}{subsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.1.1}blockKey}{11}{subsubsection.5.2.1.1}%
+\contentsline {subsubsection}{\numberline {5.2.1.2}keyData}{12}{subsubsection.5.2.1.2}%
+\contentsline {subsubsection}{\numberline {5.2.1.3}uid}{12}{subsubsection.5.2.1.3}%
+\contentsline {section}{\numberline {5.3}prepare\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}type\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}env\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{12}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Unique\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Identifier\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{12}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Member Data Documentation}{12}{subsection.5.4.1}%
+\contentsline {subsubsection}{\numberline {5.4.1.1}bccByte}{12}{subsubsection.5.4.1.1}%
+\contentsline {subsubsection}{\numberline {5.4.1.2}doubleSizeUidData}{13}{subsubsection.5.4.1.2}%
+\contentsline {subsubsection}{\numberline {5.4.1.3}sakByte}{13}{subsubsection.5.4.1.3}%
+\contentsline {subsubsection}{\numberline {5.4.1.4}singleSizeUidData}{13}{subsubsection.5.4.1.4}%
+\contentsline {subsubsection}{\numberline {5.4.1.5}trippleSizeUidData}{13}{subsubsection.5.4.1.5}%
+\contentsline {subsubsection}{\numberline {5.4.1.6}uidSize}{13}{subsubsection.5.4.1.6}%
+\contentsline {chapter}{\numberline {6}File Documentation}{15}{chapter.6}%
+\contentsline {section}{\numberline {6.1}BLE\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Controller.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{15}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Sources/drivers/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}MFRC522.h File Reference}{16}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Detailed Description}{20}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Macro Definition Documentation}{20}{subsection.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.2.2.1}MIFARE\_KEY\_SIZE}{20}{subsubsection.6.2.2.1}%
+\contentsline {subsubsection}{\numberline {6.2.2.2}NUM\_BLOCKS\_PER\_SECTOR}{20}{subsubsection.6.2.2.2}%
+\contentsline {subsubsection}{\numberline {6.2.2.3}NUM\_SECTORE\_MIFARE\_1K}{20}{subsubsection.6.2.2.3}%
+\contentsline {subsection}{\numberline {6.2.3}Enumeration Type Documentation}{20}{subsection.6.2.3}%
+\contentsline {subsubsection}{\numberline {6.2.3.1}bitFraming\_t}{20}{subsubsection.6.2.3.1}%
+\contentsline {subsubsection}{\numberline {6.2.3.2}uidSize\_t}{21}{subsubsection.6.2.3.2}%
+\contentsline {subsection}{\numberline {6.2.4}Function Documentation}{21}{subsection.6.2.4}%
+\contentsline {subsubsection}{\numberline {6.2.4.1}vMFRC522\_GetAndPrintFifoBuf()}{21}{subsubsection.6.2.4.1}%
+\contentsline {subsubsection}{\numberline {6.2.4.2}vMifare\_PrintKey()}{21}{subsubsection.6.2.4.2}%
+\contentsline {subsubsection}{\numberline {6.2.4.3}vMifare\_PrintUID()}{21}{subsubsection.6.2.4.3}%
+\contentsline {subsubsection}{\numberline {6.2.4.4}xMFRC522\_AntennaOn()}{22}{subsubsection.6.2.4.4}%
+\contentsline {subsubsection}{\numberline {6.2.4.5}xMFRC522\_CalculateCRC()}{22}{subsubsection.6.2.4.5}%
+\contentsline {subsubsection}{\numberline {6.2.4.6}xMFRC522\_ClrRegBitMask()}{22}{subsubsection.6.2.4.6}%
+\contentsline {subsubsection}{\numberline {6.2.4.7}xMFRC522\_CommWithMifare()}{23}{subsubsection.6.2.4.7}%
+\contentsline {subsubsection}{\numberline {6.2.4.8}xMFRC522\_Init()}{23}{subsubsection.6.2.4.8}%
+\contentsline {subsubsection}{\numberline {6.2.4.9}xMFRC522\_IsCardPresent()}{24}{subsubsection.6.2.4.9}%
+\contentsline {subsubsection}{\numberline {6.2.4.10}xMFRC522\_MF\_Authent()}{24}{subsubsection.6.2.4.10}%
+\contentsline {subsubsection}{\numberline {6.2.4.11}xMFRC522\_ReadRegister()}{24}{subsubsection.6.2.4.11}%
+\contentsline {subsubsection}{\numberline {6.2.4.12}xMFRC522\_ReadRegisterArr()}{25}{subsubsection.6.2.4.12}%
+\contentsline {subsubsection}{\numberline {6.2.4.13}xMFRC522\_Reset()}{25}{subsubsection.6.2.4.13}%
+\contentsline {subsubsection}{\numberline {6.2.4.14}xMFRC522\_SelfTest()}{26}{subsubsection.6.2.4.14}%
+\contentsline {subsubsection}{\numberline {6.2.4.15}xMFRC522\_SetRegBitMask()}{26}{subsubsection.6.2.4.15}%
+\contentsline {subsubsection}{\numberline {6.2.4.16}xMFRC522\_Transcieve()}{26}{subsubsection.6.2.4.16}%
+\contentsline {subsubsection}{\numberline {6.2.4.17}xMFRC522\_WriteRegister()}{27}{subsubsection.6.2.4.17}%
+\contentsline {subsubsection}{\numberline {6.2.4.18}xMFRC522\_WriteRegisterArr()}{27}{subsubsection.6.2.4.18}%
+\contentsline {subsubsection}{\numberline {6.2.4.19}xMifare\_Authenticate()}{27}{subsubsection.6.2.4.19}%
+\contentsline {subsubsection}{\numberline {6.2.4.20}xMifare\_GetKeyData()}{28}{subsubsection.6.2.4.20}%
+\contentsline {subsubsection}{\numberline {6.2.4.21}xMifare\_ReadKeyBlock()}{28}{subsubsection.6.2.4.21}%
+\contentsline {subsubsection}{\numberline {6.2.4.22}xMifare\_ReadUID()}{29}{subsubsection.6.2.4.22}%
+\contentsline {subsubsection}{\numberline {6.2.4.23}xMifare\_WriteKey()}{29}{subsubsection.6.2.4.23}%
+\contentsline {subsubsection}{\numberline {6.2.4.24}xMifare\_WriteKeyBlock()}{29}{subsubsection.6.2.4.24}%
+\contentsline {section}{\numberline {6.3}MFRC522.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{30}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Sources/unit\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}tests/unit\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}tests.h File Reference}{33}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Detailed Description}{33}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Macro Definition Documentation}{33}{subsection.6.4.2}%
+\contentsline {subsubsection}{\numberline {6.4.2.1}ESP\_ASSERT}{33}{subsubsection.6.4.2.1}%
+\contentsline {section}{\numberline {6.5}unit\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}tests.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{34}{section.6.5}%
+\contentsline {chapter}{Index}{35}{section*.14}%

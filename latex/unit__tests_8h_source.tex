@@ -1,0 +1,24 @@
+\doxysection{unit\+\_\+tests.\+h}
+\hypertarget{unit__tests_8h_source}{}\label{unit__tests_8h_source}\index{Sources/unit\_tests/unit\_tests.h@{Sources/unit\_tests/unit\_tests.h}}
+\mbox{\hyperlink{unit__tests_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#ifndef\ UNIT\_TESTS\_H}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ UNIT\_TESTS\_H}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ UNIT\_TESTS\ 0}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ ESP\_ASSERT(name,\ condition,\ message)\ \{\ \(\backslash\)}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\ \ \ \ printf("{}Unit\ Test\ Name:\ \%s,\ Test\ Result:\ "{}},\ name);\ \(\backslash\)}
+\DoxyCodeLine{00030\ \ \ \ \ if\ (!(condition))\ \{\ \(\backslash\)}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ printf("{}Test\ Failed:\ \%s\(\backslash\)n"{},\ message);\ \(\backslash\)}
+\DoxyCodeLine{00032\ \ \ \ \ \}\ else\ \{\ \(\backslash\)}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ printf("{}Test\ Passed!\(\backslash\)n"{});\ \(\backslash\)}
+\DoxyCodeLine{00034\ \ \ \ \ \}\ \(\backslash\)}
+\DoxyCodeLine{00035\ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ UNIT\_TESTS\_H\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}
