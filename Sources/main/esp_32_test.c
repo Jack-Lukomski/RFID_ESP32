@@ -129,20 +129,6 @@ void app_main()
         }
         vTaskDelay(100/portTICK_PERIOD_MS);
     }
-
-    // while (1)
-    // {
-    //     if (received_UID_flag == true)
-    //     {
-    //         for (uint16_t i = 0; i < 1024; i++)
-    //         {
-    //             printf("%x\n", received_UUID[i]);
-    //         }
-    //         received_UID_flag = false;
-    //         printf("End of stream\n\n");
-    //     }
-    //     vTaskDelay(100/portTICK_PERIOD_MS);
-    // }
 }
 
 void vFormatMifareDataBt (uint8_t bufFront[512], uint8_t bufBack[512], Mifare1kKey_t * key)

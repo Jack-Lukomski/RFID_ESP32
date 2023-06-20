@@ -5,6 +5,7 @@
 #ifndef _MFRC522_H_
 #define _MFRC522_H_
 
+#include "../unit_tests/unit_tests.h"
 #include "driver/spi_master.h"
 #include "esp_timer.h"
 #include <freertos/FreeRTOS.h>
@@ -13,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <assert.h>
 
 // Number of bytes in the UID. 4, 7 or 10.
 /** @typedef singleSizeUID_t

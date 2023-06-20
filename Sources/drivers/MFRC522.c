@@ -61,6 +61,15 @@ esp_err_t xMFRC522_WriteRegister(spi_device_handle_t * spiHandle, uint8_t regist
 
     retVal = spi_device_transmit(*spiHandle, &currTrans);
 
+    #if UNIT_TESTS
+     uint8_t temp;
+     xMFRC522_ReadRegister(spiHandle, registerAddress, &temp);
+     ESP_ASSERT("xMFRC522_WriteRegister data assertion", temp == value, "Write register value not the same as value in register");
+     ESP_ASSERT("xMFRC522_WriteRegister txData[0] assertion", ((uint8_t*)currTrans.tx_buffer)[0] == txData[0], "Write register transaction transmitted unexpected data");
+     ESP_ASSERT("xMFRC522_WriteRegister txData[1] assertion", ((uint8_t*)currTrans.tx_buffer)[1] == txData[1], "Write register transaction transmitted unexpected data");
+     ESP_ASSERT("xMFRC522_WriteRegister ESP_OK assertion", retVal == ESP_OK, "SPI Transaction Fail");
+    #endif
+
     return retVal;
 }
 
@@ -84,6 +93,11 @@ esp_err_t xMFRC522_ReadRegister(spi_device_handle_t * spiHandle, uint8_t registe
         *data = rxData[1];
     }
 
+    #if UNIT_TESTS
+     ESP_ASSERT("xMFRC522_ReadRegister txData[0] assertion", ((uint8_t*)currTrans.tx_buffer)[0] == txData[0], "Read register transaction transmitted unexpected data");
+     ESP_ASSERT("xMFRC522_ReadRegister ESP_OK assertion", retVal == ESP_OK, "SPI Transaction Fail");
+    #endif
+
     return retVal;
 }
 
@@ -99,6 +113,10 @@ esp_err_t xMFRC522_ReadRegisterArr (spi_device_handle_t * spiHandle, uint8_t reg
             break;
         }
     }
+
+    #if UNIT_TESTS
+     ESP_ASSERT("xMFRC522_ReadRegisterArr ESP_OK assertion", retVal == ESP_OK, "Failed to read register array");
+    #endif
 
     return retVal;
 }
@@ -116,6 +134,10 @@ esp_err_t xMFRC522_WriteRegisterArr (spi_device_handle_t * spiHandle, uint8_t re
         }
     }
 
+    #if UNIT_TESTS
+     ESP_ASSERT("xMFRC522_WriteRegisterArr ESP_OK assertion", retVal == ESP_OK, "Failed to write register array");
+    #endif
+
     return retVal;
 }
 
@@ -127,6 +149,12 @@ esp_err_t xMFRC522_ClrRegBitMask (spi_device_handle_t * spiHandle, uint8_t regis
     retVal = xMFRC522_ReadRegister(spiHandle, registerAdress, &temp);
     retVal = xMFRC522_WriteRegister(spiHandle, registerAdress, temp & (~mask));
 
+    #if UNIT_TESTS
+     xMFRC522_ReadRegister(spiHandle, registerAdress, &temp);
+     ESP_ASSERT("xMFRC522_ClrRegBitMask bit mask assertion", temp == (temp & (~mask)), "Bit mask failed");
+     ESP_ASSERT("xMFRC522_ClrRegBitMask ESP_OK assertion", retVal == ESP_OK, "Failed to clear register bit mask");
+    #endif
+
     return retVal;
 }
 
@@ -137,6 +165,12 @@ esp_err_t xMFRC522_SetRegBitMask(spi_device_handle_t *spiHandle, uint8_t registe
 
     retVal = xMFRC522_ReadRegister(spiHandle, registerAddress, &temp);
     retVal = xMFRC522_WriteRegister(spiHandle, registerAddress, temp | mask);
+
+    #if UNIT_TESTS
+     xMFRC522_ReadRegister(spiHandle, registerAddress, &temp);
+     ESP_ASSERT("xMFRC522_SetRegBitMask bit mask assertion", temp == (temp | mask), "Bit mask failed to set");
+     ESP_ASSERT("xMFRC522_SetRegBitMask ESP_OK assertion", retVal == ESP_OK, "Failed to set register bit mask");
+    #endif
     
     return retVal;
 }
@@ -151,6 +185,13 @@ esp_err_t xMFRC522_AntennaOn(spi_device_handle_t * spiHandle)
     {
         retVal = xMFRC522_WriteRegister(spiHandle, MFRC522_REG_TX_CONTROL, readByte | 0x03);
     }
+
+    #if UNIT_TESTS
+     uint8_t temp;
+     xMFRC522_ReadRegister(spiHandle, MFRC522_REG_TX_CONTROL, &temp);
+     ESP_ASSERT("xMFRC522_AntennaOn assertion", temp == (temp & 0x03), "Antenna failed to turn on");
+     ESP_ASSERT("xMFRC522_AntennaOn ESP_OK assertion", retVal == ESP_OK, "Failed to turn on antenna");
+    #endif
 
     return retVal;
 }
@@ -195,6 +236,10 @@ esp_err_t xMFRC522_SelfTest (spi_device_handle_t * spiHandle, uint8_t rstPin)
     retVal = xMFRC522_WriteRegister(spiHandle, MFRC522_REG_AUTO_TEST, 0x00); // resetting to 0
     retVal = xMFRC522_Init(spiHandle, rstPin); // Re-init
 
+    #if UNIT_TESTS
+     ESP_ASSERT("xMFRC522_SelfTest ESP_OK assertion", retVal == ESP_OK, "Self test failed");
+    #endif
+
     return retVal;
 }
 
@@ -212,6 +257,10 @@ esp_err_t xMFRC522_Reset (spi_device_handle_t * spiHandle)
 		vTaskDelay(50/portTICK_PERIOD_MS);
         retVal = xMFRC522_ReadRegister(spiHandle, MFRC522_REG_COMMAND, &readCmdReg);
 	} while ((readCmdReg & (1 << 4)) && (++count) < 3);
+
+    #if UNIT_TESTS
+     ESP_ASSERT("xMFRC522_Reset ESP_OK assertion", retVal == ESP_OK, "Reset Failed");
+    #endif
 
     return retVal;
 }
@@ -234,11 +283,26 @@ esp_err_t xMFRC522_CommWithMifare(uint8_t cmd, spi_device_handle_t *spiHandle, u
     retVal = xMFRC522_WriteRegister(spiHandle, MFRC522_REG_RX_MODE, 0x00); 
     retVal = xMFRC522_WriteRegister(spiHandle, MFRC522_REG_MOD_WIDTH, 0x26);
 
-    // retVal = MFRC522_ClrRegBitMask(spiHandle, MFRC522_REG_COLL, 0x80);
-
     retVal = xMFRC522_WriteRegister(spiHandle, MFRC522_REG_COMMAND, PCD_CMD_IDLE); // stop cmds running
     retVal = xMFRC522_WriteRegister(spiHandle, MFRC522_REG_COMIRQ, 0x7F); // clear interupt requests
     retVal = xMFRC522_WriteRegister(spiHandle, MFRC522_REG_FIFO_LEVEL, 0x80); // flush fifo buffer
+
+    #if UNIT_TESTS
+     uint8_t temp;
+     xMFRC522_ReadRegister(spiHandle, MFRC522_REG_TX_MODE, &temp);
+     ESP_ASSERT("xMFRC522_CommWithMifare TxModeReg assertion", temp == 0x00, "TxModeReg not properly set");
+     xMFRC522_ReadRegister(spiHandle, MFRC522_REG_RX_MODE, &temp);
+     ESP_ASSERT("xMFRC522_CommWithMifare RxModeReg assertion", temp == 0x00, "RxModeReg not properly set");
+     xMFRC522_ReadRegister(spiHandle, MFRC522_REG_MOD_WIDTH, &temp);
+     ESP_ASSERT("xMFRC522_CommWithMifare ModWidthReg assertion", temp == 0x26, "ModWidthReg not properly set");
+     xMFRC522_ReadRegister(spiHandle, MFRC522_REG_COMMAND, &temp);
+     ESP_ASSERT("xMFRC522_CommWithMifare CommandReg assertion", temp == PCD_CMD_IDLE, "CommandReg not properly set");
+     xMFRC522_ReadRegister(spiHandle, MFRC522_REG_COMIRQ, &temp);
+     ESP_ASSERT("xMFRC522_CommWithMifare ComIrqReg assertion", temp == 0x7F, "ComIrqReg not properly set");
+     xMFRC522_ReadRegister(spiHandle, MFRC522_REG_FIFO_LEVEL, &temp);
+     ESP_ASSERT("xMFRC522_CommWithMifare FifoLevelReg assertion", temp == 0x80, "FifoLevelReg not properly set");
+    #endif
+
 
     for (uint8_t currCmd = 0; currCmd < bufSize; currCmd++)
     {
@@ -269,6 +333,10 @@ esp_err_t xMFRC522_CommWithMifare(uint8_t cmd, spi_device_handle_t *spiHandle, u
         }
     }
 
+    #if UNIT_TESTS
+     ESP_ASSERT("xMFRC522_CommWithMifare ESP_OK assertion", retVal == ESP_OK, "Mifare comm fail");
+    #endif
+
     return retVal;
 }
 
@@ -291,6 +359,10 @@ bool xMFRC522_IsCardPresent(spi_device_handle_t *spiHandle)
         retVal = false;
     }
 
+    #if UNIT_TESTS
+     ESP_ASSERT("xMFRC522_IsCardPresent ESP_OK assertion", retVal == ESP_OK, "Mifare comm fail");
+    #endif
+
     return retVal;
 }
 
@@ -304,6 +376,18 @@ esp_err_t xMFRC522_CalculateCRC(spi_device_handle_t *spiHandle, uint8_t * buf, u
     retVal = xMFRC522_WriteRegister(spiHandle, MFRC522_REG_FIFO_LEVEL, 0x80); 
     retVal = xMFRC522_WriteRegisterArr(spiHandle, MFRC522_REG_FIFO_DATA, buf, bufLen);
     retVal = xMFRC522_WriteRegister(spiHandle, MFRC522_REG_COMMAND, PCD_CMD_CALC_CRC);
+
+    #if UNIT_TESTS
+     uint8_t temp;
+     xMFRC522_ReadRegister(spiHandle, MFRC522_REG_COMMAND, &temp);
+     ESP_ASSERT("xMFRC522_CalculateCRC REG_COMMAND assert", temp == PCD_CMD_IDLE, "REG_COMMAND not properly set");
+     xMFRC522_ReadRegister(spiHandle, MFRC522_REG_DIVIRQ, &temp);
+     ESP_ASSERT("xMFRC522_CalculateCRC REG_DIVIRQ assert", temp == 0x04, "REG_DIVIRQ not properly set");
+     xMFRC522_ReadRegister(spiHandle, MFRC522_REG_FIFO_LEVEL, &temp);
+     ESP_ASSERT("xMFRC522_CalculateCRC REG_FIFO_LEVEL assert", temp == 0x80, "REG_FIFO_LEVEL not properly set");
+     xMFRC522_ReadRegister(spiHandle, MFRC522_REG_COMMAND, &temp);
+     ESP_ASSERT("xMFRC522_CalculateCRC REG_COMMAND assert", temp == PCD_CMD_CALC_CRC, "REG_COMMAND not properly set");
+    #endif
     
     while(1)
     {
@@ -317,6 +401,10 @@ esp_err_t xMFRC522_CalculateCRC(spi_device_handle_t *spiHandle, uint8_t * buf, u
             break; 
         }
     }
+
+    #if UNIT_TESTS
+     ESP_ASSERT("xMFRC522_CalculateCRC ESP_OK assertion", retVal == ESP_OK, "CalcCRC failed");
+    #endif
 
     return retVal;
 }
@@ -367,6 +455,10 @@ UniqueIdentifier_t * xMifare_ReadUID(spi_device_handle_t *spiHandle, uidSize_t u
         return NULL;
     }
 
+    #if UNIT_TESTS
+     ESP_ASSERT("xMifare_ReadUID ESP_OK assertion", espErr == ESP_OK, "UID read failed");
+    #endif
+
     return newUidRead;
 }
 
@@ -391,6 +483,10 @@ static bool xPrv_Mifare_BlockCheckChar(uint8_t * bufData, uint8_t bufSize, Uniqu
         retVal = false;
     }
 
+    #if UNIT_TESTS
+     ESP_ASSERT("xPrv_Mifare_BlockCheckChar ESP_OK assertion", retVal == ESP_OK, "BCC failed");
+    #endif
+
     return retVal;
 }
 
@@ -414,6 +510,11 @@ static esp_err_t xMifare_SetSakByte(spi_device_handle_t *spiHandle, UniqueIdenti
     vMFRC522_GetAndPrintFifoBuf(spiHandle, sak, true);
 
     UID->sakByte = sak[0];
+
+    #if UNIT_TESTS
+     ESP_ASSERT("xMifare_SetSakByte", sak[0] != NULL, "Sak byte null");
+     ESP_ASSERT("xMifare_SetSakByte ESP_OK assertion", retVal == ESP_OK, "Sak byte read failed");
+    #endif
 
     return retVal;
 
@@ -441,6 +542,10 @@ esp_err_t xMifare_Authenticate(spi_device_handle_t *spiHandle, uint8_t cmd, uint
 
     espErr = xMFRC522_MF_Authent(spiHandle, waitIrq, sendBuf, sizeof(sendBuf), eightBit);
 
+    #if UNIT_TESTS
+     ESP_ASSERT("xMifare_Authenticate ESP_OK assertion", espErr == ESP_OK, "Authentication Failed");
+    #endif
+
     return espErr;
 }
 
@@ -455,6 +560,10 @@ esp_err_t xMifare_ReadKeyBlock(spi_device_handle_t *spiHandle, uint8_t blockAddr
 
     retVal = xMifare_Authenticate(spiHandle, PICC_CMD_MF_AUTH_KEY_A, blockAddress, MIFARE_DEFAULT_BLOCK_KEY, UID);
     retVal = xMFRC522_Transcieve(spiHandle, 0x30, sendBuf, sizeof(sendBuf), eightBit);
+
+    #if UNIT_TESTS
+     ESP_ASSERT("xMifare_ReadKeyBlock ESP_OK assertion", retVal == ESP_OK, "ReadKeyBlock Failed");
+    #endif
 
     return retVal;
 }
@@ -476,6 +585,10 @@ Mifare1kKey_t * xMifare_GetKeyData(spi_device_handle_t *spiHandle, UniqueIdentif
             retVal = xMFRC522_ReadRegisterArr(spiHandle, MFRC522_REG_FIFO_DATA, &newKey->keyData[currSector][currBlock*16], 16);
         }
     }
+
+    #if UNIT_TESTS
+     ESP_ASSERT("xMifare_GetKeyData ESP_OK assertion", retVal == ESP_OK, "GetKeyData Failed");
+    #endif
 
     return newKey;
 }
@@ -517,12 +630,17 @@ esp_err_t xMifare_WriteKeyBlock(spi_device_handle_t *spiHandle, uint8_t blockAdd
         return ESP_FAIL;
     }
 
+    #if UNIT_TESTS
+     ESP_ASSERT("xMifare_WriteKeyBlock ESP_OK assertion", retVal == ESP_OK, "WriteKeyBlock Failed");
+    #endif
+
     return retVal;
 }
 
 esp_err_t xMifare_WriteKey(spi_device_handle_t *spiHandle, UniqueIdentifier_t * UID, uint8_t data[45][16])
 {
     uint8_t keyIndex = 0;
+    esp_err_t result;
 
     // Skip the first sector as it is the manufacturer's sector
     for (uint8_t sector = 1; sector < 16; sector++)
@@ -530,13 +648,16 @@ esp_err_t xMifare_WriteKey(spi_device_handle_t *spiHandle, UniqueIdentifier_t * 
         for (uint8_t block = 0; block < 3; block++) // Skip the last block as it contains sensitive data
         {
             uint8_t blockAddress = sector * 4 + block;
-            esp_err_t result = xMifare_WriteKeyBlock(spiHandle, blockAddress, UID, data[keyIndex]);
+            result = xMifare_WriteKeyBlock(spiHandle, blockAddress, UID, data[keyIndex]);
             printf("Block address %d\n", blockAddress);
             keyIndex++;
         }
     }
 
-    return ESP_OK;
+    #if UNIT_TESTS
+     ESP_ASSERT("xMifare_WriteKey ESP_OK assertion", result == ESP_OK, "WriteKey Failed");
+    #endif
+
     return ESP_OK;
 }
 
