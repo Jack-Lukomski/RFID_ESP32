@@ -6,24 +6,7 @@
 *
 *
 ****************************************************************************/
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <inttypes.h>
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include "freertos/event_groups.h"
-#include "esp_system.h"
-#include "esp_log.h"
-#include "nvs_flash.h"
-
-#include "C:\Espressif\frameworks\esp-idf-v5.0.2\components\bt\include\esp32\include\esp_bt.h"
-#include "C:\Espressif\frameworks\esp-idf-v5.0.2\components\bt\host\bluedroid\api\include\api\esp_gap_ble_api.h"
-#include "C:\Espressif\frameworks\esp-idf-v5.0.2\components\bt\host\bluedroid\api\include\api\esp_gatts_api.h"
-#include "C:\Espressif\frameworks\esp-idf-v5.0.2\components\bt\host\bluedroid\api\include\api\esp_bt_defs.h"
-#include "C:\Espressif\frameworks\esp-idf-v5.0.2\components\bt\host\bluedroid\api\include\api\esp_bt_main.h"
-#include "C:\Espressif\frameworks\esp-idf-v5.0.2\components\bt\host\bluedroid\api\include\api\esp_gatt_common_api.h"
+#include "BLE_Controller.h"
 
 #include "sdkconfig.h"
 
@@ -34,16 +17,24 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
 
 #define GATTS_SERVICE_UUID              0x180F
 
-#define GATTS_SEND_BADGE_CHAR_UUID      0xE88E
-#define GATTS_SEND_BADGE_DESCR_UUID     0x3333
+#define GATTS_SEND_BADGE_FIRST_CHAR_UUID      0x0003 //42
+#define GATTS_SEND_BADGE_FIRST_DESCR_UUID     0x3333
 
-#define GATTS_RECIEVE_BADGE_CHAR_UUID   0xE99E
-#define GATTS_RECIEVE_BADGE_DESCR_UUID  0x4444
+#define GATTS_SEND_BADGE_SECOND_CHAR_UUID      0x0004 //48
+#define GATTS_SEND_BADGE_SECOND_DESCR_UUID     0x3333
 
-#define GATTS_SCAN_BADGE_CHAR_UUID      0xEAAE
+#define GATTS_RECIEVE_FIRST_BADGE_CHAR_UUID   0x0005 //44
+#define GATTS_RECIEVE_FIRST_BADGE_DESCR_UUID  0x4444
+
+#define GATTS_RECIEVE_SECOND_BADGE_CHAR_UUID   0x0006 //50
+#define GATTS_RECIEVE_SECOND_BADGE_DESCR_UUID  0x4444
+
+#define GATTS_SCAN_BADGE_CHAR_UUID      0x0007 //46
 #define GATTS_SCAN_BADGE_DESCR_UUID     0x5555
 
-#define GATTS_NUM_HANDLE_TEST           10
+#define GATTS_NUM_HANDLE_TEST           20
+
+#define UID_LENGTH 1024
 
 #define DEVICE_NAME            "RFID_CLONER"
 #define TEST_MANUFACTURER_DATA_LEN  17
@@ -78,7 +69,13 @@ static uint8_t raw_scan_rsp_data[] = {
 #else
 
 //volatile uint16_t* scanned_RFID_TIDS; //in main, need to dynamically change size of array
-volatile uint8_t received_UUID[24];
+volatile uint8_t received_UUID[UID_LENGTH];
+bool received_first_half_flag = false;
+bool received_second_half_flag = false;
+bool received_UID_flag = false;
+bool scan_tag = false;
+uint8_t buf1[512];
+uint8_t buf2[512];
 
 
 static uint8_t adv_service_uuid128[32] = {
@@ -140,21 +137,6 @@ static esp_ble_adv_params_t adv_params = {
 #define PROFILE_NUM 1
 #define PROFILE_A_APP_ID 0
 
-struct gatts_profile_inst {
-    esp_gatts_cb_t gatts_cb;
-    uint16_t gatts_if;
-    uint16_t app_id;
-    uint16_t conn_id;
-    uint16_t service_handle;
-    esp_gatt_srvc_id_t service_id;
-    uint16_t char_handle;
-    esp_bt_uuid_t char_uuid;
-    esp_gatt_perm_t perm;
-    esp_gatt_char_prop_t property;
-    uint16_t descr_handle;
-    esp_bt_uuid_t descr_uuid;
-};
-
 /* One gatt-based profile one app_id and one gatts_if, this array will store the gatts_if returned by ESP_GATTS_REG_EVT */
 static struct gatts_profile_inst gl_profile_tab[PROFILE_NUM] = {
     [PROFILE_A_APP_ID] = {
@@ -162,11 +144,6 @@ static struct gatts_profile_inst gl_profile_tab[PROFILE_NUM] = {
         .gatts_if = ESP_GATT_IF_NONE,       /* Not get the gatt_if, so initial is ESP_GATT_IF_NONE */
     },
 };
-
-typedef struct {
-    uint8_t                 *prepare_buf;
-    int                     prepare_len;
-} prepare_type_env_t;
 
 static prepare_type_env_t a_prepare_write_env;
 
@@ -290,8 +267,9 @@ void example_exec_write_event_env(prepare_type_env_t *prepare_write_env, esp_ble
 static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param) {
     
     static bool first_flag = true;
-    uint8_t temp_arr_1[12];
-    uint8_t temp_arr_2[12];
+    uint8_t temp_arr_1[5];
+    uint8_t temp_arr_2[5];
+
     static uint8_t tracker = 0;
     
     switch (event) {
@@ -349,24 +327,61 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
                                         ESP_GATT_OK, &rsp);
 
             tracker++;
-            if(tracker == 3) //fix hard code !!!
+
+            if(tracker == 9) //fix hard code !!!
                 first_flag = false;
-            break;  
+            break;
         }
 
         else{
             if(param->read.handle == 42){ //fix hard code !!!
                 ESP_LOGI(GATTS_TAG, "GATT_READ_EVT, conn_id %d, trans_id %" PRIu32 ", handle %d\n", param->read.conn_id, param->read.trans_id, param->read.handle);
                 esp_gatt_rsp_t rsp;
-                uint8_t counter = 0;
+                int counter = 0;
+                memset(&rsp, 0, sizeof(esp_gatt_rsp_t));
+                rsp.attr_value.handle = param->read.handle;
+                printf("buf1\n");
+                printf("Buffer size: %d\n", sizeof(buf1) / sizeof(buf1[0]));
+                printf("attribute size: %d\n", sizeof(rsp.attr_value.value) / sizeof(rsp.attr_value.value[0]));
+                for(int i = 0; i < (sizeof(buf1) / sizeof(buf1[0])); i++){
+                    printf(" %x ", buf1[i]);
+                    rsp.attr_value.value[i] = buf1[i];
+                    counter++; 
+                }
+                // for(int i = 0; i < 512; i++){
+                //     printf(" %x ", buf1[i]);
+                //     rsp.attr_value.value[i] = 0x69;
+                //     counter++; 
+                // }
+
+                //rsp.attr_value.value[0] = 0xFF;
+                rsp.attr_value.len = counter;
+                esp_ble_gatts_send_response(gatts_if, param->read.conn_id, param->read.trans_id,
+                                            ESP_GATT_OK, &rsp);
+                break;
+            }
+
+            else if(param->read.handle == 48){ //fix hard code !!!
+                ESP_LOGI(GATTS_TAG, "GATT_READ_EVT, conn_id %d, trans_id %" PRIu32 ", handle %d\n", param->read.conn_id, param->read.trans_id, param->read.handle);
+                esp_gatt_rsp_t rsp;
+                int counter = 0;
                 memset(&rsp, 0, sizeof(esp_gatt_rsp_t));
                 rsp.attr_value.handle = param->read.handle;
 
-                // for(int i = 0; i < (sizeof(scanned_RFID_TIDS) / sizeof(scanned_RFID_TIDS[0])); i++){ //this may not be right !!!
-                //     rsp.attr_value.value[i] = scanned_RFID_TIDS[i]; 
-                //     counter++;
+                printf("\nbuf2");
+                for(int i = 0; i < (sizeof(buf2) / sizeof(buf2[0])); i++){
+                    printf(" %x ", buf2[i]);
+                     rsp.attr_value.value[i] = buf2[i];
+                     counter++; 
+                }
+                // for(int i = 0; i < 512; i++){
+                //     printf(" %x ", buf2[i]);
+                //     rsp.attr_value.value[i] = 0xFF;
+                //     counter++; 
                 // }
 
+                //rsp.attr_value.value[0] = 0xFF;
+                //rsp.attr_value.len = 1;
                 rsp.attr_value.len = counter;
                 esp_ble_gatts_send_response(gatts_if, param->read.conn_id, param->read.trans_id,
                                             ESP_GATT_OK, &rsp);
@@ -390,39 +405,62 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
         }
     }
     case ESP_GATTS_WRITE_EVT: {
-        uint16_t arr_index_1;
-        uint16_t arr_index_2;
         
         ESP_LOGI(GATTS_TAG, "GATT_WRITE_EVT, conn_id %d, trans_id %" PRIu32 ", handle %d", param->write.conn_id, param->write.trans_id, param->write.handle);
         if (!param->write.is_prep){
-            if(param->read.handle == 44){ //fix hard code !!!
-                break;
-            }
-            else if(param->read.handle == 42){ //fix hard code !!!
-                //set flag to trigger sending stored RFID tags
-            }
-            else if(param->read.handle == 46){ //fix hard code !!!
-                //receive badge to clone (needs to be arr of 720)
-                for (int i = 0; i < param->write.len; i++){
-                    temp_arr_1[i] = (param->write.value[i] & 0xF0) >> 4;
-                    temp_arr_2[i] = (param->write.value[i] & 0x0F);
-                }
+            if(param->read.handle == 44){ //receive from website first half !!!
 
-                arr_index_1 = 0;
-                arr_index_2 = 1;
+                printf("parameter length: %d\n", param->write.len);
+
+                for (int i = 0; i < param->write.len; i++)
+                {
+                    printf("value %d: %x\n", i, param->write.value[i]);
+                }
 
                 for(int i = 0; i < param->write.len; i++){
+                    received_UUID[i] = param->write.value[i];
+                }
+                if(received_second_half_flag){
+                    received_UID_flag = true;
+                    received_second_half_flag = false;
+                }
+                else
+                    received_first_half_flag = true;
+            }
 
-                    received_UUID[arr_index_1] = temp_arr_1[i];
-                    received_UUID[arr_index_2] = temp_arr_2[i];
-                    arr_index_1 += 2;
-                    arr_index_2 += 2;
+            else if(param->read.handle == 50){ //receive from website second half
 
-                    printf("Received value: %x\n", received_UUID[i]);
+                printf("parameter length: %d\n", param->write.len);
+
+                for (int i = 0; i < param->write.len; i++)
+                {
+                    printf("value %d: %x\n", i, param->write.value[i]);
                 }
 
-                //set flag here
+                for(int i = 0, j = 512; i < param->write.len; i++, j++){
+                    received_UUID[j] = param->write.value[i];
+                }
+
+                if(received_first_half_flag){
+                    received_UID_flag = true;
+                    received_first_half_flag = false;
+                }
+                else
+                    received_second_half_flag = true;
             }
+
+            else if(param->read.handle == 42){ //Send to website !!!
+                //set flag to trigger sending stored RFID tags
+            }
+            else if(param->read.handle == 46){ //Scan a badge !!!
+                // esp_ble_gatts_send_indicate(gatts_if, param->write.conn_id, 42, //dont know what char handle should be this should work
+                //                                     sizeof(buf1), buf1, false);
+
+                // esp_ble_gatts_send_indicate(gatts_if, param->write.conn_id, 48,
+                //                                     sizeof(buf2), buf2, false);
+                scan_tag = true;
+            }
+
             else{
                 ESP_LOGI(GATTS_TAG, "GATT_WRITE_EVT, value len %d, value :", param->write.len);
                 esp_log_buffer_hex(GATTS_TAG, param->write.value, param->write.len);
@@ -482,7 +520,7 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
         ESP_LOGI(GATTS_TAG, "CREATE_SERVICE_EVT, status %d,  service_handle %d\n", param->create.status, param->create.service_handle);
         gl_profile_tab[PROFILE_A_APP_ID].service_handle = param->create.service_handle;
         gl_profile_tab[PROFILE_A_APP_ID].char_uuid.len = ESP_UUID_LEN_16;
-        gl_profile_tab[PROFILE_A_APP_ID].char_uuid.uuid.uuid16 = GATTS_SEND_BADGE_CHAR_UUID;
+        gl_profile_tab[PROFILE_A_APP_ID].char_uuid.uuid.uuid16 = GATTS_SEND_BADGE_FIRST_CHAR_UUID;
 
         esp_ble_gatts_start_service(gl_profile_tab[PROFILE_A_APP_ID].service_handle);
         a_property = ESP_GATT_CHAR_PROP_BIT_READ | ESP_GATT_CHAR_PROP_BIT_WRITE | ESP_GATT_CHAR_PROP_BIT_NOTIFY;
@@ -494,9 +532,9 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
             ESP_LOGE(GATTS_TAG, "add char failed, error code =%x",add_char_ret);
         }
 
-        //Add recieve characteristic (handle: 44)
+        //Add recieve first characteristic (handle: 44)
         gl_profile_tab[PROFILE_A_APP_ID].char_uuid.len = ESP_UUID_LEN_16;
-        gl_profile_tab[PROFILE_A_APP_ID].char_uuid.uuid.uuid16 = GATTS_RECIEVE_BADGE_CHAR_UUID;
+        gl_profile_tab[PROFILE_A_APP_ID].char_uuid.uuid.uuid16 = GATTS_RECIEVE_FIRST_BADGE_CHAR_UUID;
         add_char_ret = esp_ble_gatts_add_char(gl_profile_tab[PROFILE_A_APP_ID].service_handle, &gl_profile_tab[PROFILE_A_APP_ID].char_uuid,
                                                         ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
                                                         a_property,
@@ -515,6 +553,29 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
         if (add_char_ret){
             ESP_LOGE(GATTS_TAG, "add char failed, error code =%x",add_char_ret);
         }
+
+        //Add recieve second characteristic (handle: 48)
+        gl_profile_tab[PROFILE_A_APP_ID].char_uuid.len = ESP_UUID_LEN_16;
+        gl_profile_tab[PROFILE_A_APP_ID].char_uuid.uuid.uuid16 = GATTS_SEND_BADGE_SECOND_CHAR_UUID;
+        add_char_ret = esp_ble_gatts_add_char(gl_profile_tab[PROFILE_A_APP_ID].service_handle, &gl_profile_tab[PROFILE_A_APP_ID].char_uuid,
+                                                        ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
+                                                        a_property,
+                                                        &gatts_demo_char1_val, NULL);
+        if (add_char_ret){
+            ESP_LOGE(GATTS_TAG, "add char failed, error code =%x",add_char_ret);
+        }
+
+        //Add recieve second characteristic (handle: 50)
+        gl_profile_tab[PROFILE_A_APP_ID].char_uuid.len = ESP_UUID_LEN_16;
+        gl_profile_tab[PROFILE_A_APP_ID].char_uuid.uuid.uuid16 = GATTS_RECIEVE_SECOND_BADGE_CHAR_UUID;
+        add_char_ret = esp_ble_gatts_add_char(gl_profile_tab[PROFILE_A_APP_ID].service_handle, &gl_profile_tab[PROFILE_A_APP_ID].char_uuid,
+                                                        ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
+                                                        a_property,
+                                                        &gatts_demo_char1_val, NULL);
+        if (add_char_ret){
+            ESP_LOGE(GATTS_TAG, "add char failed, error code =%x",add_char_ret);
+        }
+
         break;
     case ESP_GATTS_ADD_INCL_SRVC_EVT:
         break;
@@ -674,7 +735,7 @@ void BLE_init(void)
         ESP_LOGE(GATTS_TAG, "gatts app register error, error code = %x", ret);
         return;
     }
-    esp_err_t local_mtu_ret = esp_ble_gatt_set_local_mtu(360);
+    esp_err_t local_mtu_ret = esp_ble_gatt_set_local_mtu((516));
     if (local_mtu_ret){
         ESP_LOGE(GATTS_TAG, "set local  MTU failed, error code = %x", local_mtu_ret);
     }

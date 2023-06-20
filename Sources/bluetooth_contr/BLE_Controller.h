@@ -7,6 +7,9 @@
 *
 ****************************************************************************/
 
+#ifndef BLE_CONTROLLER_H
+#define BLE_CONTROLLER_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -17,15 +20,35 @@
 #include "esp_system.h"
 #include "esp_log.h"
 #include "nvs_flash.h"
-#include "C:\Espressif\frameworks\esp-idf-v5.0.2\components\bt\include\esp32\include"
 
-#include "esp_gap_ble_api.h"
-#include "esp_gatts_api.h"
-#include "esp_bt_defs.h"
-#include "esp_bt_main.h"
-#include "esp_gatt_common_api.h"
+#include "C:\Espressif\frameworks\esp-idf-v5.0.2\components\bt\include\esp32\include\esp_bt.h"
+#include "C:\Espressif\frameworks\esp-idf-v5.0.2\components\bt\host\bluedroid\api\include\api\esp_gap_ble_api.h"
+#include "C:\Espressif\frameworks\esp-idf-v5.0.2\components\bt\host\bluedroid\api\include\api\esp_gatts_api.h"
+#include "C:\Espressif\frameworks\esp-idf-v5.0.2\components\bt\host\bluedroid\api\include\api\esp_bt_defs.h"
+#include "C:\Espressif\frameworks\esp-idf-v5.0.2\components\bt\host\bluedroid\api\include\api\esp_bt_main.h"
+#include "C:\Espressif\frameworks\esp-idf-v5.0.2\components\bt\host\bluedroid\api\include\api\esp_gatt_common_api.h"
 
 #include "sdkconfig.h"
+
+typedef struct {
+    uint8_t                 *prepare_buf;
+    int                     prepare_len;
+} prepare_type_env_t;
+
+struct gatts_profile_inst {
+    esp_gatts_cb_t gatts_cb;
+    uint16_t gatts_if;
+    uint16_t app_id;
+    uint16_t conn_id;
+    uint16_t service_handle;
+    esp_gatt_srvc_id_t service_id;
+    uint16_t char_handle;
+    esp_bt_uuid_t char_uuid;
+    esp_gatt_perm_t perm;
+    esp_gatt_char_prop_t property;
+    uint16_t descr_handle;
+    esp_bt_uuid_t descr_uuid;
+};
 
 /**
  * @brief Handles the write event environment.
@@ -113,3 +136,5 @@ static void gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_
  * This function initializes the BLE stack and other necessary components.
  */
 void BLE_init(void);
+
+#endif /* BLE_CONTROLLER_H */

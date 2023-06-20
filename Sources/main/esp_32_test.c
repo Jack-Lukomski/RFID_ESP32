@@ -6,6 +6,13 @@
 #include "../drivers/MFRC522.h"
 #include <time.h>
 #include <string.h>
+#include "../bluetooth_contr/BLE_Controller.h"
+
+extern bool received_UID_flag; //flag set true when pinged to receive flag
+extern bool scan_tag; //flag set true when instructed to scan tags
+extern volatile uint8_t received_UUID[720];
+extern uint8_t buf1[512];
+extern uint8_t buf2[512];
 
 #define SPI_BUS       HSPI_HOST    // SPI bus to use
 #define SPI_CLOCK     (APB_CLK_FREQ/20)      // SPI clock frequency (4 MHz)
@@ -62,8 +69,10 @@ static uint8_t writeData[45][16] = {
     {0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F},
     {0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F},
     {0xB0, 0xB1, 0xB2, 0xB3, 0xB4, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xBB, 0xBC, 0xBD, 0xBE, 0xBF},
-    {0xC0, 0xC1, 0xC2, 0xC3, 0xC4, 0xC5, 0xC6, 0xC7, 0xC8, 0xC9, 0xCA, 0xCB, 0xCC, 0xCD, 0xCE, 0xCF},
+    {0xC0, 0xC1, 0xC2, 0xC3, 0xC4, 0xC5, 0xC6, 0xC7, 0xC8, 0xC9, 0xCA, 0xCB, 0xCC, 0xCD, 0xCE, 0xFF},
 };
+
+void vFormatMifareDataBt (uint8_t bufFront[512], uint8_t bufBack[512], Mifare1kKey_t * key);
 
 void app_main()
 {
@@ -102,6 +111,8 @@ void app_main()
     xMFRC522_Init(&spiHandle, PIN_RST);
     vTaskDelay(10/portTICK_PERIOD_MS);
     
+    BLE_init();
+
     while(1)
     {
         if (xMFRC522_IsCardPresent(&spiHandle))
@@ -111,9 +122,43 @@ void app_main()
             //xMifare_WriteKey(&spiHandle, UID, writeData);
             key = xMifare_GetKeyData(&spiHandle, UID);
             vMifare_PrintKey(key);
-            free(UID);
-            free(key);
+            vFormatMifareDataBt(buf1, buf2, key);
+            // free(UID);
+            // free(key);
+            //esp_ble_gatts_send_indicate();
         }
         vTaskDelay(100/portTICK_PERIOD_MS);
     }
+
+    // while (1)
+    // {
+    //     if (received_UID_flag == true)
+    //     {
+    //         for (uint16_t i = 0; i < 1024; i++)
+    //         {
+    //             printf("%x\n", received_UUID[i]);
+    //         }
+    //         received_UID_flag = false;
+    //         printf("End of stream\n\n");
+    //     }
+    //     vTaskDelay(100/portTICK_PERIOD_MS);
+    // }
+}
+
+void vFormatMifareDataBt (uint8_t bufFront[512], uint8_t bufBack[512], Mifare1kKey_t * key)
+{
+    uint8_t totalBuf[1024];
+    uint16_t totalBufIndex = 0;
+    printf("Creating the two buffers\n");
+    for (uint8_t currSector = 0; currSector < 16; currSector++)
+    {
+        for (uint8_t currBlocks = 0; currBlocks < 64; currBlocks++)
+        {
+            totalBuf[totalBufIndex] = key->keyData[currSector][currBlocks];
+            totalBufIndex++;
+        }
+    }
+
+    memcpy(bufFront, totalBuf, 512);
+    memcpy(bufBack, &totalBuf[512], 512);
 }
